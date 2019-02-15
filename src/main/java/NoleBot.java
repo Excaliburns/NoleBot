@@ -1,8 +1,9 @@
+import Commands.HelloCommand;
+import Commands.ServerInfoCommand;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.events.GenericEvent;
 import net.dv8tion.jda.api.events.ReadyEvent;
-import net.dv8tion.jda.api.hooks.AnnotatedEventManager;
 import net.dv8tion.jda.api.hooks.EventListener;
 
 import javax.security.auth.login.LoginException;
@@ -14,8 +15,9 @@ public class NoleBot implements EventListener
     public static void main(String[] args) throws LoginException
     {
         JDA jda = new JDABuilder(new NoleBot().getBotToken())
-                .setEventManager(new AnnotatedEventManager())
-                .addEventListeners(new NoleBot(), new RegisterCommands())
+                .addEventListeners(new NoleBot(),
+                        new HelloCommand(),
+                        new ServerInfoCommand())
                 .build();
     }
 
