@@ -32,7 +32,7 @@ public class NoleBot implements EventListener
         try
         {
             Properties properties = new Properties();
-            String propFile = "./config.properties";
+            String propFile = "src/main/java/config.properties";
 
             FileInputStream botConfig = new FileInputStream(propFile);
 
