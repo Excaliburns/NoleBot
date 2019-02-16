@@ -1,28 +1,16 @@
+package Commands;
+
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
-import net.dv8tion.jda.api.hooks.SubscribeEvent;
+import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
 import java.util.Random;
 
-public class RegisterCommands
+public class HelloCommand extends ListenerAdapter
 {
-    @SubscribeEvent
-    public void GameRank(MessageReceivedEvent event)
-    {
-        Message msg = event.getMessage();
-        MessageChannel messageChannel = event.getChannel();
-
-        if(!msg.getAuthor().isBot())
-            if(msg.getContentRaw().startsWith("!rank"))
-            {
-            System.out.println(msg.getMember().getRoles());
-            messageChannel.sendMessage(msg.getMember().getRoles().toString()).queue();
-            }
-    }
-
-    @SubscribeEvent
-    public void SayHello(MessageReceivedEvent event)
+    @Override
+    public void onMessageReceived(MessageReceivedEvent event)
     {
         Message msg = event.getMessage();
         MessageChannel messageChannel = msg.getChannel();
@@ -32,11 +20,9 @@ public class RegisterCommands
 
         int n = rand.nextInt(4);
 
-        if(!msg.getAuthor().isBot())
-            if(messageContent.contains("hello") && ( messageContent.contains("nolebot") || messageContent.contains("<@" + event.getJDA().getSelfUser().getId() + ">")))
-            {
-                switch(n)
-                {
+        if (!msg.getAuthor().isBot())
+            if ( (messageContent.contains("hi") || messageContent.contains("hello") || messageContent.contains("hey") ) && (messageContent.contains("nolebot") || messageContent.contains("<@" + event.getJDA().getSelfUser().getId() + ">"))) {
+                switch (n) {
                     case 0:
                         messageChannel.sendMessage("Greetings!").queue();
                         break;
@@ -51,6 +37,5 @@ public class RegisterCommands
                         break;
                 }
             }
-
     }
 }
