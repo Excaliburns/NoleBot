@@ -28,9 +28,11 @@ public class ServerInfoCommand extends ListenerAdapter
         //Command is used to get relevant server information, such as ServerID, channelIDs, RoleIDs, etc.
         //Command only operates if user is not a bot.
         if(!msg.getAuthor().isBot()) {
+
             //Command is !serverinfo
             //TODO: Implement way to change ! to any character
             if (msg.getContentRaw().toLowerCase().startsWith("!serverinfo") && msg.getMember().hasPermission(Permission.ADMINISTRATOR)) {
+
                 messageChannel.sendMessage("Sending relevant server information...").queue();
 
                 MessageBuilder serverRoleMessage = new MessageBuilder(), serverInfoMessage = new MessageBuilder();
