@@ -7,10 +7,17 @@ version 'alpha-1.0'
 sourceCompatibility = 1.8
 
 jar {
-    mainfest {
+    manifest {
         attributes(
             "Main-Class": 'NoleBot')
     }
+	
+	from {
+	configurations
+	.compile
+	.findAll { !it.name.endsWith('pom') }
+	.collect { it.isDirectory() ? it : zipTree(it) }
+	}
 }
 repositories {
     mavenCentral()

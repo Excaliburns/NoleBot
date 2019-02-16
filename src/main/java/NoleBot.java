@@ -15,12 +15,14 @@ public class NoleBot implements EventListener
 {
     public static void main(String[] args) throws LoginException
     {
-        JDA jda = new JDABuilder(new NoleBot().getBotToken())
-                .addEventListeners(new NoleBot(),
-                        new HelloCommand(),
-                        new ServerInfoCommand(),
-                        new UserInfoCommand())
-                .build();
+            JDA jda = new JDABuilder(new NoleBot().getBotToken())
+                    .addEventListeners(new NoleBot(),
+                            new HelloCommand(),
+                            new ServerInfoCommand(),
+                            new UserInfoCommand())
+                    .build();
+
+
     }
 
     public void onEvent(GenericEvent event)
@@ -36,7 +38,7 @@ public class NoleBot implements EventListener
         try
         {
             Properties properties = new Properties();
-            String propFile = "src/main/java/config.properties";
+            String propFile = "./config.properties";
 
             FileInputStream botConfig = new FileInputStream(propFile);
 
@@ -48,6 +50,7 @@ public class NoleBot implements EventListener
 
         } catch (Exception e) {
             System.out.println("Exception: " + e);
+            System.out.println("This is most likely due to you not having a config.properties file with the bot token.");
             botToken = null;
         }
 
