@@ -28,9 +28,8 @@ public class ServerInfoCommand extends ListenerAdapter
         //Command only operates if user is not a bot.
         if(!msg.getAuthor().isBot()) {
 
-            //Command is !serverinfo
-            //TODO: Implement way to change ! to any character
-            if (msg.getContentRaw().toLowerCase().startsWith("!serverinfo") && msg.getMember().hasPermission(Permission.ADMINISTRATOR)) {
+            //Command is just serverinfo at the beginning of the string
+            if (msg.getContentRaw().toLowerCase().matches("^.*serverinfo.*$") && msg.getMember().hasPermission(Permission.ADMINISTRATOR)) {
 
                 messageChannel.sendMessage("Sending relevant server information...").queue();
 
