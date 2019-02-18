@@ -45,7 +45,8 @@ public class AssignRank extends ListenerAdapter
                                     for (Role r : roleList) {
                                         if (r.getName().contains("FSU") && !(r.getName().contains("Alum") || r.getName().contains("Student") || r.getName().contains("Faculty"))) {
                                             if (s.getRoles().toString().contains(r.toString())) {
-                                                sentChannel.sendMessage("User: " + s.getAsMention() + " already has that role.").queue();
+                                                msg.getGuild().getController().removeSingleRoleFromMember(s, r).queue();
+                                                sentChannel.sendMessage("User: " + s.getAsMention() + " already had that role, and as such was unassigned: " + "**" + r.getName() + "**").queue();
                                             } else {
                                                 msg.getGuild().getController().addSingleRoleToMember(s, r).queue();
                                                 sentChannel.sendMessage("User: " + s.getAsMention() + " was assigned: " + "**" + r.getName() + "**").queue();
