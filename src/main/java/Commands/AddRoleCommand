@@ -1,0 +1,38 @@
+package Commands;
+
+import net.dv8tion.jda.api.entities.*;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.api.hooks.ListenerAdapter;
+
+import java.util.LinkedList;
+import java.util.List;
+
+public class AddRoleCommand extends ListenerAdapter {
+    @Override
+    public void onMessageReceived(MessageReceivedEvent event) {
+        Message msg = event.getMessage();
+        MessageChannel sentChannel = event.getChannel();
+        User author = msg.getAuthor();
+        Member writer = msg.getMember();
+        boolean verified = UserHelper.isVerified(writer);
+        boolean namecheck = UserHelper.nameMatch(writer.getEffectiveName());
+
+        List<Role> memberRoleList = new LinkedList<>(writer.getRoles());
+
+        if (!author.isBot()) {
+            List<Role> roleList = new LinkedList<>(msg.getMentionedRoles());
+            if (msg.getContentRaw().toLowerCase().matches("^.*addrole.*$")) {
+                if (verified && namecheck) {
+                    for (Role r : roleList) {
+                        if (memberRoleList.contains(r)) {
+                            sentChannel.sendMessage("User: " + writer.getAsMention() + " already has that role.").queue();
+                        } else {
+                            msg.getGuild().getController().addSingleRoleToMember(writer, r).queue();
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+}
