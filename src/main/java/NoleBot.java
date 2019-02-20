@@ -12,23 +12,19 @@ import net.dv8tion.jda.api.hooks.EventListener;
 
 import javax.security.auth.login.LoginException;
 import java.io.FileInputStream;
-import java.io.FileWriter;
 import java.util.Properties;
 
 public class NoleBot implements EventListener
 {
     public static void main(String[] args) throws LoginException
     {
-        //try (FileWriter fileWriter = new FileWriter("data/" + ))
             JDA jda = new JDABuilder(getKeyFromProp("token"))
                     .addEventListeners(new NoleBot(),
                             new HelloCommand(),
                             new ServerInfoCommand(),
                             new UserInfoCommand(),
-                            new AssignRank())
+                            new AssignRank(), new JSONLoader())
                     .build();
-
-
     }
 
     public void onEvent(GenericEvent event)
