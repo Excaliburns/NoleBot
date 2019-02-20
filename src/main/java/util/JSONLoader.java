@@ -1,40 +1,55 @@
 package util;
 
-import com.google.gson.Gson;
 import com.google.gson.JsonParser;
 import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.json.JSONObject;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.File;
+import java.io.IOException;
 
-public class JSONLoader
+public class JSONLoader extends ListenerAdapter
 {
-
-    public Settings setGuildSettings(Guild guild)
+    @Override
+    public void onMessageReceived(MessageReceivedEvent event)
     {
-        Settings settings = new Settings(guild);
-
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("GuildID", guild);
-
-        return settings;
+        if(event.getMessage().getContentRaw().startsWith("!json")) {
+            getGuildJSON(event.getGuild());
+        }
     }
 
-    public Settings getGuildSettings(Guild guild)
+    private JSONObject getGuildJSON(Guild guild)
     {
-        Settings settings = null;
         JsonParser parser = new JsonParser();
 
-        /*
         try
         {
-            Object obj = parser.parse(new FileReader("data/") + guild.getId())
+            File foundGuildParams = new File("C:/NoleBot/data/" + guild.getId() + ".json");
+            if(!foundGuildParams.exists())
+            {
+                try
+                {
+                    foundGuildParams.getParentFile().mkdirs();
+                    foundGuildParams.createNewFile();
+                    System.out.println(foundGuildParams.getAbsolutePath());
+                }catch (IOException e)
+                {
+                    System.out.println("Exception: " + e);
+                }
+
+            }
+            System.out.println("here");
+            Object obj = parser.parse(new FileReader("C:/NoleBot/data/") + guild.getId() + ".json");
+            System.out.println("here2");
+            return (JSONObject) obj;
+
         }catch (FileNotFoundException e)
         {
-
-        }*/
-
-        return settings;
+            System.out.println("Exception :" + e);
+            return null;
+        }
     }
 }
