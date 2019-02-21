@@ -1,9 +1,6 @@
-import Commands.AssignRank;
-import Commands.HelloCommand;
-import Commands.ServerInfoCommand;
-import Commands.UserInfoCommand;
-
+import Commands.*;
 import net.dv8tion.jda.api.JDA;
+
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.events.GenericEvent;
 import net.dv8tion.jda.api.events.ReadyEvent;
@@ -22,7 +19,8 @@ public class NoleBot implements EventListener
                             new HelloCommand(),
                             new ServerInfoCommand(),
                             new UserInfoCommand(),
-                            new AssignRank())
+                            new AssignRank(),
+                            new AddRole())
                     .build();
 
 

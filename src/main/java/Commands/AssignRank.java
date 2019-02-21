@@ -41,7 +41,6 @@ public class AssignRank extends ListenerAdapter
                             {
                                 if(s.getRoles().toString().contains("Student")) {
 
-
                                     for (Role r : roleList) {
                                         if (r.getName().contains("FSU") && !(r.getName().contains("Alum") || r.getName().contains("Student") || r.getName().contains("Faculty"))) {
                                             if (s.getRoles().toString().contains(r.toString())) {
