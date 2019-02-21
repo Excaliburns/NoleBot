@@ -1,8 +1,7 @@
 package commands;
 
-import net.dv8tion.jda.api.hooks.ListenerAdapter;
+import commands.util.Command;
 
-
-public class UserInfoCommand extends ListenerAdapter
+public class UserInfoCommand extends Command
 {
 }

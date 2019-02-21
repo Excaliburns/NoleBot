@@ -1,5 +1,6 @@
 package commands;
 
+import commands.util.Command;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
@@ -7,7 +8,7 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
 import java.util.Random;
 
-public class HelloCommand extends ListenerAdapter
+public class HelloCommand extends Command
 {
     @Override
     public void onMessageReceived(MessageReceivedEvent event)

@@ -1,5 +1,6 @@
 package commands;
 
+import commands.util.Command;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;
@@ -17,7 +18,7 @@ Temporary command to allow Game Managers on FSU server to assign ranks while a b
 This is a very one-server solution to the problem. THIS COMMAND WILL BE MUCH DIFFERENT IN THE FUTURE.
 Simple functionality for the FSU Esports, checks include looking for a "Game Manager" rank, as well as a properly formatted name.
  */
-public class AssignRank extends ListenerAdapter
+public class AssignRank extends Command
 {
     @Override
     public void onMessageReceived(MessageReceivedEvent event) {

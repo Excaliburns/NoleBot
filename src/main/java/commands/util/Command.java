@@ -1,6 +1,7 @@
-package Commands;
+package commands.util;
 
-public class Command {
+public class Command extends CommandListener
+{
     protected String description;
-    protected i
+    protected int requiredPermission;
 }
