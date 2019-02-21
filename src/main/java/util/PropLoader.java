@@ -2,9 +2,7 @@ package util;
 
 import jdk.internal.util.xml.impl.Input;
 
-import java.io.FileInputStream;
-import java.io.File;
-import java.io.InputStream;
+import java.io.*;
 import java.util.Properties;
 
 public class PropLoader
@@ -23,12 +21,13 @@ public class PropLoader
                 propFile.getParentFile().mkdirs();
                 propFile.createNewFile();
 
-                InputStream fStream = new FileInputStream(propFile);
-                properties.load(fStream);
+                OutputStream fStream = new FileOutputStream(propFile);
 
                 //Create properties normally used for Bot operation
                 properties.setProperty("token", "");
                 properties.setProperty("prefix", "!");
+
+                properties.store(fStream, null);
             }
             FileInputStream botConfig = new FileInputStream(propFile);
 
