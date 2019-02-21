@@ -39,9 +39,7 @@ public class JSONLoader extends ListenerAdapter
                 }
 
             }
-            System.out.println("here");
             Object obj = parser.parse(new FileReader("data/" + guild.getId() + ".json"));
-            System.out.println("here2");
             return (JsonObject) obj;
 
         }catch (FileNotFoundException e)

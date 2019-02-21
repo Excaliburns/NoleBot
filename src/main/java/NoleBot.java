@@ -9,6 +9,7 @@ import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.events.GenericEvent;
 import net.dv8tion.jda.api.events.ReadyEvent;
 import net.dv8tion.jda.api.hooks.EventListener;
+import util.PropLoader;
 
 import javax.security.auth.login.LoginException;
 import java.io.FileInputStream;
@@ -18,7 +19,7 @@ public class NoleBot implements EventListener
 {
     public static void main(String[] args) throws LoginException
     {
-            JDA jda = new JDABuilder(getKeyFromProp("token"))
+            JDA jda = new JDABuilder(new PropLoader().getProp("token"))
                     .addEventListeners(new NoleBot(),
                             new HelloCommand(),
                             new ServerInfoCommand(),
@@ -32,31 +33,4 @@ public class NoleBot implements EventListener
         if(event instanceof ReadyEvent)
             System.out.println("API is ready!");
     }
-
-    private static String getKeyFromProp(String prop)
-    {
-
-        String botToken;
-        try
-        {
-            Properties properties = new Properties();
-            String propFile = "src/main/java/config.properties";
-
-            FileInputStream botConfig = new FileInputStream(propFile);
-
-            System.out.println("Found config.properties.");
-            properties.load(botConfig);
-            botConfig.close();
-
-            botToken = properties.getProperty(prop);
-
-        } catch (Exception e) {
-            System.out.println("Exception: " + e);
-            System.out.println("This is most likely due to you not having a config.properties.");
-            botToken = null;
-        }
-
-        return botToken;
-    }
-
 }

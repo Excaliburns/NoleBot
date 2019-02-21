@@ -1,5 +1,6 @@
 package commands;
 
+import commands.util.Command;
 import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Guild;
@@ -16,7 +17,7 @@ import java.util.*;
  *
  * Potentially useful for hardcoding RoleIDs into things, however in the future an outside way of registering permissions to users will be used.
  */
-public class ServerInfoCommand extends ListenerAdapter
+public class ServerInfoCommand extends Command
 {
     @Override
     public void onMessageReceived(MessageReceivedEvent event)
