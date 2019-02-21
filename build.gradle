@@ -27,5 +27,6 @@ repositories {
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
     implementation("net.dv8tion:JDA:4.ALPHA.0_42")
+    implementation 'com.google.code.gson:gson:2.8.5'
     compile 'net.dv8tion:JDA:4.ALPHA.0_42'
 }
