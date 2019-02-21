@@ -32,7 +32,12 @@ public class JSONLoader extends ListenerAdapter
                 {
                     foundGuildParams.getParentFile().mkdirs();
                     foundGuildParams.createNewFile();
-                    System.out.println(foundGuildParams.getAbsolutePath());
+
+                    //JsonObject jsonObject = new JsonParser().parse(new FileReader("data/" + guild.getId() + ".json"));
+
+                    guild.getRoles().forEach( role -> {
+
+                    });
                 }catch (IOException e)
                 {
                     System.out.println("Exception: " + e);

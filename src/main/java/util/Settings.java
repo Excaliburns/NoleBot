@@ -8,6 +8,12 @@ public class Settings
     private String prefix;
     private int permLevel;
 
+    private Settings()
+    {
+        this.guildID = null;
+        this.prefix = null;
+        this.permLevel = 0;
+    }
 
     public Settings(String guildID)
     {
@@ -28,5 +34,10 @@ public class Settings
         return prefix;
     }
 
+    public static Settings getSettings()
+    {
+        Settings setting = new Settings();
 
+        return setting;
+    }
 }
