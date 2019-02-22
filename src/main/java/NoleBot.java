@@ -1,4 +1,5 @@
 import commands.util.Command;
+import commands.util.CommandListener;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.events.GenericEvent;
@@ -13,7 +14,7 @@ public class NoleBot implements EventListener
     public static void main(String[] args) throws LoginException
     {
             JDA jda = new JDABuilder(new PropLoader().getProp("token"))
-                    .addEventListeners(new Command())
+                    .addEventListeners(new CommandListener())
                     .build();
     }
 

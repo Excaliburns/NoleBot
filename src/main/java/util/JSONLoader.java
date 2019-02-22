@@ -2,25 +2,16 @@ package util;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+
+import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
-import net.dv8tion.jda.api.hooks.ListenerAdapter;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.File;
-import java.io.IOException;
+import net.dv8tion.jda.internal.JDAImpl;
 
-public class JSONLoader extends ListenerAdapter
+import java.io.*;
+
+public class JSONLoader
 {
-    @Override
-    public void onMessageReceived(MessageReceivedEvent event)
-    {
-        if(event.getMessage().getContentRaw().startsWith("!json")) {
-            getGuildJSON(event.getGuild());
-        }
-    }
-
-    private JsonObject getGuildJSON(Guild guild)
+    public static JsonObject getGuildJSON(Guild guild)
     {
         JsonParser parser = new JsonParser();
         try
@@ -33,10 +24,20 @@ public class JSONLoader extends ListenerAdapter
                     foundGuildParams.getParentFile().mkdirs();
                     foundGuildParams.createNewFile();
 
-                    //JsonObject jsonObject = new JsonParser().parse(new FileReader("data/" + guild.getId() + ".json"));
+                    BufferedWriter writer = new BufferedWriter(new FileWriter(foundGuildParams));
+                   writer.write("{}");
+
+                    JsonObject jsonObject = (JsonObject) parser.parse( new FileReader("data/" + guild.getId() + ".json"));
+
+                    jsonObject.addProperty("token", "!");
+                    System.out.println(jsonObject);
+                    writer.close();
 
                     guild.getRoles().forEach( role -> {
-
+                        if(role.hasPermission(Permission.ADMINISTRATOR))
+                        {
+                            jsonObject.addProperty(role.getId(), "");
+                        }
                     });
                 }catch (IOException e)
                 {
