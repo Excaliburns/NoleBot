@@ -25,7 +25,6 @@ public class PropLoader
 
                 //Create properties normally used for Bot operation
                 properties.setProperty("token", "");
-                properties.setProperty("prefix", "!");
 
                 properties.store(fStream, null);
             }

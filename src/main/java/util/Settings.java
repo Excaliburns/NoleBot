@@ -6,6 +6,7 @@ public class Settings
 {
     private String guildID;
     private String prefix;
+
     private int permLevel;
 
     private Settings()
@@ -34,10 +35,19 @@ public class Settings
         return prefix;
     }
 
-    public static Settings getSettings()
+    public static Settings getSettings(Guild guild)
     {
-        Settings setting = new Settings();
+        return getSettings(guild.getId());
+    }
 
-        return setting;
+    public static Settings getSettings(String guildID)
+    {
+        //JSONLoader.getGuildJSON()
+        return new Settings(guildID);
+    }
+
+    public static Settings getSettingsNull(Guild guild)
+    {
+        return null;
     }
 }
