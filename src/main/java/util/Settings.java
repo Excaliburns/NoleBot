@@ -1,17 +1,18 @@
 package util;
 
+import com.google.gson.Gson;
 import net.dv8tion.jda.api.entities.Guild;
 
 public class Settings
 {
-    private String guildID;
-    private String prefix;
-
+    private String prefix, guildID;
     private int permLevel;
+    private RoleHelper roleHelper;
 
     private Settings()
     {
         this.guildID = null;
+        this.roleHelper = null;
         this.prefix = null;
         this.permLevel = 0;
     }
@@ -19,6 +20,9 @@ public class Settings
     public Settings(String guildID)
     {
         this.guildID = guildID;
+        this.roleHelper = null;
+        this.prefix = null;
+        this.permLevel = 0;
     }
 
     public Settings(Guild guild)
@@ -26,28 +30,15 @@ public class Settings
         this.guildID = guild.getId();
     }
 
-    public Settings setPrefix(String prefix) {
+    public Settings(String prefix, String guildID, int permLevel, RoleHelper roleHelper) {
         this.prefix = prefix;
-        return this;
-    }
-
-    public String getPrefix() {
-        return prefix;
+        this.guildID = guildID;
+        this.permLevel = permLevel;
+        this.roleHelper = roleHelper;
     }
 
     public static Settings getSettings(Guild guild)
     {
-        return getSettings(guild.getId());
-    }
-
-    public static Settings getSettings(String guildID)
-    {
-        //JSONLoader.getGuildJSON()
-        return new Settings(guildID);
-    }
-
-    public static Settings getSettingsNull(Guild guild)
-    {
-        return null;
+        return new Settings(guild.getId());
     }
 }
