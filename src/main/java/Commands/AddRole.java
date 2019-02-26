@@ -7,6 +7,8 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import java.util.LinkedList;
 import java.util.List;
 
+import static Commands.UserHelper.*;
+
 public class AddRole extends ListenerAdapter {
     @Override
     public void onMessageReceived(MessageReceivedEvent event) {
@@ -14,8 +16,8 @@ public class AddRole extends ListenerAdapter {
         MessageChannel sentChannel = event.getChannel();
         User author = msg.getAuthor();
         Member writer = msg.getMember();
-        boolean verified = UserHelper.isVerified(writer);
-        boolean namecheck = UserHelper.nameMatch(writer.getEffectiveName());
+        boolean verified = isVerified(writer);
+        boolean namecheck = nameMatch(writer.getEffectiveName());
 
         List<Role> memberRoleList = new LinkedList<>(writer.getRoles());
 
