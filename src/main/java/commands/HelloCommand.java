@@ -8,9 +8,8 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
 import java.util.Random;
 
-public class HelloCommand extends Command
+public class HelloCommand
 {
-    @Override
     public void onMessageReceived(MessageReceivedEvent event)
     {
         Message msg = event.getMessage();
