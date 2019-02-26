@@ -8,6 +8,7 @@ import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
+
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -24,7 +25,7 @@ public class AssignRank extends ListenerAdapter
         Message msg = event.getMessage();
         MessageChannel sentChannel = event.getChannel();
 
-        boolean isGameManager = isGameManager(msg.getMember());
+        boolean isGameManager = UserHelper.isGameManager(msg.getMember());
         if(!msg.getAuthor().isBot()) {
 
             List<Member> mentioned = msg.getMentionedMembers();
@@ -72,25 +73,4 @@ public class AssignRank extends ListenerAdapter
             }
         }
     }
-
-    private boolean isGameManager (Member authorOfMessage)
-    {
-        List<Role> roleList = new LinkedList<>(authorOfMessage.getRoles());
-        Iterator<Role> roleIterator = roleList.iterator();
-
-        if(authorOfMessage.hasPermission(Permission.ADMINISTRATOR))
-            return true;
-
-        while(roleIterator.hasNext())
-        {
-            if(roleIterator.next().getName().equals("Game Manager"))
-            {
-                return true;
-            }
-            roleIterator.remove();
-        }
-
-        return false;
-    }
-
 }
