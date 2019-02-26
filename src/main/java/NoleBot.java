@@ -11,10 +11,12 @@ import javax.security.auth.login.LoginException;
 
 public class NoleBot implements EventListener
 {
+    private static CommandListener commandListener = new CommandListener();
+
     public static void main(String[] args) throws LoginException
     {
             JDA jda = new JDABuilder(new PropLoader().getProp("token"))
-                    .addEventListeners(new CommandListener())
+                    .addEventListeners(commandListener)
                     .build();
     }
 
