@@ -18,9 +18,8 @@ Temporary command to allow Game Managers on FSU server to assign ranks while a b
 This is a very one-server solution to the problem. THIS COMMAND WILL BE MUCH DIFFERENT IN THE FUTURE.
 Simple functionality for the FSU Esports, checks include looking for a "Game Manager" rank, as well as a properly formatted name.
  */
-public class AssignRank extends Command
+public class AssignRank
 {
-    @Override
     public void onMessageReceived(MessageReceivedEvent event) {
         Message msg = event.getMessage();
         MessageChannel sentChannel = event.getChannel();

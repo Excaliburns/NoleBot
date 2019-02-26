@@ -17,9 +17,8 @@ import java.util.*;
  *
  * Potentially useful for hardcoding RoleIDs into things, however in the future an outside way of registering permissions to users will be used.
  */
-public class ServerInfoCommand extends Command
+public class ServerInfoCommand
 {
-    @Override
     public void onMessageReceived(MessageReceivedEvent event)
     {
         Message msg = event.getMessage();
