@@ -1,57 +1,95 @@
 package util;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
-import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.internal.JDAImpl;
+import org.json.JSONObject;
 
 import java.io.*;
 
 public class JSONLoader
 {
-    public static JsonObject getGuildJSON(Guild guild)
+    public static boolean doesSettingExist(String guildID)
     {
-        JsonParser parser = new JsonParser();
-        try
-        {
-            File foundGuildParams = new File("data/" + guild.getId() + ".json");
-            if(!foundGuildParams.exists())
-            {
+        File guildFile = new File("data/" + guildID + ".json");
+
+        if(guildFile.exists())
+            System.out.println("Found " + guildID + ".json");
+
+        return (guildFile.exists());
+    }
+    public static void createGuildJSON(String guildID)
+    {
+            File foundGuildParams = new File("data/" + guildID + ".json");
                 try
                 {
+                    System.out.println("Creating " + guildID + ".json");
                     foundGuildParams.getParentFile().mkdirs();
                     foundGuildParams.createNewFile();
 
-                    BufferedWriter writer = new BufferedWriter(new FileWriter(foundGuildParams));
-                   writer.write("{}");
+                    Settings settings = new Settings(guildID);
 
+                    try(BufferedWriter writer = new BufferedWriter(new FileWriter(foundGuildParams)))
+                    {
+                        Gson gson = new GsonBuilder()
+                                .serializeNulls()
+                                .setPrettyPrinting()
+                                .create();
+                        writer.write(gson.toJson(settings, settings.getClass()));
+
+                        writer.flush();
+                    }
+/*
                     JsonObject jsonObject = (JsonObject) parser.parse( new FileReader("data/" + guild.getId() + ".json"));
 
                     jsonObject.addProperty("token", "!");
                     System.out.println(jsonObject);
-                    writer.close();
-
+                    */
+/*
                     guild.getRoles().forEach( role -> {
                         if(role.hasPermission(Permission.ADMINISTRATOR))
                         {
                             jsonObject.addProperty(role.getId(), "");
+                            try
+                            {
+                                writer.write(jsonObject.toString());
+                            }
+                            catch (IOException e)
+                            {
+                                System.out.println("Exception writing JSON Object to file: " + e);
+                            }
                         }
                     });
+                    */
                 }catch (IOException e)
                 {
-                    System.out.println("Exception: " + e);
+                    System.out.println("Exception in creation of: " + guildID + ".json " + e);
                 }
 
             }
-            Object obj = parser.parse(new FileReader("data/" + guild.getId() + ".json"));
-            return (JsonObject) obj;
+    public static Settings getGuildSettings(String guildID)
+    {
+            File foundGuildParams = new File("data/" + guildID + ".json");
 
-        }catch (FileNotFoundException e)
-        {
-            System.out.println("Exception :" + e);
-            return null;
-        }
+            try
+            {
+                BufferedReader reader = new BufferedReader(new FileReader(foundGuildParams));
+
+                Gson gson = new Gson();
+                String JsonString = gson.toJson(reader, Settings.class);
+
+                return gson.fromJson(JsonString, Settings.class);
+            }
+            catch(FileNotFoundException e)
+            {
+                System.out.println("File Not Found Exception: " + e);
+                return null;
+            }
+    }
+    public static void saveGuildSettings(Settings guildSettings)
+    {
     }
 }

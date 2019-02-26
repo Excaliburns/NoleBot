@@ -1,53 +1,83 @@
 package util;
 
+import com.google.gson.Gson;
 import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.entities.Role;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Settings
 {
+    private String prefix = "!";
     private String guildID;
-    private String prefix;
-
-    private int permLevel;
+    private List<RoleHelper> roleHelper;
+    private boolean init;
 
     private Settings()
     {
         this.guildID = null;
-        this.prefix = null;
-        this.permLevel = 0;
+        this.roleHelper = null;
+        this.init = false;
     }
 
     public Settings(String guildID)
     {
         this.guildID = guildID;
+        this.roleHelper = null;
+        this.init = false;
     }
-
-    public Settings(Guild guild)
+    public Settings(String guildID, List<RoleHelper> roleHelper)
     {
-        this.guildID = guild.getId();
+        this.guildID = guildID;
+        this.roleHelper = null;
+        this.init = true;
     }
 
-    public Settings setPrefix(String prefix) {
+    public Settings(String prefix, String guildID, List<RoleHelper> roleHelper) {
         this.prefix = prefix;
-        return this;
+        this.guildID = guildID;
+        this.roleHelper = roleHelper;
+        this.init = true;
     }
 
-    public String getPrefix() {
-        return prefix;
+    public boolean isInit()
+    {
+        return init;
+    }
+
+    public List<RoleHelper> getRoleHelper()
+    {
+        return roleHelper;
+    }
+
+    public void setRoleHelper(List<RoleHelper> roleHelper)
+    {
+        this.roleHelper = roleHelper;
     }
 
     public static Settings getSettings(Guild guild)
     {
-        return getSettings(guild.getId());
+        return new Settings(guild.getId());
     }
 
-    public static Settings getSettings(String guildID)
+    public String getPrefix()
     {
-        //JSONLoader.getGuildJSON()
-        return new Settings(guildID);
+        return prefix;
     }
 
-    public static Settings getSettingsNull(Guild guild)
+    public void setPrefix(String prefix)
     {
-        return null;
+        this.prefix = prefix;
+    }
+
+    public String getGuildID()
+    {
+        return guildID;
+    }
+
+    public void setGuildID(String guildID)
+    {
+        this.guildID = guildID;
     }
 }
