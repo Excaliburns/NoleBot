@@ -20,7 +20,8 @@ public class NoleBot implements EventListener
                             new ServerInfoCommand(),
                             new UserInfoCommand(),
                             new AssignRank(),
-                            new AddRole())
+                            new AddRole(),
+                            new PurgeAll())
                     .build();
 
 
