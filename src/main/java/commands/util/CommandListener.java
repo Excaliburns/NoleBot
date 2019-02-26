@@ -8,14 +8,14 @@ import util.JSONLoader;
 import util.PropLoader;
 import util.Settings;
 
-class CommandListener extends ListenerAdapter
+public class CommandListener extends ListenerAdapter
 {
-    private String prefix = "!";
+    Settings settings;
 
     public CommandListener()
     {
-        Settings settings = Settings.getSettings();
     }
+
     @Override
     public void onMessageReceived(MessageReceivedEvent event)
     {
@@ -34,9 +34,6 @@ class CommandListener extends ListenerAdapter
 
         JDA jda = event.getJDA();
         jda.getGuilds().forEach(guild -> {
-            Settings settings = new Settings(guild);
-
-            settings.setPrefix(new PropLoader().getProp("prefix"));
     });
     }
 }
