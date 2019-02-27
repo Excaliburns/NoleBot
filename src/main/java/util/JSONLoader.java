@@ -42,28 +42,7 @@ public class JSONLoader
 
                         writer.flush();
                     }
-/*
-                    JsonObject jsonObject = (JsonObject) parser.parse( new FileReader("data/" + guild.getId() + ".json"));
 
-                    jsonObject.addProperty("token", "!");
-                    System.out.println(jsonObject);
-                    */
-/*
-                    guild.getRoles().forEach( role -> {
-                        if(role.hasPermission(Permission.ADMINISTRATOR))
-                        {
-                            jsonObject.addProperty(role.getId(), "");
-                            try
-                            {
-                                writer.write(jsonObject.toString());
-                            }
-                            catch (IOException e)
-                            {
-                                System.out.println("Exception writing JSON Object to file: " + e);
-                            }
-                        }
-                    });
-                    */
                 }catch (IOException e)
                 {
                     System.out.println("Exception in creation of: " + guildID + ".json " + e);
@@ -79,9 +58,7 @@ public class JSONLoader
                 BufferedReader reader = new BufferedReader(new FileReader(foundGuildParams));
 
                 Gson gson = new Gson();
-                String JsonString = gson.toJson(reader, Settings.class);
-
-                return gson.fromJson(JsonString, Settings.class);
+                return gson.fromJson(reader, Settings.class);
             }
             catch(FileNotFoundException e)
             {
@@ -89,7 +66,23 @@ public class JSONLoader
                 return null;
             }
     }
-    public static void saveGuildSettings(Settings guildSettings)
+    public static void saveGuildSettings(Settings settings)
     {
+        File guildSettings = new File("data/" + settings.getGuildID() + ".json");
+
+        try(BufferedWriter writer = new BufferedWriter(new FileWriter(guildSettings)))
+        {
+            Gson gson = new GsonBuilder()
+                    .serializeNulls()
+                    .setPrettyPrinting()
+                    .create();
+            writer.write(gson.toJson(settings, settings.getClass()));
+
+            writer.flush();
+        }
+        catch(IOException e)
+        {
+            System.out.println("Exception saving guild settings: " + e);
+        }
     }
 }

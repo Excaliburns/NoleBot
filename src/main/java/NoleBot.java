@@ -1,4 +1,5 @@
-import commands.util.Command;
+import commands.Ping;
+import commands.ServerInfoCommand;
 import commands.util.CommandListener;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
@@ -11,14 +12,23 @@ import javax.security.auth.login.LoginException;
 
 public class NoleBot implements EventListener
 {
-    private static CommandListener commandListener = new CommandListener();
+    private static final CommandListener client = new CommandListener();
 
     public static void main(String[] args) throws LoginException
     {
-            JDA jda = new JDABuilder(new PropLoader().getProp("token"))
-                    .addEventListeners(commandListener)
-                    .build();
+        initBot();
     }
+
+    private static void initBot() throws LoginException
+    {
+        JDA jda = new JDABuilder(new PropLoader().getProp("token"))
+                .addEventListeners(client)
+                .build();
+
+        client.addCommand(new Ping());
+        client.addCommand(new ServerInfoCommand());
+    }
+
 
     public void onEvent(GenericEvent event)
     {
