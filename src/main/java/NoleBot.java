@@ -1,5 +1,5 @@
-import commands.Ping;
-import commands.util.Command;
+import commands.general.Ping;
+import commands.admin.ServerInfoCommand;
 import commands.util.CommandListener;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
@@ -26,6 +26,7 @@ public class NoleBot implements EventListener
                 .build();
 
         client.addCommand(new Ping());
+        client.addCommand(new ServerInfoCommand());
     }
 
 

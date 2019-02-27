@@ -5,6 +5,7 @@ import com.google.gson.JsonObject;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.ChannelType;
+import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.events.ReadyEvent;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
@@ -13,7 +14,6 @@ import util.PropLoader;
 import util.RoleHelper;
 import util.Settings;
 
-import javax.management.relation.Role;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -59,30 +59,45 @@ public class CommandListener extends ListenerAdapter
 
         String message = event.getMessage().getContentRaw();
 
-        commandEventMessage = Arrays.copyOf(message.substring(1).trim().split("\\s+", 2), 2);
-
         if(message.startsWith(Settings.getSettings(event.getGuild()).getPrefix()))
         {
-            String commandTitle = commandEventMessage[0];
+            commandEventMessage = Arrays.copyOf(message.substring(1).trim().split("\\s+", 2), 2);
+            String commandTitle = commandEventMessage[0].toLowerCase();
             final Command command;
 
-            synchronized (commandIndex){
-                int i = commandIndex.getOrDefault(commandTitle.toLowerCase(), -1);
+            synchronized (commandIndex)
+            {
+                int i = commandIndex.getOrDefault(commandTitle, -1);
                 command = i != -1 ? commands.get(i) : null;
             }
 
             if (command != null)
             {
-                CommandEvent commandEvent = new CommandEvent(event, commandEventMessage, this);
-                command.execute(commandEvent);
-                return;
+                Settings settings = JSONLoader.getGuildSettings(event.getGuild().getId());
+                HashMap<String, RoleHelper> roleHelperList = new HashMap<>();
+
+                settings.getRoleHelper().forEach(roleHelper ->
+                    roleHelperList.put(roleHelper.getRoleID(), roleHelper)
+                );
+
+                List<Role> roleList = event.getMember().getRoles();
+                boolean commandExecuted = false;
+                for(Role role: roleList)
+                {
+                    if(roleHelperList.containsKey(role.getId()))
+
+                        if(roleHelperList.get(role.getId()).getPermID() >= command.getRequiredPermission())
+                        {
+                            CommandEvent commandEvent = new CommandEvent(event, commandEventMessage, this);
+                            command.execute(commandEvent);
+                            commandExecuted = true;
+                            break;
+                        }
+                }
+                if(!commandExecuted)
+                    messageError(event, "Not a high enough permission level");
             }
         }
-        for (String s : commandEventMessage)
-        {
-            System.out.println(s);
-        }
-
     }
 
     @Override
@@ -106,10 +121,15 @@ public class CommandListener extends ListenerAdapter
                         importantRoles.add(roleHelper);
                     }
                 });
+                settings = new Settings(guild.getId(), importantRoles);
+                JSONLoader.saveGuildSettings(settings);
             }
-            settings = new Settings(guild.getId(), importantRoles);
-            JSONLoader.saveGuildSettings(settings);
     });
         System.out.println("Settings done initializing.");
+    }
+
+    private void messageError(MessageReceivedEvent event, String reason)
+    {
+        event.getChannel().sendMessage("Command failed for reason: " + reason).queue();
     }
 }
