@@ -6,14 +6,14 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
 
 public class PMIntro extends ListenerAdapter {
-    public void onMessageReceived(GuildMemberJoinEvent event) {
+    public void onGuildMemberJoin(GuildMemberJoinEvent event) {
         Member newMember = event.getMember();
         User newMemUser = newMember.getUser();
-        if(!newMember.getUser().isBot())
+        if(!newMemUser.isBot())
         {
             newMemUser.openPrivateChannel().queue((channel) ->
             {
-                channel.sendMessage("hello").queue();
+                channel.sendMessage(PersonalMessage(newMemUser)).queue();
             });
         }
     }
