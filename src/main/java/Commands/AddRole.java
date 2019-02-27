@@ -27,14 +27,19 @@ public class AddRole extends ListenerAdapter {
                 if (verified) {
                     if (namecheck) {
                         for (Role r : roleList) {
-                            if (r.getName().contains("Player")) {
-                                if (memberRoleList.contains(r)) {
-                                    sentChannel.sendMessage("User: " + writer.getAsMention() + " already has that role.").queue();
+                            if (r.getName ().contains ("Player")) {
+                                if (memberRoleList.contains (r)) {
+                                    sentChannel.sendMessage ("User: " + writer.getAsMention () + " already has that role.").queue ();
                                 } else {
-                                    msg.getGuild().getController().addSingleRoleToMember(writer, r).queue();
+                                    msg.getGuild ().getController ().addSingleRoleToMember (writer, r).queue ();
+                                    sentChannel.sendMessage ("You have assigned yourself: " + r.getName ()).queue ();
                                 }
-                                sentChannel.sendMessage("You cannot assign " + r + ".").queue();
+
+                            } else {
+                                sentChannel.sendMessage ("You cannot add this role.").queue ();
                             }
+                        }
+
                         }
                     } else {
                         sentChannel.sendMessage("User: " + writer.getAsMention() +
