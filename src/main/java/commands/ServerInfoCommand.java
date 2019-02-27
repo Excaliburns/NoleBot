@@ -1,6 +1,7 @@
 package commands;
 
 import commands.util.Command;
+import commands.util.CommandEvent;
 import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Guild;
@@ -19,7 +20,15 @@ import java.util.*;
  */
 public class ServerInfoCommand extends Command
 {
+    public ServerInfoCommand()
+    {
+    }
+
     @Override
+    public void onCommandReceived(CommandEvent event)
+    {
+
+    }
     public void onMessageReceived(MessageReceivedEvent event)
     {
         Message msg = event.getMessage();

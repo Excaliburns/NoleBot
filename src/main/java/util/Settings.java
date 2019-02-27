@@ -1,18 +1,15 @@
 package util;
 
-import com.google.gson.Gson;
 import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.entities.Role;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Settings
 {
     private String prefix = "!";
     private String guildID;
-    private List<RoleHelper> roleHelper;
     private boolean init;
+    private List<RoleHelper> roleHelper;
 
     private Settings()
     {
@@ -30,7 +27,7 @@ public class Settings
     public Settings(String guildID, List<RoleHelper> roleHelper)
     {
         this.guildID = guildID;
-        this.roleHelper = null;
+        this.roleHelper = roleHelper;
         this.init = true;
     }
 
