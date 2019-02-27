@@ -9,21 +9,22 @@ public abstract class Command
     protected int requiredPermission = 1000;
     protected Command[] totalCommands = new Command[0];
 
-    public abstract void onCommandRecieved(CommandEvent event);
+    public abstract void onCommandReceived(CommandEvent event);
 
     public final void execute(CommandEvent event)
     {
-        if(event.getMessage().length > 0)
-        {
+        if (event.getMessage().length > 0) {
             String[] message = event.getMessage();
 
-            for(Command commands : totalCommands){
+            for (Command commands : totalCommands) {
 
                 event.setMessage(message.length > 1 ? Arrays.copyOfRange(message, 1, message.length) : new String[0]);
                 commands.execute(event);
                 return;
             }
         }
+
+        onCommandReceived(event);
     }
 
     public String getName() {

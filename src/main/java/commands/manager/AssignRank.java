@@ -1,4 +1,4 @@
-package commands;
+package commands.manager;
 
 import commands.util.Command;
 import net.dv8tion.jda.api.Permission;
