@@ -71,14 +71,27 @@ public class CommandListener extends ListenerAdapter
             String commandTitle = commandEventMessage[0].toLowerCase();
             final Command command;
 
+            // Get the command that we want to run from the CommandIndex. If the message does not contain a valid command, return null.
             synchronized (commandIndex)
             {
                 int i = commandIndex.getOrDefault(commandTitle, -1);
                 command = i != -1 ? commands.get(i) : null;
             }
 
+            //Pass command to CommandEvent if there is one.
             if (command != null)
             {
+                /*
+                Currently, this method is how we determine the permissions of the user that sent the command.
+
+                1. For each RoleHelper object that was loaded from the settings, add the RoleID of each role and then the RoleHelper object itself to a HashMap.
+                2. Then, get a list of Roles from the User that sent the message.
+                3. For each role in that list, check if the RoleHelperHashMap contains that role.
+                4. If it does, get the PermissionID from the RoleHelperHashMap and check it against the command that we want to execute.
+
+                Currently, we sort the RoleHelper List in the onReady() event. Possibly we can use this to shorten the search time in the future if we see a decrease in responsiveness across a large amount of servers.
+                This search is linear.
+                 */
                 HashMap<String, RoleHelper> roleHelperList = new HashMap<>();
 
                 settings.getRoleHelper().forEach(roleHelper ->
@@ -90,9 +103,10 @@ public class CommandListener extends ListenerAdapter
 
                 for(Role role: roleList)
                 {
-                    if(roleHelperList.containsKey(role.getId()))
+                    String roleID = role.getId();
 
-                        if(roleHelperList.get(role.getId()).getPermID() >= command.getRequiredPermission())
+                    if(roleHelperList.containsKey(roleID))
+                        if(roleHelperList.get(roleID).getPermID() >= command.getRequiredPermission())
                         {
                             CommandEvent commandEvent = new CommandEvent(event, commandEventMessage, this);
                             command.execute(commandEvent);
@@ -106,23 +120,30 @@ public class CommandListener extends ListenerAdapter
         }
     }
 
+    // This is called after the JDA object called in initBot() is successfully built.
     @Override
     public void onReady(ReadyEvent event)
     {
         System.out.println("Initializing Settings");
 
         JDA jda = event.getJDA();
+        //Iterate through every guild that the bot is a part of.
         jda.getGuilds().forEach(guild -> {
 
+            //If any of those guilds don't have a corresponding JSON, create it.
             if(!JSONLoader.doesSettingExist(guild.getId()))
                 JSONLoader.createGuildJSON(guild.getId());
 
+            //Load the JSON settings from the loaded guilds. If the guild's JSON had just been created, then this simply loads the defaults.
             Settings settings = JSONLoader.getGuildSettings(guild.getId());
 
+            //This is for initializing a new guild with default permissions.
             List<RoleHelper> importantRoles = new ArrayList<>();
 
             if(!settings.isInit())
             {
+                //If there are roles in the guild with the Administrator permission, then they automatically receive a permission level of 1000.
+                //TODO:: Command to set permission levels for roles.
                 guild.getRoles().forEach(role -> {
                     if (role.hasPermission(Permission.ADMINISTRATOR)) {
                         RoleHelper roleHelper = new RoleHelper(role.getId(), role.getName(), 1000);
@@ -132,14 +153,19 @@ public class CommandListener extends ListenerAdapter
                 settings = new Settings(guild.getId(), importantRoles);
 
             }
+            //Sort the RoleHelper objects by PermissionID before we store them.
             settings.getRoleHelper().sort(Comparator.comparing(RoleHelper::getPermID).reversed());
 
+            //Store the HashMap locally to use so we don't have to pull from the disk every time.
             this.settingsHashMap.put(guild.getId(), settings);
+
+            //Save the settings to JSON.
             JSONLoader.saveGuildSettings(settings);
     });
         System.out.println("Settings done initializing.");
     }
 
+    //Method for sending error messages.
     private void messageError(MessageReceivedEvent event, String reason)
     {
         event.getChannel().sendMessage("Command failed for reason: " + reason).queue();
