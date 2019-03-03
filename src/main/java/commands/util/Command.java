@@ -2,6 +2,10 @@ package commands.util;
 
 import java.util.Arrays;
 
+/*
+Command class. Here the CommandEvent is passed to the actual command.
+Otherwise this is just a skeleton class to implement when you make an actual command.
+ */
 public abstract class Command
 {
     protected String name = "";
