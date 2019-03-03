@@ -4,6 +4,9 @@ import net.dv8tion.jda.api.entities.Guild;
 
 import java.util.List;
 
+/*
+JSON/Gson Helper class.
+ */
 public class Settings
 {
     private String prefix = "!";

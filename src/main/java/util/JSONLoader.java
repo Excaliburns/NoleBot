@@ -2,11 +2,6 @@ package util;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-
-import net.dv8tion.jda.api.entities.Guild;
-import org.json.JSONObject;
 
 import java.io.*;
 
@@ -27,8 +22,11 @@ public class JSONLoader
                 try
                 {
                     System.out.println("Creating " + guildID + ".json");
-                    foundGuildParams.getParentFile().mkdirs();
-                    foundGuildParams.createNewFile();
+                    if(!foundGuildParams.getParentFile().mkdirs())
+                        System.out.println("Could not create " + foundGuildParams + " is something wrong?");
+                    if(!foundGuildParams.createNewFile())
+                        System.out.println("Could not create " + foundGuildParams + " is something wrong?");
+
 
                     Settings settings = new Settings(guildID);
 
@@ -49,6 +47,7 @@ public class JSONLoader
                 }
 
             }
+
     public static Settings getGuildSettings(String guildID)
     {
             File foundGuildParams = new File("data/" + guildID + ".json");

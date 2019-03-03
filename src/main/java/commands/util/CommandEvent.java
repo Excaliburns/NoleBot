@@ -2,6 +2,10 @@ package commands.util;
 
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
+/*
+Build this event to pass to the command. You can implement getters and setters here for almost anything since you have access to the MessageReceivedEvent.
+
+ */
 public class CommandEvent
 {
     private final MessageReceivedEvent event;

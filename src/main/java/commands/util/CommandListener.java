@@ -21,7 +21,7 @@ public class CommandListener extends ListenerAdapter
 {
     private final ArrayList<Command> commands;
     private final HashMap<String, Integer> commandIndex;
-    private final HashMap<String, Settings> settingsHashMap;
+    private HashMap<String, Settings> settingsHashMap;
 
     //Initialize our Command list as well as an index for each command.
     public CommandListener()
@@ -29,6 +29,15 @@ public class CommandListener extends ListenerAdapter
         commands = new ArrayList<>();
         commandIndex = new HashMap<>();
         settingsHashMap = new HashMap<>();
+    }
+
+    public HashMap<String, Settings> getSettingsHashMap() {
+        return settingsHashMap;
+    }
+
+    public void setSettingsHashMap(HashMap<String, Settings> settingsHashMap)
+    {
+        this.settingsHashMap = settingsHashMap;
     }
 
     public void addCommand(Command command)
@@ -45,7 +54,7 @@ public class CommandListener extends ListenerAdapter
 
             commandIndex.put(name, commands.size());
         }
-
+        System.out.println(commandIndex);
         commands.add(command);
     }
 
@@ -68,6 +77,10 @@ public class CommandListener extends ListenerAdapter
         if(message.startsWith(settings.getPrefix()))
         {
             commandEventMessage = Arrays.copyOf(message.substring(1).trim().split("\\s+", 2), 2);
+            for(String s : commandEventMessage)
+            {
+                System.out.println(s);
+            }
             String commandTitle = commandEventMessage[0].toLowerCase();
             final Command command;
 
