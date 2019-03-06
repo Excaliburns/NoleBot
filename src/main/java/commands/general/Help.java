@@ -3,7 +3,6 @@ package commands.general;
 import commands.util.Command;
 import commands.util.CommandEvent;
 import net.dv8tion.jda.api.MessageBuilder;
-import net.dv8tion.jda.api.entities.Message;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +13,7 @@ public class Help extends Command {
     {
         name = "help";
         description = "Sends the help message. Also used to ask for help on other commands.";
+        helpDescription = "Why would you use this? It sends you this message. Use !help to display all commands and a short description, use !help [command] to display more information about other commands.";
         requiredPermission = 0;
     }
 
@@ -34,6 +34,10 @@ public class Help extends Command {
         List<Command> commandList = new ArrayList<>(event.getCommandListener().getCommands());
 
         MessageBuilder messageBuilder = new MessageBuilder();
+
+        //EmbedBuilder embedBuilder = new EmbedBuilder();
+        //embedBuilder.setColor(new Color(198, 77, 105 ));
+
         messageBuilder.append("Commands:", MessageBuilder.Formatting.UNDERLINE, MessageBuilder.Formatting.BOLD);
 
         for(Command command: commandList)
