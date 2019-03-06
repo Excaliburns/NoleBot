@@ -10,6 +10,7 @@ public abstract class Command
 {
     protected String name = "";
     protected String description = "No data available.";
+    protected String helpDescription = "No data available.";
     protected int requiredPermission = 1000;
     protected Command[] totalCommands = new Command[0];
 
@@ -42,6 +43,8 @@ public abstract class Command
     public String getDescription() {
         return description;
     }
+
+    public String getHelpDescription() { return helpDescription; }
 
     public void setDescription(String description) {
         this.description = description;
