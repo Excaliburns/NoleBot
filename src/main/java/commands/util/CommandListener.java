@@ -77,10 +77,9 @@ public class CommandListener extends ListenerAdapter
         if(message.startsWith(settings.getPrefix()))
         {
             commandEventMessage = Arrays.copyOf(message.substring(1).trim().split("\\s+", 2), 2);
-            for(String s : commandEventMessage)
-            {
-                System.out.println(s);
-            }
+
+            System.out.println(commandEventMessage.length);
+
             String commandTitle = commandEventMessage[0].toLowerCase();
             final Command command;
 

@@ -1,7 +1,4 @@
 package util;
-
-import jdk.internal.util.xml.impl.Input;
-
 import java.io.*;
 import java.util.Properties;
 
@@ -18,8 +15,10 @@ public class PropLoader
             if (!propFile.exists()) {
                 System.out.println("Did not find config.properties. Making now.");
 
-                propFile.getParentFile().mkdirs();
-                propFile.createNewFile();
+                if(!propFile.getParentFile().mkdirs())
+                    System.out.println("Could not create " + propFile + " is something wrong?");
+                if(!propFile.createNewFile())
+                    System.out.println("Could not create " + propFile + " is something wrong?");
 
                 OutputStream fStream = new FileOutputStream(propFile);
 
