@@ -1,23 +1,23 @@
 package commands.util;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 /*
 Command class. Here the CommandEvent is passed to the actual command.
 Otherwise this is just a skeleton class to implement when you make an actual command.
  */
-public abstract class Command
-{
+public abstract class Command {
     protected String name = "";
     protected String description = "No data available.";
     protected String helpDescription = "No data available.";
+    protected ArrayList<String> usages = new ArrayList<>();
     protected int requiredPermission = 1000;
     protected Command[] totalCommands = new Command[0];
 
     public abstract void onCommandReceived(CommandEvent event);
 
-    public final void execute(CommandEvent event)
-    {
+    public final void execute(CommandEvent event) {
         if (event.getMessage().length > 0) {
             String[] message = event.getMessage();
 
@@ -44,7 +44,9 @@ public abstract class Command
         return description;
     }
 
-    public String getHelpDescription() { return helpDescription; }
+    public String getHelpDescription() {
+        return helpDescription;
+    }
 
     public void setDescription(String description) {
         this.description = description;

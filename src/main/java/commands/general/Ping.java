@@ -5,8 +5,7 @@ import commands.util.CommandEvent;
 
 public class Ping extends Command {
 
-    public Ping()
-    {
+    public Ping() {
         name = "ping";
         description = "Pong!";
         requiredPermission = 1000;

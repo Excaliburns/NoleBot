@@ -21,13 +21,14 @@ public class PurgeAll extends ListenerAdapter {
                     List<Role> roleList = new LinkedList<>(msg.getMentionedRoles());
                     for (Role r : roleList) {
                         List<Member> memberList = new LinkedList<>(msg.getGuild().getMembersWithRoles(r));
-                        for(Member m: memberList)
-                        {
+                        for (Member m : memberList) {
                             msg.getGuild().getController().removeSingleRoleFromMember(m, r).queue();
                         }
                         sentChannel.sendMessage(r.getName() + " has been purged of all members");
                     }
-                } else { sentChannel.sendMessage("You do not have adequate permissions for this command.").queue();}
+                } else {
+                    sentChannel.sendMessage("You do not have adequate permissions for this command.").queue();
+                }
             }
         }
     }

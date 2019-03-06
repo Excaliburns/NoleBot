@@ -8,8 +8,7 @@ import util.Settings;
 Build this event to pass to the command. You can implement getters and setters here for almost anything since you have access to the MessageReceivedEvent.
 
  */
-public class CommandEvent
-{
+public class CommandEvent {
     private final MessageReceivedEvent event;
     private String[] message;
     private final CommandListener commandListener;
@@ -43,9 +42,15 @@ public class CommandEvent
         return commandListener;
     }
 
-    public MessageChannel getChannel() { return channel; }
+    public MessageChannel getChannel() {
+        return channel;
+    }
 
-    public String getGuildID() { return guildID; }
+    public String getGuildID() {
+        return guildID;
+    }
 
-    public Settings getSettings() { return settings; }
+    public Settings getSettings() {
+        return settings;
+    }
 }

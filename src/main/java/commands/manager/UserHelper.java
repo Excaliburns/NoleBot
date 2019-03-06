@@ -1,4 +1,5 @@
 package commands.manager;
+
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Role;
@@ -24,18 +25,15 @@ public class UserHelper {
         return false;
     }
 
-    public static boolean isGameManager (Member authorOfMessage)
-    {
+    public static boolean isGameManager(Member authorOfMessage) {
         List<Role> roleList = new LinkedList<>(authorOfMessage.getRoles());
         Iterator<Role> roleIterator = roleList.iterator();
 
-        if(authorOfMessage.hasPermission(Permission.ADMINISTRATOR))
+        if (authorOfMessage.hasPermission(Permission.ADMINISTRATOR))
             return true;
 
-        while(roleIterator.hasNext())
-        {
-            if(roleIterator.next().getName().equals("Game Manager"))
-            {
+        while (roleIterator.hasNext()) {
+            if (roleIterator.next().getName().equals("Game Manager")) {
                 return true;
             }
             roleIterator.remove();
@@ -43,5 +41,8 @@ public class UserHelper {
 
         return false;
     }
-    public static boolean nameMatch(String MemberName) { return true; }
+
+    public static boolean nameMatch(String MemberName) {
+        return true;
+    }
 }

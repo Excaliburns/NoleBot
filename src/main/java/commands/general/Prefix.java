@@ -11,8 +11,7 @@ import java.util.HashMap;
 
 public class Prefix extends Command {
 
-    public Prefix()
-    {
+    public Prefix() {
         name = "prefix";
         description = "Sets a custom prefix for your server";
         requiredPermission = 1000;
@@ -28,8 +27,7 @@ public class Prefix extends Command {
 
         prefix = prefixMessage[1];
 
-        if(prefix.length() > 1)
-        {
+        if (prefix.length() > 1) {
             messageChannel.sendMessage("Your prefix cannot be longer than one character.").queue();
             return;
         }
