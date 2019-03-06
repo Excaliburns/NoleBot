@@ -1,3 +1,4 @@
+import commands.general.Help;
 import commands.general.Ping;
 import commands.admin.ServerInfoCommand;
 import commands.general.Prefix;
@@ -30,5 +31,6 @@ public class NoleBot
         commandListener.addCommand(new Ping());
         commandListener.addCommand(new ServerInfoCommand());
         commandListener.addCommand(new Prefix());
+        commandListener.addCommand(new Help());
     }
 }

@@ -16,16 +16,17 @@ public class JSONLoader
 
         return (guildFile.exists());
     }
+
+    @SuppressWarnings("all")
     public static void createGuildJSON(String guildID)
     {
             File foundGuildParams = new File("data/" + guildID + ".json");
                 try
                 {
                     System.out.println("Creating " + guildID + ".json");
-                    if(!foundGuildParams.getParentFile().mkdirs())
-                        System.out.println("Could not create " + foundGuildParams + " is something wrong?");
-                    if(!foundGuildParams.createNewFile())
-                        System.out.println("Could not create " + foundGuildParams + " is something wrong?");
+
+                    foundGuildParams.getParentFile().mkdirs();
+                    foundGuildParams.createNewFile();
 
 
                     Settings settings = new Settings(guildID);
