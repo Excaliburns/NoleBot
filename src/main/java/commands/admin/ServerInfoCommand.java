@@ -15,21 +15,18 @@ import java.util.*;
 
 /**
  * This command gets all of the roles from a server and outputs their IDs. It also displays the Guild owner, and the total amount of members that the Guild has.
- *
+ * <p>
  * Potentially useful for hardcoding RoleIDs into things, however in the future an outside way of registering permissions to users will be used.
  */
-public class ServerInfoCommand extends Command
-{
-    public ServerInfoCommand()
-    {
+public class ServerInfoCommand extends Command {
+    public ServerInfoCommand() {
         name = "serverinfo";
         description = "Gets relevant server information.";
         requiredPermission = 1000;
     }
 
     @Override
-    public void onCommandReceived(CommandEvent event)
-    {
+    public void onCommandReceived(CommandEvent event) {
         Message msg = event.getEvent().getMessage();
         MessageChannel messageChannel = msg.getChannel();
 

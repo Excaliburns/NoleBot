@@ -1,11 +1,10 @@
 package util;
+
 import java.io.*;
 import java.util.Properties;
 
-public class PropLoader
-{
-    public String getProp(String prop)
-    {
+public class PropLoader {
+    public String getProp(String prop) {
 
         String botToken;
         try {
@@ -15,9 +14,9 @@ public class PropLoader
             if (!propFile.exists()) {
                 System.out.println("Did not find config.properties. Making now.");
 
-                if(!propFile.getParentFile().mkdirs())
+                if (!propFile.getParentFile().mkdirs())
                     System.out.println("Could not create " + propFile + " is something wrong?");
-                if(!propFile.createNewFile())
+                if (!propFile.createNewFile())
                     System.out.println("Could not create " + propFile + " is something wrong?");
 
                 OutputStream fStream = new FileOutputStream(propFile);

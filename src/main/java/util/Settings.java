@@ -7,28 +7,25 @@ import java.util.List;
 /*
 JSON/Gson Helper class.
  */
-public class Settings
-{
+public class Settings {
     private String prefix = "!";
     private String guildID;
     private boolean init;
     private List<RoleHelper> roleHelper;
 
-    private Settings()
-    {
+    private Settings() {
         this.guildID = null;
         this.roleHelper = null;
         this.init = false;
     }
 
-    public Settings(String guildID)
-    {
+    public Settings(String guildID) {
         this.guildID = guildID;
         this.roleHelper = null;
         this.init = false;
     }
-    public Settings(String guildID, List<RoleHelper> roleHelper)
-    {
+
+    public Settings(String guildID, List<RoleHelper> roleHelper) {
         this.guildID = guildID;
         this.roleHelper = roleHelper;
         this.init = true;
@@ -41,43 +38,35 @@ public class Settings
         this.init = true;
     }
 
-    public boolean isInit()
-    {
+    public boolean isInit() {
         return init;
     }
 
-    public List<RoleHelper> getRoleHelper()
-    {
+    public List<RoleHelper> getRoleHelper() {
         return roleHelper;
     }
 
-    public void setRoleHelper(List<RoleHelper> roleHelper)
-    {
+    public void setRoleHelper(List<RoleHelper> roleHelper) {
         this.roleHelper = roleHelper;
     }
 
-    public static Settings getSettings(Guild guild)
-    {
+    public static Settings getSettings(Guild guild) {
         return new Settings(guild.getId());
     }
 
-    public String getPrefix()
-    {
+    public String getPrefix() {
         return prefix;
     }
 
-    public void setPrefix(String prefix)
-    {
+    public void setPrefix(String prefix) {
         this.prefix = prefix;
     }
 
-    public String getGuildID()
-    {
+    public String getGuildID() {
         return guildID;
     }
 
-    public void setGuildID(String guildID)
-    {
+    public void setGuildID(String guildID) {
         this.guildID = guildID;
     }
 }

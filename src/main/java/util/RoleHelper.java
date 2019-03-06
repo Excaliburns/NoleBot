@@ -3,7 +3,7 @@ package util;
 /*
 Also JSON/Gson Helper class.
  */
-public class RoleHelper{
+public class RoleHelper {
     private String roleID;
     private String roleName;
     private int permID;
