@@ -2,6 +2,7 @@ import commands.general.Help;
 import commands.general.Ping;
 import commands.admin.ServerInfoCommand;
 import commands.general.Prefix;
+import commands.manager.AddPerm;
 import commands.util.CommandListener;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
@@ -30,5 +31,6 @@ public class NoleBot {
         commandListener.addCommand(new ServerInfoCommand());
         commandListener.addCommand(new Prefix());
         commandListener.addCommand(new Help());
+        commandListener.addCommand(new AddPerm());
     }
 }
