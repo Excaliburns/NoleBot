@@ -1,5 +1,7 @@
 package util;
 
+import net.dv8tion.jda.api.entities.Role;
+
 /*
 Also JSON/Gson Helper class.
  */
@@ -11,6 +13,13 @@ public class RoleHelper {
     public RoleHelper(String roleID, String roleName, int permID) {
         this.roleID = roleID;
         this.roleName = roleName;
+        this.permID = permID;
+    }
+
+    public RoleHelper(Role role, int permID)
+    {
+        this.roleID = role.getId();
+        this.roleName = role.getName();
         this.permID = permID;
     }
 

@@ -15,7 +15,9 @@ public class Help extends Command {
     public Help() {
         name = "help";
         description = "Sends the help message. Also used to ask for help on other commands.";
-        helpDescription = "Why would you use this? It sends you this message. Use !help to display all commands and a short description, use !help [command] to display more information about other commands.";
+        helpDescription = "Why would you use this? It sends you this message. \nUse !help to display all commands and a short description, use !help [command] to display more information about other commands.";
+        usages.add("help");
+        usages.add("help [command]");
         requiredPermission = 0;
     }
 
@@ -42,7 +44,7 @@ public class Help extends Command {
             messageBuilder.appendFormat(event.getSettings().getPrefix() + command.getName() + " - " + command.getDescription());
         }
 
-        messageBuilder.append("Use !help [command] to get more information on a specific command. For example, \n !help prefix");
+        messageBuilder.append("\n\nUse !help [command] to get more information on a specific command. For example, \n !help prefix");
         System.out.println(messageBuilder.build());
         event.getChannel().sendMessage(messageBuilder.build()).queue();
     }
@@ -54,9 +56,22 @@ public class Help extends Command {
             Command calledCommand = optionalCommand.get();
 
             EmbedBuilder embedBuilder = new EmbedBuilder();
+            embedBuilder.setAuthor("NoleBot", "https://github.com/Excaliburns/NoleBot", event.getEvent().getJDA().getSelfUser().getAvatarUrl());
+            embedBuilder.setFooter("NoleBot, a bot from Esports at Florida State", event.getEvent().getJDA().getSelfUser().getAvatarUrl());
             embedBuilder.setColor(new Color(198, 77, 105));
             embedBuilder.addField("Command Name: ", calledCommand.getName(), true);
+            embedBuilder.addField("Permission Level Required: ", Integer.toString(calledCommand.getRequiredPermission()), true);
             embedBuilder.addField("Description: ", calledCommand.getHelpDescription(), false);
+
+            StringBuilder stringBuilder = new StringBuilder();
+            calledCommand.getUsages().forEach(e -> {
+                stringBuilder.append(event.getPrefix());
+                stringBuilder.append(e);
+                stringBuilder.append("\n");
+;            });
+            embedBuilder.addField("Usages <required> [optional]:", stringBuilder.toString(), false);
+
+            event.getChannel().sendMessage(embedBuilder.build()).queue();
         }
     }
 }

@@ -12,6 +12,7 @@ public class CommandEvent {
     private final MessageReceivedEvent event;
     private String[] message;
     private final CommandListener commandListener;
+    private final String prefix;
     private final MessageChannel channel;
     private final String guildID;
     private final Settings settings;
@@ -24,6 +25,7 @@ public class CommandEvent {
         this.channel = event.getChannel();
         this.guildID = event.getGuild().getId();
         this.settings = commandListener.getSettingsHashMap().get(guildID);
+        this.prefix = getSettings().getPrefix();
     }
 
     public MessageReceivedEvent getEvent() {
@@ -53,4 +55,6 @@ public class CommandEvent {
     public Settings getSettings() {
         return settings;
     }
+
+    public String getPrefix() { return prefix; }
 }
