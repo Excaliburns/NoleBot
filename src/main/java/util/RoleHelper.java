@@ -46,4 +46,6 @@ public class RoleHelper {
     public void setPermID(int permID) {
         this.permID = permID;
     }
+
+    public RoleHelper getRoleHelper(){ return this; }
 }

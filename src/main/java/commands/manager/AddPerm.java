@@ -4,10 +4,12 @@ import commands.util.Command;
 import commands.util.CommandEvent;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.Role;
+import util.JSONLoader;
 import util.RoleHelper;
 import util.Settings;
 
 import java.util.List;
+import java.util.Optional;
 
 public class AddPerm extends Command {
     public AddPerm() {
@@ -26,31 +28,47 @@ public class AddPerm extends Command {
         List<Role> roleList = message.getMentionedRoles();
         int permission;
 
+        for (Role i : roleList)
+            args[1] = args[1].replace(i.getAsMention(), "");
+
         try {
-            permission = Integer.parseInt(args[2]);
-        }catch (NumberFormatException e)
-        {
-            event.getChannel().sendMessage("Message is improperly formatted. Exception: " + e).queue();
+            args[1] = args[1].trim();
+            permission = Integer.parseInt(args[1]);
+        } catch (NumberFormatException e) {
+            event.getChannel().sendMessage("Message is improperly formatted.").queue();
             return;
         }
+        if (!roleList.isEmpty())
+            roleList.forEach(e ->
+            {
+                Settings settings = event.getSettings();
+                List<RoleHelper> roleHelperList = settings.getRoleHelper();
+                RoleHelper roleHelper = new RoleHelper(e, permission);
 
-        if (args.length > 3) {
-            if (!roleList.isEmpty())
-                roleList.forEach(e ->
-                {
-                    Settings settings = event.getSettings();
-                    List<RoleHelper> roleHelperList = settings.getRoleHelper();
-                    RoleHelper roleHelper = new RoleHelper(e, permission);
+                Optional<RoleHelper> optionalRoleHelper = roleHelperList.stream().filter( c -> c.getRoleID().equals(roleHelper.getRoleID())).findAny();
 
-                    roleHelperList.add(roleHelper);
+                System.out.println(optionalRoleHelper);
+                if(optionalRoleHelper.isPresent())
+                    for (int i = 0; i < roleHelperList.size(); i++) {
+                        if (roleHelper == roleHelperList.get(i)) {
+                            roleHelperList.set(i, roleHelper);
+                            settings.setRoleHelper(roleHelperList);
+                            event.getCommandListener().getSettingsHashMap().put(event.getGuildID(), settings);
+                            JSONLoader.saveGuildSettings(settings);
+                            event.getChannel().sendMessage("Updated Role: *" + e.getName() + "* with permission:*" + roleHelper.getPermID()).queue();
+                            return;
+                        }
+                    }
 
-                    event.getCommandListener().getSettingsHashMap().put(event.getGuildID(), settings);
+                roleHelperList.add(roleHelper);
+                settings.setRoleHelper(roleHelperList);
+                event.getCommandListener().getSettingsHashMap().put(event.getGuildID(), settings);
 
-                });
-            else
-                event.getChannel().sendMessage("You did not mention a role. Use !help addperm for more information.").queue();
-        }
+                JSONLoader.saveGuildSettings(settings);
+
+                event.getChannel().sendMessage("Saved Role : *" + e.getName() + "* with permission:*" + roleHelper.getPermID() + "*.").queue();
+            });
         else
-            event.getChannel().sendMessage("Too many arguments!").queue();
+            event.getChannel().sendMessage("You did not mention a role. Use !help addperm for more information.").queue();
     }
 }
