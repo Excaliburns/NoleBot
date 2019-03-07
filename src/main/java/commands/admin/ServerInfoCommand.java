@@ -22,7 +22,9 @@ public class ServerInfoCommand extends Command {
     public ServerInfoCommand() {
         name = "serverinfo";
         description = "Gets relevant server information.";
+        helpDescription = "Sends information about your server. Information such as the owner, the total members, total role count, etc.";
         requiredPermission = 1000;
+        usages.add("serverinfo");
     }
 
     @Override

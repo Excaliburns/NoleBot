@@ -14,13 +14,15 @@ public class Prefix extends Command {
     public Prefix() {
         name = "prefix";
         description = "Sets a custom prefix for your server";
+        helpDescription = "Used to set the prefix for your server. Your prefix must be one character long. It is also recommended that you use special characters that are not @, <, >, *, or _. ";
         requiredPermission = 1000;
+        usages.add("prefix <desired prefix>");
     }
 
     @Override
     public void onCommandReceived(CommandEvent event) {
         String guildID = event.getEvent().getGuild().getId();
-        Settings settings = JSONLoader.getGuildSettings(guildID);
+        Settings settings = event.getCommandListener().getSettingsHashMap().get(guildID);
         String prefix;
         MessageChannel messageChannel = event.getEvent().getChannel();
         String[] prefixMessage = event.getMessage();
