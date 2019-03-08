@@ -1,16 +1,13 @@
 package commands.manager;
 
-import commands.util.Command;
-import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
-import net.dv8tion.jda.api.hooks.ListenerAdapter;
+import util.UserHelper;
 
 
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
