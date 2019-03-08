@@ -30,18 +30,23 @@ public class DelPerm extends Command {
         List<Role> rolesMentioned = event.getEvent().getMessage().getMentionedRoles();
         Settings settings = event.getSettings();
         List<RoleHelper> roleHelperList = settings.getRoleHelper();
+        int highestPerm = UserHelper.getHighestUserPermission(event.getEvent().getMember().getRoles(), roleHelperList);
 
         if (args[1] != null && args[1].trim().equals("all")) {
-            ArrayList<RoleHelper> roleHelperArrayList = new ArrayList<>();
-            for (RoleHelper role : roleHelperList) {
-                if (roleHelperList.get(0).getPermID() > role.getPermID()) {
-                    event.getChannel().sendMessage("Deleted permission level for role: **" + role.getRoleName() + "**").queue();
-                    roleHelperArrayList.add(role);
+            if (highestPerm >= roleHelperList.get(0).getPermID()) {
+                ArrayList<RoleHelper> roleHelperArrayList = new ArrayList<>();
+                for (RoleHelper role : roleHelperList) {
+                    if (roleHelperList.get(0).getPermID() > role.getPermID()) {
+                        event.getChannel().sendMessage("Deleted permission level for role: **" + role.getRoleName() + "**").queue();
+                        roleHelperArrayList.add(role);
+                    }
                 }
+                roleHelperList.removeAll(roleHelperArrayList);
+                permissionUtils.saveData(roleHelperList, settings, event);
+                event.getChannel().sendMessage("Your roles have been cleaned. Please use !listperms for a list of all current permissions.").queue();
+            } else {
+                event.getChannel().sendMessage("You must have the highest permission level on the server to delete all other permissions.\nYour permission level: **" + highestPerm + "**\nRequired permission level: **" + roleHelperList.get(0).getPermID() + "**.").queue();
             }
-            roleHelperList.removeAll(roleHelperArrayList);
-            permissionUtils.saveData(roleHelperList, settings, event);
-            event.getChannel().sendMessage("Your roles have been cleaned. Please use !listperms for a list of all current permissions.").queue();
         } else {
             if (!rolesMentioned.isEmpty()) {
                 rolesMentioned.forEach(role -> {

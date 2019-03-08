@@ -1,4 +1,5 @@
 import commands.admin.permissions.DelPerm;
+import commands.admin.permissions.ListPerm;
 import commands.general.Help;
 import commands.general.Ping;
 import commands.admin.ServerInfoCommand;
@@ -34,5 +35,6 @@ public class NoleBot {
         commandListener.addCommand(new Help());
         commandListener.addCommand(new AddPerm());
         commandListener.addCommand(new DelPerm());
+        commandListener.addCommand(new ListPerm());
     }
 }

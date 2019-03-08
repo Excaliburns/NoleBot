@@ -53,7 +53,7 @@ public class AddPerm extends Command {
                     RoleHelper roleHelper = new RoleHelper(e, permission);
                     Optional<RoleHelper> optionalRoleHelper = roleHelperList.stream().filter(c -> c.getRoleID().equals(roleHelper.getRoleID())).findAny();
                     if (optionalRoleHelper.isPresent()) {
-                        if (userPermission > optionalRoleHelper.get().getPermID()) {
+                        if (userPermission >= optionalRoleHelper.get().getPermID()) {
                             for (int i = 0; i < roleHelperList.size(); i++) {
                                 if (optionalRoleHelper.get().getRoleID().equals(roleHelperList.get(i).getRoleID())) {
 
