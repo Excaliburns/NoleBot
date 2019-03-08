@@ -7,8 +7,8 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import java.util.LinkedList;
 import java.util.List;
 
-import static commands.manager.UserHelper.isVerified;
-import static commands.manager.UserHelper.nameMatch;
+import static util.UserHelper.isVerified;
+import static util.UserHelper.nameMatch;
 
 public class AddRole extends ListenerAdapter {
     @Override
@@ -18,7 +18,7 @@ public class AddRole extends ListenerAdapter {
         User author = msg.getAuthor();
         Member writer = msg.getMember();
         boolean verified = isVerified(writer);
-        boolean namecheck = nameMatch(writer.getEffectiveName());
+        boolean nameCheck = nameMatch(writer.getEffectiveName());
 
         List<Role> memberRoleList = new LinkedList<>(writer.getRoles());
 
@@ -26,7 +26,7 @@ public class AddRole extends ListenerAdapter {
             List<Role> roleList = new LinkedList<>(msg.getMentionedRoles());
             if (msg.getContentRaw().toLowerCase().matches("^.*addrole.*$")) {
                 if (verified) {
-                    if (namecheck) {
+                    if (nameCheck) {
                         for (Role r : roleList) {
                             if (r.getName().contains("Player")) {
                                 if (memberRoleList.contains(r)) {

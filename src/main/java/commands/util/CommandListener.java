@@ -9,6 +9,7 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import util.JSONLoader;
 import util.RoleHelper;
 import util.Settings;
+import util.UserHelper;
 
 import java.util.*;
 
@@ -96,28 +97,16 @@ public class CommandListener extends ListenerAdapter {
                 Currently, we sort the RoleHelper List in the onReady() event. Possibly we can use this to shorten the search time in the future if we see a decrease in responsiveness across a large amount of servers.
                 This search is linear.
                  */
-                HashMap<String, RoleHelper> roleHelperList = new HashMap<>();
+                List<RoleHelper> guildRoles = settings.getRoleHelper();
+                List<Role> userRoles = event.getMember().getRoles();
 
-                settings.getRoleHelper().forEach(roleHelper ->
-                        roleHelperList.put(roleHelper.getRoleID(), roleHelper)
-                );
-
-                List<Role> roleList = event.getMember().getRoles();
-                boolean commandExecuted = false;
-
-                for (Role role : roleList) {
-                    String roleID = role.getId();
-
-                    if (roleHelperList.containsKey(roleID))
-                        if (roleHelperList.get(roleID).getPermID() >= command.getRequiredPermission()) {
+                        if (UserHelper.getHighestUserPermission(userRoles, guildRoles) >= command.getRequiredPermission())
+                        {
                             CommandEvent commandEvent = new CommandEvent(event, commandEventMessage, this);
                             command.execute(commandEvent);
-                            commandExecuted = true;
-                            break;
                         }
-                }
-                if (!commandExecuted)
-                    messageError(event, "Not a high enough permission level");
+                        else
+                            messageError(event, "Not a high enough permission level");
             }
         }
     }
@@ -125,7 +114,7 @@ public class CommandListener extends ListenerAdapter {
     // This is called after the JDA object called in initBot() is successfully built.
     @Override
     public void onReady(ReadyEvent event) {
-        System.out.println("Initializing Settings");
+        System.out.println("Initializing Settings...");
 
         JDA jda = event.getJDA();
         //Iterate through every guild that the bot is a part of.
@@ -143,7 +132,6 @@ public class CommandListener extends ListenerAdapter {
 
             if (!settings.isInit()) {
                 //If there are roles in the guild with the Administrator permission, then they automatically receive a permission level of 1000.
-                //TODO:: Command to set permission levels for roles.
                 guild.getRoles().forEach(role -> {
                     if (role.hasPermission(Permission.ADMINISTRATOR)) {
                         RoleHelper roleHelper = new RoleHelper(role.getId(), role.getName(), 1000);
