@@ -113,7 +113,7 @@ public class CommandListener extends ListenerAdapter {
                         if (UserHelper.getHighestUserPermission(userRoles, guildRoles) >= command.getRequiredPermission())
                         {
                             CommandEvent commandEvent = new CommandEvent(event, commandEventMessage, this);
-                            System.out.println("\nCommand: \"" + commandTitle + "\" executed on guild: " + event.getGuild().getName());
+                            System.out.println("\nCommand: \"" + commandTitle + "\" executed on guild: " + event.getGuild().getName() + ", with args: " + commandEventMessage[1]);
                             System.out.println("MessageID: " + event.getMessageId());
                             command.execute(commandEvent);
                         }

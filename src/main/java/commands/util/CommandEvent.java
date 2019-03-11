@@ -7,7 +7,6 @@ import util.Settings;
 
 /*
 Build this event to pass to the command. You can implement getters and setters here for almost anything since you have access to the MessageReceivedEvent.
-
  */
 public class CommandEvent {
     private final MessageReceivedEvent event;
