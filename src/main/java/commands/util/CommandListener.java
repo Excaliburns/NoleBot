@@ -31,6 +31,10 @@ public class CommandListener extends ListenerAdapter {
         settingsHashMap = new HashMap<>();
     }
 
+    public HashMap<String, Integer> getCommandIndex() {
+        return commandIndex;
+    }
+
     public HashMap<String, Settings> getSettingsHashMap() {
         return settingsHashMap;
     }
@@ -97,6 +101,13 @@ public class CommandListener extends ListenerAdapter {
                 Currently, we sort the RoleHelper List in the onReady() event. Possibly we can use this to shorten the search time in the future if we see a decrease in responsiveness across a large amount of servers.
                 This search is linear.
                  */
+                HashMap<String, Integer> commandHelper = settings.getCommandHelper();
+
+                if(commandHelper != null)
+                {
+                    if(commandHelper.containsKey(command.getName()))
+                        command.setRequiredPermission(commandHelper.get(command.getName()));
+                }
                 List<RoleHelper> guildRoles = settings.getRoleHelper();
                 List<Role> userRoles = event.getMember().getRoles();
 

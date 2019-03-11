@@ -1,3 +1,4 @@
+import commands.admin.permissions.CommandPerm;
 import commands.admin.permissions.DelPerm;
 import commands.admin.permissions.ListPerm;
 import commands.general.Help;
@@ -36,5 +37,6 @@ public class NoleBot {
         commandListener.addCommand(new AddPerm());
         commandListener.addCommand(new DelPerm());
         commandListener.addCommand(new ListPerm());
+        commandListener.addCommand(new CommandPerm());
     }
 }

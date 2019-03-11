@@ -2,6 +2,7 @@ package util;
 
 import net.dv8tion.jda.api.entities.Guild;
 
+import java.util.HashMap;
 import java.util.List;
 
 /*
@@ -10,24 +11,35 @@ JSON/Gson Helper class.
 public class Settings {
     private String prefix = "!";
     private String guildID;
-    private boolean init;
     private List<RoleHelper> roleHelper;
+    private HashMap<String, Integer> commandHelper;
+    private boolean init;
 
     private Settings() {
         this.guildID = null;
         this.roleHelper = null;
+        this.commandHelper = null;
         this.init = false;
     }
 
-    public Settings(String guildID) {
+    Settings(String guildID) {
         this.guildID = guildID;
         this.roleHelper = null;
+        this.commandHelper = null;
         this.init = false;
     }
 
     public Settings(String guildID, List<RoleHelper> roleHelper) {
         this.guildID = guildID;
         this.roleHelper = roleHelper;
+        this.commandHelper = null;
+        this.init = true;
+    }
+
+    public Settings(String guildID, List<RoleHelper> roleHelper, HashMap<String, Integer> commandHelper) {
+        this.guildID = guildID;
+        this.roleHelper = roleHelper;
+        this.commandHelper = commandHelper;
         this.init = true;
     }
 
@@ -69,4 +81,9 @@ public class Settings {
     public void setGuildID(String guildID) {
         this.guildID = guildID;
     }
+
+    public HashMap<String, Integer> getCommandHelper() { return commandHelper; }
+
+    public void setCommandHelper(HashMap<String, Integer> commandHelper) { this.commandHelper = commandHelper; }
+
 }

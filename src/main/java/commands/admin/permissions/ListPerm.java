@@ -17,7 +17,9 @@ public class ListPerm extends Command
         name = "listperm";
         description = "Lists permission levels for your server.";
         helpDescription = "Sends out a list of roles and their corresponding permission levels. Can also be used to check the permission level of a specific role.";
+        usages.add("listperm");
         usages.add("listperm [@Role]");
+        usages.add("listperm commands");
         requiredPermission = 1000;
     }
 
@@ -27,7 +29,7 @@ public class ListPerm extends Command
         String[] args = event.getMessage();
         List<RoleHelper> roleHelpers = event.getSettings().getRoleHelper();
 
-        if(args[1] != null)
+        if(roleHelpers != null)
         {
             List<Role> roleList = event.getEvent().getMessage().getMentionedRoles();
 
@@ -46,6 +48,10 @@ public class ListPerm extends Command
                     event.getChannel().sendMessage("Did not find role: **" + role.getName() + "** in the permission list.").queue();
                 }
             });
+        }
+        else if(args[1].matches("commands"))
+        {
+
         }
         else
         {
