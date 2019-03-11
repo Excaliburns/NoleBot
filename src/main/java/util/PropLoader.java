@@ -5,7 +5,7 @@ import java.util.Properties;
 
 public class PropLoader {
     public String getProp(String prop) {
-
+        System.out.println("Initializing config.properties.");
         String botToken;
         try {
             Properties properties = new Properties();
@@ -25,6 +25,7 @@ public class PropLoader {
                 properties.setProperty("token", "");
 
                 properties.store(fStream, null);
+                System.out.println("Created and stored blank token value. Please open /data/config/config.properties and set the bot's token.");
             }
             FileInputStream botConfig = new FileInputStream(propFile);
 

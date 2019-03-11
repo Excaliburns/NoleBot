@@ -53,9 +53,10 @@ public class CommandListener extends ListenerAdapter {
             if (commandIndex.containsKey(name))
                 throw new IllegalArgumentException("Cannot add a command that has already been added.");
 
+            System.out.println("Adding command: " + name);
+
             commandIndex.put(name, commands.size());
         }
-        System.out.println(commandIndex);
         commands.add(command);
     }
 
@@ -76,8 +77,6 @@ public class CommandListener extends ListenerAdapter {
         //Currently message is only parsed further if the message stars with the guild's custom prefix
         if (message.startsWith(settings.getPrefix())) {
             commandEventMessage = Arrays.copyOf(message.substring(1).trim().split("\\s+", 2), 2);
-
-            System.out.println(commandEventMessage.length);
 
             String commandTitle = commandEventMessage[0].toLowerCase();
             final Command command;
@@ -114,6 +113,8 @@ public class CommandListener extends ListenerAdapter {
                         if (UserHelper.getHighestUserPermission(userRoles, guildRoles) >= command.getRequiredPermission())
                         {
                             CommandEvent commandEvent = new CommandEvent(event, commandEventMessage, this);
+                            System.out.println("\nCommand: \"" + commandTitle + "\" executed on guild: " + event.getGuild().getName());
+                            System.out.println("MessageID: " + event.getMessageId());
                             command.execute(commandEvent);
                         }
                         else
@@ -125,7 +126,7 @@ public class CommandListener extends ListenerAdapter {
     // This is called after the JDA object called in initBot() is successfully built.
     @Override
     public void onReady(ReadyEvent event) {
-        System.out.println("Initializing Settings...");
+        System.out.println("Initializing Settings...\n");
 
         JDA jda = event.getJDA();
         //Iterate through every guild that the bot is a part of.
@@ -160,8 +161,9 @@ public class CommandListener extends ListenerAdapter {
 
             //Save the settings to JSON.
             JSONLoader.saveGuildSettings(settings);
+            System.out.println("Loaded settings for Guild: " + guild.getName());
         });
-        System.out.println("Settings done initializing.");
+        System.out.println("\nSettings done initializing.");
     }
 
     //Method for sending error messages.
