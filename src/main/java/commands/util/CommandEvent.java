@@ -1,5 +1,6 @@
 package commands.util;
 
+import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import util.Settings;
@@ -13,10 +14,10 @@ public class CommandEvent {
     private String[] message;
     private final CommandListener commandListener;
     private final String prefix;
+    private final Guild guild;
     private final MessageChannel channel;
     private final String guildID;
     private final Settings settings;
-
 
     public CommandEvent(MessageReceivedEvent event, String[] message, CommandListener commandListener) {
         this.event = event;
@@ -26,6 +27,7 @@ public class CommandEvent {
         this.guildID = event.getGuild().getId();
         this.settings = commandListener.getSettingsHashMap().get(guildID);
         this.prefix = getSettings().getPrefix();
+        this.guild = event.getGuild();
     }
 
     public MessageReceivedEvent getEvent() {
@@ -57,4 +59,6 @@ public class CommandEvent {
     }
 
     public String getPrefix() { return prefix; }
+
+    public Guild getGuild() { return guild; }
 }

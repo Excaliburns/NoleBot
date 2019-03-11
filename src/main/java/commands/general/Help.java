@@ -4,6 +4,7 @@ import commands.util.Command;
 import commands.util.CommandEvent;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.MessageBuilder;
+import util.BotEmbed;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -45,7 +46,6 @@ public class Help extends Command {
         }
 
         messageBuilder.append("\n\nUse !help [command] to get more information on a specific command. For example, \n !help prefix");
-        System.out.println(messageBuilder.build());
         event.getChannel().sendMessage(messageBuilder.build()).queue();
     }
 
@@ -55,10 +55,7 @@ public class Help extends Command {
         if (optionalCommand.isPresent() && !optionalCommand.get().getName().equals("")) {
             Command calledCommand = optionalCommand.get();
 
-            EmbedBuilder embedBuilder = new EmbedBuilder();
-            embedBuilder.setAuthor("NoleBot", "https://github.com/Excaliburns/NoleBot", event.getEvent().getJDA().getSelfUser().getAvatarUrl());
-            embedBuilder.setFooter("NoleBot, a bot from Esports at Florida State", event.getEvent().getJDA().getSelfUser().getAvatarUrl());
-            embedBuilder.setColor(new Color(198, 77, 105));
+            EmbedBuilder embedBuilder = BotEmbed.getBotEmbed(event);
             embedBuilder.addField("Command Name: ", calledCommand.getName(), true);
             embedBuilder.addField("Permission Level Required: ", Integer.toString(calledCommand.getRequiredPermission()), true);
             embedBuilder.addField("Description: ", calledCommand.getHelpDescription(), false);

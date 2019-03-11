@@ -7,6 +7,7 @@ import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.Role;
 import util.RoleHelper;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,15 +29,10 @@ public class ListPerm extends Command
     {
         String[] args = event.getMessage();
         List<RoleHelper> roleHelpers = event.getSettings().getRoleHelper();
+        List<Role> roleList = event.getEvent().getMessage().getMentionedRoles();
 
-        if(roleHelpers != null)
+        if(!roleList.isEmpty())
         {
-            List<Role> roleList = event.getEvent().getMessage().getMentionedRoles();
-
-            if(roleList.isEmpty()) {
-                event.getChannel().sendMessage("Your message is improperly formatted or you did not mention a role.").queue();
-                return;
-            }
 
             roleList.forEach( role -> {
                 Optional<RoleHelper> optionalRoleHelper = roleHelpers.stream().filter(f -> f.getRoleID().equals(role.getId())).findFirst();
@@ -49,11 +45,7 @@ public class ListPerm extends Command
                 }
             });
         }
-        else if(args[1].matches("commands"))
-        {
-
-        }
-        else
+        else if(args.length == 1)
         {
             MessageBuilder messageBuilder = new MessageBuilder();
             for(RoleHelper role : roleHelpers)
@@ -65,6 +57,25 @@ public class ListPerm extends Command
             }
 
             event.getChannel().sendMessage(messageBuilder.build()).queue();
+        }
+        else if(args[1].trim().equalsIgnoreCase("commands"))
+        {
+            ArrayList<Command> commandList = event.getCommandListener().getCommands();
+            MessageBuilder messageBuilder = new MessageBuilder();
+
+            for(Command c: commandList)
+            {
+                messageBuilder.append(c.getName(), MessageBuilder.Formatting.BOLD);
+                messageBuilder.append(" requires permission level: ");
+                messageBuilder.append(Integer.toString(c.getRequiredPermission()), MessageBuilder.Formatting.BOLD);
+                messageBuilder.append("\n");
+            }
+
+            event.getChannel().sendMessage(messageBuilder.build()).queue();
+        }
+        else
+        {
+            event.getChannel().sendMessage("Incorrect syntax! Use !help listperm for more help.").queue();
         }
     }
 }
