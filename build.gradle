@@ -20,13 +20,13 @@ jar {
 	}
 }
 repositories {
-    mavenCentral()
     jcenter()
+    mavenCentral()
 }
 
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
-    implementation("net.dv8t5ion:JDA:4.ALPHA.0_42")
     implementation 'com.google.code.gson:gson:2.8.5'
-    compile 'net.dv8tion:JDA:4.ALPHA.0_42'
+    implementation("net.dv8tion:JDA:4.ALPHA.0_58")
+    compile 'net.dv8tion:JDA:4.ALPHA.0_58'
 }
