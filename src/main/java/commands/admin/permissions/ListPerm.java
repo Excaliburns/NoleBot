@@ -28,6 +28,7 @@ public class ListPerm extends Command
     public void onCommandReceived(CommandEvent event)
     {
         String[] args = event.getMessage();
+
         List<RoleHelper> roleHelpers = event.getSettings().getRoleHelper();
         List<Role> roleList = event.getEvent().getMessage().getMentionedRoles();
 
@@ -45,7 +46,7 @@ public class ListPerm extends Command
                 }
             });
         }
-        else if(args.length == 1)
+        else if(args[1] == null)
         {
             MessageBuilder messageBuilder = new MessageBuilder();
             for(RoleHelper role : roleHelpers)
