@@ -56,4 +56,3 @@ public class AddRole extends ListenerAdapter {
             }
         }
     }
-}
