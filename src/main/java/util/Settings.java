@@ -13,12 +13,18 @@ public class Settings {
     private String guildID;
     private List<RoleHelper> roleHelper;
     private HashMap<String, Integer> commandHelper;
+    private List<String> bannedRoles;
+    private String introMessage;
+    private String nameChar = "|";
     private boolean init;
 
     private Settings() {
         this.guildID = null;
         this.roleHelper = null;
         this.commandHelper = null;
+        this.bannedRoles = null;
+        this.introMessage = null;
+        this.nameChar = null;
         this.init = false;
     }
 
@@ -26,6 +32,9 @@ public class Settings {
         this.guildID = guildID;
         this.roleHelper = null;
         this.commandHelper = null;
+        this.bannedRoles = null;
+        this.introMessage = null;
+        this.nameChar = null;
         this.init = false;
     }
 
@@ -33,6 +42,9 @@ public class Settings {
         this.guildID = guildID;
         this.roleHelper = roleHelper;
         this.commandHelper = null;
+        this.bannedRoles = null;
+        this.introMessage = null;
+        this.nameChar = null;
         this.init = true;
     }
 
@@ -40,6 +52,19 @@ public class Settings {
         this.guildID = guildID;
         this.roleHelper = roleHelper;
         this.commandHelper = commandHelper;
+        this.bannedRoles = null;
+        this.introMessage = null;
+        this.nameChar = null;
+        this.init = true;
+    }
+
+    public Settings(String guildID, List<RoleHelper> roleHelper, HashMap<String, Integer> commandHelper, List<String> bannedRoles) {
+        this.guildID = guildID;
+        this.roleHelper = roleHelper;
+        this.commandHelper = commandHelper;
+        this.bannedRoles = bannedRoles;
+        this.introMessage = null;
+        this.nameChar = null;
         this.init = true;
     }
 
@@ -47,6 +72,8 @@ public class Settings {
         this.prefix = prefix;
         this.guildID = guildID;
         this.roleHelper = roleHelper;
+        this.introMessage = null;
+        this.nameChar = null;
         this.init = true;
     }
 
@@ -86,4 +113,15 @@ public class Settings {
 
     public void setCommandHelper(HashMap<String, Integer> commandHelper) { this.commandHelper = commandHelper; }
 
+    public List<String> getBannedRoles() { return bannedRoles; }
+
+    public void setBannedRoles(List<String> bannedRoles) { this.bannedRoles = bannedRoles; }
+
+    public String getIntroMessage() { return introMessage; }
+
+    public void setIntroMessage(String introMessage) { this.introMessage = introMessage; }
+
+    public String getNameChar() { return nameChar; }
+
+    public void setNameChar(String nameChar) { this.nameChar = nameChar; }
 }
