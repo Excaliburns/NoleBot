@@ -6,6 +6,7 @@ import commands.general.Ping;
 import commands.admin.ServerInfoCommand;
 import commands.general.Prefix;
 import commands.admin.permissions.AddPerm;
+import commands.general.UserInfoCommand;
 import commands.util.CommandListener;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
@@ -38,5 +39,6 @@ public class NoleBot {
         commandListener.addCommand(new DelPerm());
         commandListener.addCommand(new ListPerm());
         commandListener.addCommand(new CommandPerm());
+        commandListener.addCommand(new UserInfoCommand());
     }
 }
