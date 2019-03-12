@@ -2,10 +2,10 @@ package commands.manager;
 
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.guild.member.GuildMemberJoinEvent;
-import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
+public class PMIntro {
 
-public class PMIntro extends ListenerAdapter {
+    //TODO:: Fix this to work with new command implementation. Add JoinMessage to Settings, then pass that to this command, so different servers can set it.
     public void onMessageReceived(GuildMemberJoinEvent event) {
         Member newMember = event.getMember();
         User newMemUser = newMember.getUser();
