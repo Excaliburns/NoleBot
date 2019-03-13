@@ -60,7 +60,6 @@ public class AssignRank {
                 } else {
                     sentChannel.sendMessage("Sorry, you do not have sufficient permissions to assign this role.").queue();
                 }
-
             }
         }
     }

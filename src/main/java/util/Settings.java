@@ -2,6 +2,7 @@ package util;
 
 import net.dv8tion.jda.api.entities.Guild;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -13,8 +14,9 @@ public class Settings {
     private String guildID;
     private List<RoleHelper> roleHelper;
     private HashMap<String, Integer> commandHelper;
-    private List<String> bannedRoles;
-    private String introMessage;
+    private List<String> verifiedRoles = new ArrayList<>();
+    private List<String> bannedRoles = new ArrayList<>();
+    private String introMessage = "";
     private String nameChar = "|";
     private boolean init;
 
@@ -22,9 +24,6 @@ public class Settings {
         this.guildID = null;
         this.roleHelper = null;
         this.commandHelper = null;
-        this.bannedRoles = null;
-        this.introMessage = null;
-        this.nameChar = null;
         this.init = false;
     }
 
@@ -32,9 +31,6 @@ public class Settings {
         this.guildID = guildID;
         this.roleHelper = null;
         this.commandHelper = null;
-        this.bannedRoles = null;
-        this.introMessage = null;
-        this.nameChar = null;
         this.init = false;
     }
 
@@ -42,9 +38,6 @@ public class Settings {
         this.guildID = guildID;
         this.roleHelper = roleHelper;
         this.commandHelper = null;
-        this.bannedRoles = null;
-        this.introMessage = null;
-        this.nameChar = null;
         this.init = true;
     }
 
@@ -52,9 +45,6 @@ public class Settings {
         this.guildID = guildID;
         this.roleHelper = roleHelper;
         this.commandHelper = commandHelper;
-        this.bannedRoles = null;
-        this.introMessage = null;
-        this.nameChar = null;
         this.init = true;
     }
 
@@ -63,8 +53,6 @@ public class Settings {
         this.roleHelper = roleHelper;
         this.commandHelper = commandHelper;
         this.bannedRoles = bannedRoles;
-        this.introMessage = null;
-        this.nameChar = null;
         this.init = true;
     }
 
@@ -72,8 +60,6 @@ public class Settings {
         this.prefix = prefix;
         this.guildID = guildID;
         this.roleHelper = roleHelper;
-        this.introMessage = null;
-        this.nameChar = null;
         this.init = true;
     }
 
@@ -124,4 +110,8 @@ public class Settings {
     public String getNameChar() { return nameChar; }
 
     public void setNameChar(String nameChar) { this.nameChar = nameChar; }
+
+    public List<String> getVerifiedRoles() { return verifiedRoles; }
+
+    public void setVerifiedRoles(List<String> verifiedRoles) { this.verifiedRoles = verifiedRoles; }
 }
