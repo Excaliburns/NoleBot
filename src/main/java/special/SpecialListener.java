@@ -1,4 +1,4 @@
-package Commands;
+package special;
 
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
@@ -7,11 +7,10 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
 import java.util.Random;
 
-public class HelloCommand extends ListenerAdapter
-{
+public class SpecialListener extends ListenerAdapter {
+
     @Override
-    public void onMessageReceived(MessageReceivedEvent event)
-    {
+    public void onMessageReceived(MessageReceivedEvent event) {
         Message msg = event.getMessage();
         MessageChannel messageChannel = msg.getChannel();
         Random rand = new Random();
@@ -21,7 +20,7 @@ public class HelloCommand extends ListenerAdapter
         int n = rand.nextInt(4);
 
         if (!msg.getAuthor().isBot())
-            if ( (messageContent.contains("hi") || messageContent.contains("hello") || messageContent.contains("hey") ) && (messageContent.contains("nolebot") || messageContent.contains("<@" + event.getJDA().getSelfUser().getId() + ">"))) {
+            if ( (messageContent.contains("hi") || messageContent.contains("hello") || messageContent.contains("hey") || messageContent.contains("howdy") ) && (messageContent.contains("nolebot") || messageContent.contains("<@" + event.getJDA().getSelfUser().getId() + ">"))) {
                 switch (n) {
                     case 0:
                         messageChannel.sendMessage("Greetings!").queue();

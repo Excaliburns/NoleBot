@@ -1,63 +1,52 @@
-import Commands.*;
+import commands.admin.permissions.BanRole;
+import commands.admin.permissions.*;
+import commands.general.*;
+import commands.admin.ServerInfoCommand;
+import commands.manager.AddRole;
+import commands.manager.PurgeAll;
+import commands.util.CommandListener;
 import net.dv8tion.jda.api.JDA;
-
 import net.dv8tion.jda.api.JDABuilder;
-import net.dv8tion.jda.api.events.GenericEvent;
-import net.dv8tion.jda.api.events.ReadyEvent;
-import net.dv8tion.jda.api.hooks.EventListener;
+import net.dv8tion.jda.api.hooks.ListenerAdapter;
+import special.SpecialListener;
+import util.PropLoader;
 
 import javax.security.auth.login.LoginException;
-import java.io.FileInputStream;
-import java.util.Properties;
 
-public class NoleBot implements EventListener
-{
-    public static void main(String[] args) throws LoginException
-    {
-            JDA jda = new JDABuilder(new NoleBot().getBotToken())
-                    .addEventListeners(new NoleBot(),
-                            new HelloCommand(),
-                            new ServerInfoCommand(),
-                            new UserInfoCommand(),
-                            new AssignRank(),
-                            new AddRole(),
-                            new PurgeAll(),
-                            new PMIntro())
-                    .build();
+/*
+NoleBot main class. Here the bot is initialized by creating a new JDA instance and adding our own CommandListener.
 
+We implement our own CommandListener because by default, JDA forces each command to use their own ListenerAdapter. See CommandListener for more details.
+ */
+public class NoleBot {
+    private static final CommandListener commandListener = new CommandListener();
+    private static final ListenerAdapter specialListener = new SpecialListener();
 
+    public static void main(String[] args) throws LoginException {
+        initBot();
     }
 
-    public void onEvent(GenericEvent event)
-    {
-        if(event instanceof ReadyEvent)
-            System.out.println("API is ready!");
+    private static void initBot() throws LoginException {
+        JDA jda = new JDABuilder(new PropLoader().getProp("token"))
+                .addEventListeners(commandListener, specialListener)
+                .build();
+
+        commandListener.addCommand(new Help());
+        commandListener.addCommand(new Info());
+        commandListener.addCommand(new Ping());
+
+        commandListener.addCommand(new ServerInfoCommand());
+        commandListener.addCommand(new UserInfoCommand());
+
+        commandListener.addCommand(new AddRole());
+        commandListener.addCommand(new PurgeAll());
+
+        commandListener.addCommand(new AddPerm());
+        commandListener.addCommand(new DelPerm());
+        commandListener.addCommand(new ListPerm());
+        commandListener.addCommand(new CommandPerm());
+        commandListener.addCommand(new Prefix());
+        commandListener.addCommand(new BanRole());
+        commandListener.addCommand(new VerifyRole());
     }
-
-    private String getBotToken()
-    {
-
-        String botToken;
-        try
-        {
-            Properties properties = new Properties();
-            String propFile = "./config.properties";
-
-            FileInputStream botConfig = new FileInputStream(propFile);
-
-            System.out.println("Found config.properties.");
-            properties.load(botConfig);
-            botConfig.close();
-
-            botToken = properties.getProperty("token");
-
-        } catch (Exception e) {
-            System.out.println("Exception: " + e);
-            System.out.println("This is most likely due to you not having a config.properties file with the bot token.");
-            botToken = null;
-        }
-
-        return botToken;
-    }
-
 }
