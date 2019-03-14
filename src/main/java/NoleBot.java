@@ -3,6 +3,7 @@ import commands.admin.permissions.*;
 import commands.general.*;
 import commands.admin.ServerInfoCommand;
 import commands.manager.AddRole;
+import commands.manager.PurgeAll;
 import commands.util.CommandListener;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
@@ -37,13 +38,15 @@ public class NoleBot {
         commandListener.addCommand(new ServerInfoCommand());
         commandListener.addCommand(new UserInfoCommand());
 
+        commandListener.addCommand(new AddRole());
+        commandListener.addCommand(new PurgeAll());
+
         commandListener.addCommand(new AddPerm());
         commandListener.addCommand(new DelPerm());
         commandListener.addCommand(new ListPerm());
         commandListener.addCommand(new CommandPerm());
-        commandListener.addCommand(new AddRole());
         commandListener.addCommand(new Prefix());
         commandListener.addCommand(new BanRole());
-        commandListener.addCommand(new VerifiedRoles());
+        commandListener.addCommand(new VerifyRole());
     }
 }

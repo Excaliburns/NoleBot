@@ -21,7 +21,7 @@ public class AddRole extends Command {
     public AddRole() {
         name = "addrole";
         description = "Adds a role that is lower than your own permission level to a user - if the Guild has allowed it to be.";
-        helpDescription = "This command allows you to assign roles to others that are lower than your own permission level. These roles must be added to the permissions list by your guild admins. The users you are trying to assign roles to must abide by server rules. Use !rules to see rules.";
+        helpDescription = "This command allows you to assign roles to others that are lower than your own permission level. These roles must be added to the permissions list by your guild admins.";
         requiredPermission = 500;
         usages.add("addrole <@User> <@Role>");
         usages.add("addrole <@Role> [@User, as many as you want] [@Role, as many as you want]");
@@ -51,17 +51,18 @@ public class AddRole extends Command {
                 bannedRoles = settings.getBannedRoles();
 
             for (Role r : sentRoles) {
-                Optional<RoleHelper> roleHelper = settings.getRoleHelper().stream().filter(h -> r.getName().equals(h.getRoleName())).findFirst();
+                Optional<RoleHelper> roleHelpers = settings.getRoleHelper().stream().filter(h -> r.getId().matches(h.getRoleID())).findFirst();
                 if (doesGuildBanRoles)
-                    if (bannedRoles.indexOf(r.getName()) != -1) {
+                    if (bannedRoles.indexOf(r.getId()) != -1) {
                         messageChannel.sendMessage("You cannot assign role **" + r.getName() + "**, as designated by the Guild admins. Please contact them if you think this is incorrect.").queue();
                         continue;
                     }
-                if (!roleHelper.isPresent()) {
+                if (!roleHelpers.isPresent()) {
                     messageChannel.sendMessage("Your Guild has not set role: **" + r.getName() + "** as a role that can be assigned. Please contact an administrator if you think this is incorrect.").queue();
                 } else {
-                    if (userPerm > roleHelper.get().getPermID()) {
-                        messageChannel.sendMessage("You cannot assign role: **" + r.getName() + "** as it has a higher permission level than yours. Please use !listperm.").queue();
+                    RoleHelper roleHelper = roleHelpers.get();
+                    if (userPerm < roleHelper.getPermID()) {
+                        messageChannel.sendMessage(  "You cannot assign role: **" + r.getName() + "** as it has a higher permission level than yours. Please use !listperm.").queue();
                         continue;
                     }
                     for (Member m : sentMembers) {
@@ -86,7 +87,8 @@ public class AddRole extends Command {
                                 event.getEvent().getGuild().getController().addSingleRoleToMember(m, r).queue();
                             }
                         } else {
-                            messageChannel.sendMessage("Your guild has designated that your name must be formatted as such: \n\"Firstname " + settings.getNameChar() + " Gamertag\"" + "\n Please format your name as such.").queue();
+                            messageChannel.sendMessage("Your guild has designated that users' names must be formatted in this way: \n\n\"Firstname " + settings.getNameChar() + " Gamertag\"" + "\n\n Please tell: **" + m.getEffectiveName() +"** to format their name as such.").queue();
+                            return;
                         }
                     }
                 }

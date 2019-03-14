@@ -48,7 +48,7 @@ public class Help extends Command {
             messageBuilder.appendFormat(event.getSettings().getPrefix() + command.getName() + " - " + command.getDescription());
         }
 
-        messageBuilder.append("\n\nUse !help [command] to get more information on a specific command. For example, !help help");
+        messageBuilder.appendFormat("\n\nUse " +event.getSettings().getPrefix() + "help [command] to get more information on a specific command. For example, " + event.getSettings().getPrefix() +"help help");
         event.getChannel().sendMessage(messageBuilder.build()).queue();
     }
 
