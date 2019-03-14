@@ -1,7 +1,8 @@
-package commands.admin;
+package commands.admin.permissions;
 
 import commands.util.Command;
 import commands.util.CommandEvent;
+import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.Role;
@@ -32,7 +33,12 @@ public class BanRole extends Command {
             messageChannel.sendMessage("You did not mention any roles!").queue();
         } else {
             Settings settings = event.getSettings();
-            roleList.forEach(role -> settings.getBannedRoles().add(role.getId()));
+            MessageBuilder messageBuilder = new MessageBuilder();
+            roleList.forEach(role -> {
+                settings.getBannedRoles().add(role.getId());
+                messageBuilder.appendFormat("Added **" + role.getName() + "** to the banned roles list.");
+            });
+            messageChannel.sendMessage(messageBuilder.build()).queue();
             event.getCommandListener().getSettingsHashMap().put(event.getGuildID(), settings);
             JSONLoader.saveGuildSettings(settings);
         }

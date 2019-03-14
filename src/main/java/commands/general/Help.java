@@ -5,6 +5,7 @@ import commands.util.CommandEvent;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.MessageBuilder;
 import util.BotEmbed;
+import util.UserHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,16 +36,19 @@ public class Help extends Command {
 
     private void sendGenericHelp(CommandEvent event) {
         List<Command> commandList = new ArrayList<>(event.getCommandListener().getCommands());
+        int userPerm = UserHelper.getHighestUserPermission(event.getEvent().getMember().getRoles(), event.getSettings().getRoleHelper());
 
         MessageBuilder messageBuilder = new MessageBuilder();
         messageBuilder.append("Commands:", MessageBuilder.Formatting.UNDERLINE, MessageBuilder.Formatting.BOLD);
 
         for (Command command : commandList) {
+            if(command.getRequiredPermission() > userPerm)
+                continue;
             messageBuilder.append("\n");
             messageBuilder.appendFormat(event.getSettings().getPrefix() + command.getName() + " - " + command.getDescription());
         }
 
-        messageBuilder.append("\n\nUse !help [command] to get more information on a specific command. For example, \n !help prefix");
+        messageBuilder.append("\n\nUse !help [command] to get more information on a specific command. For example, !help help");
         event.getChannel().sendMessage(messageBuilder.build()).queue();
     }
 
@@ -68,6 +72,10 @@ public class Help extends Command {
             embedBuilder.addField("Usages <required> [optional]:", stringBuilder.toString(), false);
 
             event.getChannel().sendMessage(embedBuilder.build()).queue();
+        }
+        else
+        {
+            event.getChannel().sendMessage("Command: **" + command + "** not found.").queue();
         }
     }
 }

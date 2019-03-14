@@ -1,16 +1,13 @@
-import commands.admin.permissions.CommandPerm;
-import commands.admin.permissions.DelPerm;
-import commands.admin.permissions.ListPerm;
-import commands.general.Help;
-import commands.general.Ping;
+import commands.admin.permissions.BanRole;
+import commands.admin.permissions.*;
+import commands.general.*;
 import commands.admin.ServerInfoCommand;
-import commands.general.Prefix;
-import commands.admin.permissions.AddPerm;
-import commands.general.UserInfoCommand;
 import commands.manager.AddRole;
 import commands.util.CommandListener;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
+import net.dv8tion.jda.api.hooks.ListenerAdapter;
+import special.SpecialListener;
 import util.PropLoader;
 
 import javax.security.auth.login.LoginException;
@@ -22,6 +19,7 @@ We implement our own CommandListener because by default, JDA forces each command
  */
 public class NoleBot {
     private static final CommandListener commandListener = new CommandListener();
+    private static final ListenerAdapter specialListener = new SpecialListener();
 
     public static void main(String[] args) throws LoginException {
         initBot();
@@ -29,18 +27,23 @@ public class NoleBot {
 
     private static void initBot() throws LoginException {
         JDA jda = new JDABuilder(new PropLoader().getProp("token"))
-                .addEventListeners(commandListener)
+                .addEventListeners(commandListener, specialListener)
                 .build();
 
-        commandListener.addCommand(new Ping());
-        commandListener.addCommand(new ServerInfoCommand());
-        commandListener.addCommand(new Prefix());
         commandListener.addCommand(new Help());
+        commandListener.addCommand(new Info());
+        commandListener.addCommand(new Ping());
+
+        commandListener.addCommand(new ServerInfoCommand());
+        commandListener.addCommand(new UserInfoCommand());
+
         commandListener.addCommand(new AddPerm());
         commandListener.addCommand(new DelPerm());
         commandListener.addCommand(new ListPerm());
         commandListener.addCommand(new CommandPerm());
-        commandListener.addCommand(new UserInfoCommand());
         commandListener.addCommand(new AddRole());
+        commandListener.addCommand(new Prefix());
+        commandListener.addCommand(new BanRole());
+        commandListener.addCommand(new VerifiedRoles());
     }
 }

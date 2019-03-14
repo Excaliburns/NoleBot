@@ -8,7 +8,9 @@ public class Ping extends Command {
     public Ping() {
         name = "ping";
         description = "Pong!";
-        requiredPermission = 1000;
+        helpDescription = "Sends a ping message to the bot.";
+        requiredPermission = 0;
+        usages.add("ping");
     }
 
     @Override
