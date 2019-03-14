@@ -3,10 +3,7 @@ package commands.manager;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.guild.member.GuildMemberJoinEvent;
 
-public class PMIntro {
-
-public class PMIntro extends ListenerAdapter {
-    }
+public class PMIntro{
 
     private String PersonalMessage(User user) {
         return "Hello " + user.getName() + ", and welcome to the Discord server for Esports at Florida State University.\n" +
