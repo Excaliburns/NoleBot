@@ -28,7 +28,7 @@ public class Info extends Command {
 
         User creator = event.getEvent().getJDA().getUserById("92081050519343104");
         User maintainer = event.getEvent().getJDA().getUserById("140893732525441024");
-        String maintainers = ", " + creator.getAsTag();
+        String maintainers = maintainer.getAsTag() + ", " + creator.getAsTag();
 
         embedBuilder.setThumbnail(creator.getAvatarUrl());
         embedBuilder.addField("Creator: ", creator.getAsTag(), true);
