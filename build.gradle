@@ -29,4 +29,5 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.5'
     implementation("net.dv8tion:JDA:4.ALPHA.0_58")
     compile 'net.dv8tion:JDA:4.ALPHA.0_58'
+    compile 'com.google.code.gson:gson:2.8.5'
 }
