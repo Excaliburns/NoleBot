@@ -41,7 +41,7 @@ public class UserInfoCommand extends Command {
         }
         else
         {
-            channel.sendMessage("Incorrect command arguments. Use !help userinfo for help!").queue();
+            channel.sendMessage("Incorrect command arguments. Use  !help userinfo for help!").queue();
         }
     }
 

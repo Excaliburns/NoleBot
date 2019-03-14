@@ -2,6 +2,7 @@ package commands.admin.permissions;
 
 import commands.util.Command;
 import commands.util.CommandEvent;
+import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.Role;
@@ -13,10 +14,10 @@ import java.util.List;
 public class VerifiedRoles extends Command {
     public VerifiedRoles()
     {
-        name = "verifiedroles";
+        name = "verifyrole";
         description = "Sets the verified roles for your server.";
         helpDescription = "Sets the verified roles for your server. These roles are used in Addrole, where users need to be \"Verified\" before they can be assigned a role.";
-        usages.add("verifiedroles <@Role> [@Role, as many as you want]");
+        usages.add("verifyrole <@Role> [@Role, as many as you want]");
         requiredPermission = 1000;
     }
 
@@ -33,7 +34,11 @@ public class VerifiedRoles extends Command {
             messageChannel.sendMessage("You did not mention any roles!").queue();
         } else {
             Settings settings = event.getSettings();
-            roleList.forEach(role -> settings.getVerifiedRoles().add(role.getId()));
+            MessageBuilder messageBuilder = new MessageBuilder();
+            roleList.forEach(role -> {
+                settings.getBannedRoles().add(role.getId());
+                messageBuilder.appendFormat("Added **" + role.getName() + "** to the verified roles list.");
+            });
             event.getCommandListener().getSettingsHashMap().put(event.getGuildID(), settings);
             JSONLoader.saveGuildSettings(settings);
         }

@@ -65,11 +65,18 @@ public class AddRole extends Command {
                         continue;
                     }
                     for (Member m : sentMembers) {
-                        List<String> verifiedRoles = null;
-                        if(doesGuildHaveVerifiedRoles)
-                            verifiedRoles = settings.getVerifiedRoles();
+                        if (doesGuildHaveVerifiedRoles) {
+                            List<String> verifiedRoles = settings.getVerifiedRoles();
 
-                        if(isMemberVerified(m, verifiedRoles))
+                            for (String s : verifiedRoles) {
+                                Role role = event.getGuild().getRoleById(s);
+                                if (!m.getRoles().contains(role)) {
+                                    messageChannel.sendMessage("User: **" + m.getEffectiveName() + "** does not have role: **" + role.getName() + "**, which is required to have in order for them to be assigned roles. Please contact an administrator.").queue();
+                                    return;
+                                }
+                            }
+                        }
+
                         if (m.getEffectiveName().contains(settings.getNameChar())) {
                             if (m.getRoles().contains(r)) {
                                 messageChannel.sendMessage("User: **" + m.getEffectiveName() + "** already has role: **" + r.getName() + "**.").queue();
@@ -85,10 +92,5 @@ public class AddRole extends Command {
                 }
             }
         }
-    }
-
-    private boolean isMemberVerified(Member m, List<String> verifiedRoles)
-    {
-        return true;
     }
 }

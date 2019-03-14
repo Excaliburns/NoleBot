@@ -16,11 +16,6 @@ import util.BotEmbed;
 import java.awt.*;
 import java.util.*;
 
-/**
- * This command gets all of the roles from a server and outputs their IDs. It also displays the Guild owner, and the total amount of members that the Guild has.
- * <p>
- * Potentially useful for hardcoding RoleIDs into things, however in the future an outside way of registering permissions to users will be used.
- */
 public class ServerInfoCommand extends Command {
     public ServerInfoCommand() {
         name = "serverinfo";
