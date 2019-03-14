@@ -51,8 +51,10 @@ public class PurgeAll extends Command {
                 if (optionalRoleHelper.isPresent()) {
                     if (userPerm > optionalRoleHelper.get().getPermID()) {
                         List<Member> memberList = event.getGuild().getMembersWithRoles(r);
-                        for(Member m: memberList)
+                        for(Member m: memberList) {
                             event.getGuild().getController().removeSingleRoleFromMember(m, r).queue();
+                            messageChannel.sendMessage("Removed user: **" + m.getEffectiveName() + "** from role: **" + r.getName() + "**.").queue();
+                        }
                     } else {
                         messageChannel.sendMessage("You cannot assign **" + r.getName() + "**, as it has a higher permission level than you.").queue();
                     }
