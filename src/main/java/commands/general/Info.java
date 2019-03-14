@@ -27,13 +27,13 @@ public class Info extends Command {
         JDA selfUser = event.getEvent().getJDA();
 
         User creator = event.getEvent().getJDA().getUserById("92081050519343104");
-        //User maintainer = event.getEvent().getJDA().getUserById("140893732525441024");
+        User maintainer = event.getEvent().getJDA().getUserById("140893732525441024");
         String maintainers = ", " + creator.getAsTag();
 
         embedBuilder.setThumbnail(creator.getAvatarUrl());
         embedBuilder.addField("Creator: ", creator.getAsTag(), true);
         embedBuilder.addField("Maintainers: ", maintainers, true);
-        embedBuilder.addField("Version: ", "2.0", true);
+        embedBuilder.addField("Version: ", "2.0.1", true);
         embedBuilder.addField("Total Guilds joined: ", Integer.toString(selfUser.getGuilds().size()), true);
         embedBuilder.addField("Purpose: ", "Purposed for use in Esports discords. Was originally written for the Esports at Florida State discord community. Contact my creator if you'd like to join, or if you have questions / suggestions about me! You can also click the title of this message to go to my GitHub page, where you can submit an issue or a feature request.", true);
         embedBuilder.addField("Total love for my users: ", "Infinite", false);
