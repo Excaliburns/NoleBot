@@ -22,7 +22,7 @@ If you would like custom functionality added: Please contact tut#0001 on Discord
 Setting up the bot can be done two ways:
 <br><br>
 
-##### Gradle
+### Gradle
 Clone the git repo and build with gradle.
 
 `gradle clean build`
@@ -43,11 +43,11 @@ token=
 
 <br>
 
-##### Release
+### Release
 Download the most recent release, at the top of the page here.
 There are two files, a .jar, and config.properties.
 <br><br>
-##### After Downloading
+### After Downloading
 First, get your bot token from discord. You can follow [this](https://github.com/reactiflux/discord-irc/wiki/Creating-a-discord-bot-&-getting-a-token) guide to creating a bot user and getting a token.
 
 Navigate to where the bot jar is and open `data/config/config.properties`. In the line that shows `token=`, paste your token as such.
