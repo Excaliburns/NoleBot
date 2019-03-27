@@ -30,9 +30,9 @@ public class BanRole extends Command {
         MessageChannel messageChannel = event.getEvent().getChannel();
         List<Role> roleList = message.getMentionedRoles();
 
-        if (args[1] == null || !args[1].trim().equals("list")) {
-            messageChannel.sendMessage("Incorrect arguments! Please use !help banrole.").queue();
-        } else if (roleList.isEmpty() && args[1] == null) {
+        if (args[1] == null) {
+            messageChannel.sendMessage("Incorrect syntax! Please use !help banrole.").queue();
+        } else if (roleList.isEmpty()) {
             messageChannel.sendMessage("You did not mention any roles!").queue();
         } else if (args[1].trim().equals("list")) {
             Settings settings = event.getSettings();
