@@ -35,7 +35,7 @@ public class AddPerm extends Command {
 
         if(args[1] == null)
         {
-            event.getChannel().sendMessage("Incorrect syntax! Please use" + settings.getPrefix() + "help addperm").queue();
+            event.getChannel().sendMessage("Incorrect syntax! Please use " + settings.getPrefix() + "help addperm").queue();
             return;
         }
 
