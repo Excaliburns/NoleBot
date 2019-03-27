@@ -31,7 +31,7 @@ public class VerifyRole extends Command {
         List<Role> roleList = message.getMentionedRoles();
 
         if (args[1] == null) {
-            messageChannel.sendMessage("Incorrect arguments! Please use " + event.getSettings().getPrefix() + "verifyrole.").queue();
+            messageChannel.sendMessage("Incorrect arguments! Please use " + event.getSettings().getPrefix() + "help verifyrole.").queue();
         } else if (roleList.isEmpty() && !args[1].trim().equals("list")) {
             messageChannel.sendMessage("You did not mention any roles!").queue();
         } else if (args[1].trim().equals("list")) {
