@@ -80,7 +80,8 @@ public class AddRole extends Command {
 
                         if (m.getEffectiveName().contains(settings.getNameChar())) {
                             if (m.getRoles().contains(r)) {
-                                messageChannel.sendMessage("User: **" + m.getEffectiveName() + "** already has role: **" + r.getName() + "**.").queue();
+                                messageChannel.sendMessage("User: **" + m.getEffectiveName() + "** already had role: **" + r.getName() + "**, and as such, it was removed.").queue();
+                                event.getGuild().getController().removeSingleRoleFromMember(m, r).queue();
                                 return;
                             } else {
                                 messageChannel.sendMessage("User **" + m.getEffectiveName() + "** was assigned role: **" + r.getName() + "**.").queue();
