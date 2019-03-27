@@ -20,8 +20,8 @@ public class AddRole extends Command {
 
     public AddRole() {
         name = "addrole";
-        description = "Adds a role that is lower than your own permission level to a user - if the Guild has allowed it to be.";
-        helpDescription = "This command allows you to assign roles to others that are lower than your own permission level. These roles must be added to the permissions list by your guild admins.";
+        description = "Adds a role that is lower than your own permission level to a user - if the Guild has allowed it to be. Also used to remove roles the same way.";
+        helpDescription = "This command allows you to assign roles to others that are lower than your own permission level. If the user already has that role, it will be removed. These roles must be added to the permissions list by your guild admins.";
         requiredPermission = 500;
         usages.add("addrole <@User> <@Role>");
         usages.add("addrole <@Role> [@User, as many as you want] [@Role, as many as you want]");
