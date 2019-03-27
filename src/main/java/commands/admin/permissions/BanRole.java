@@ -32,7 +32,7 @@ public class BanRole extends Command {
 
         if (args[1] == null) {
             messageChannel.sendMessage("Incorrect syntax! Please use !help banrole.").queue();
-        } else if (roleList.isEmpty()) {
+        } else if (roleList.isEmpty() && !args[1].trim().equals("list")) {
             messageChannel.sendMessage("You did not mention any roles!").queue();
         } else if (args[1].trim().equals("list")) {
             Settings settings = event.getSettings();
