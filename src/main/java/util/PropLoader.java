@@ -26,6 +26,8 @@ public class PropLoader {
 
                 properties.store(fStream, null);
                 System.out.println("Created and stored blank token value. Please open /data/config/config.properties and set the bot's token.");
+
+                fStream.close();
             }
             FileInputStream botConfig = new FileInputStream(propFile);
 
