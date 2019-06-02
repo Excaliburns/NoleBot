@@ -30,9 +30,9 @@ public class VerifyRole extends Command {
         MessageChannel messageChannel = event.getChannel();
         List<Role> roleList = message.getMentionedRoles();
 
-        if (args[1] == null || !args[1].trim().equals("list")) {
-            messageChannel.sendMessage("Incorrect arguments! Please use !help verifiedroles.").queue();
-        } else if (roleList.isEmpty() && args[1] == null) {
+        if (args[1] == null) {
+            messageChannel.sendMessage("Incorrect arguments! Please use " + event.getSettings().getPrefix() + "help verifyrole.").queue();
+        } else if (roleList.isEmpty() && !args[1].trim().equals("list")) {
             messageChannel.sendMessage("You did not mention any roles!").queue();
         } else if (args[1].trim().equals("list")) {
             Settings settings = event.getSettings();
@@ -55,13 +55,17 @@ public class VerifyRole extends Command {
             Settings settings = event.getSettings();
             MessageBuilder messageBuilder = new MessageBuilder();
             roleList.forEach(role -> {
-                if (settings.getVerifiedRoles().indexOf(role.getId()) == -1) {
+                if (settings.getVerifiedRoles().indexOf(role.getId()) != -1) {
                     settings.getVerifiedRoles().remove(role.getId());
-                    messageBuilder.appendFormat("Removed **" + role.getName() + "** from the verified roles list.");
+                    messageBuilder.appendFormat("Removed **" + role.getName() + "** from the verified roles list.\n");
                 }
-                settings.getVerifiedRoles().add(role.getId());
-                messageBuilder.appendFormat("Added **" + role.getName() + "** to the verified roles list.");
+                else
+                {
+                    settings.getVerifiedRoles().add(role.getId());
+                    messageBuilder.appendFormat("Added **" + role.getName() + "** to the verified roles list.\n");
+                }
             });
+            messageChannel.sendMessage(messageBuilder.build()).queue();
             event.getCommandListener().getSettingsHashMap().put(event.getGuildID(), settings);
             JSONLoader.saveGuildSettings(settings);
         }
