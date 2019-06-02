@@ -14,8 +14,8 @@ public class AddRole extends Command {
 
     public AddRole() {
         name = "addrole";
-        description = "Adds a role that is lower than your own permission level to a user - if the Guild has allowed it to be.";
-        helpDescription = "This command allows you to assign roles to others that are lower than your own permission level. These roles must be added to the permissions list by your guild admins.";
+        description = "Adds a role that is lower than your own permission level to a user - if the Guild has allowed it to be. Also used to remove roles the same way.";
+        helpDescription = "This command allows you to assign roles to others that are lower than your own permission level. If the user already has that role, it will be removed. These roles must be added to the permissions list by your guild admins.";
         requiredPermission = 500;
         usages.add("addrole <@User> <@Role>");
         usages.add("addrole <@Role> [@User, as many as you want] [@Role, as many as you want]");
@@ -74,8 +74,8 @@ public class AddRole extends Command {
 
                         if (m.getEffectiveName().contains(settings.getNameChar())) {
                             if (m.getRoles().contains(r)) {
-                                messageChannel.sendMessage("User: **" + m.getEffectiveName() + "** already has role: **" + r.getName() + "**.").queue();
-                                return;
+                                messageChannel.sendMessage("User: **" + m.getEffectiveName() + "** already had role: **" + r.getName() + "**, and as such, it was removed.").queue();
+                                event.getGuild().getController().removeSingleRoleFromMember(m, r).queue();
                             } else {
                                 messageChannel.sendMessage("User **" + m.getEffectiveName() + "** was assigned role: **" + r.getName() + "**.").queue();
                                 event.getEvent().getGuild().getController().addSingleRoleToMember(m, r).queue();

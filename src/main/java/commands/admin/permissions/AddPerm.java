@@ -33,6 +33,12 @@ public class AddPerm extends Command {
         int userPermission = UserHelper.getHighestUserPermission(event.getEvent().getMember().getRoles(), roleHelperList);
         int permission;
 
+        if(args[1] == null)
+        {
+            event.getChannel().sendMessage("Incorrect syntax! Please use " + settings.getPrefix() + "help addperm").queue();
+            return;
+        }
+
         for (Role i : roleList)
             args[1] = args[1].replace(i.getAsMention(), "");
 

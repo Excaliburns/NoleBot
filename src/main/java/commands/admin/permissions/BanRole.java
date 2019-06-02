@@ -30,9 +30,9 @@ public class BanRole extends Command {
         MessageChannel messageChannel = event.getEvent().getChannel();
         List<Role> roleList = message.getMentionedRoles();
 
-        if (args[1] == null || !args[1].trim().equals("list")) {
-            messageChannel.sendMessage("Incorrect arguments! Please use !help banrole.").queue();
-        } else if (roleList.isEmpty() && args[1] == null) {
+        if (args[1] == null) {
+            messageChannel.sendMessage("Incorrect syntax! Please use " + event.getSettings().getPrefix() + "help banrole.").queue();
+        } else if (roleList.isEmpty() && !args[1].trim().equals("list")) {
             messageChannel.sendMessage("You did not mention any roles!").queue();
         } else if (args[1].trim().equals("list")) {
             Settings settings = event.getSettings();
@@ -55,13 +55,16 @@ public class BanRole extends Command {
             Settings settings = event.getSettings();
             MessageBuilder messageBuilder = new MessageBuilder();
             roleList.forEach(role -> {
-                if (settings.getBannedRoles().indexOf(role.getId()) == -1) {
+                if (settings.getBannedRoles().indexOf(role.getId()) != -1) {
                     settings.getBannedRoles().remove(role.getId());
-                    messageBuilder.appendFormat("Removed **" + role.getName() + "** from the banned roles list.");
+                    messageBuilder.appendFormat("Removed **" + role.getName() + "** from the banned roles list.\n");
+                }
+                else
+                {
+                    settings.getBannedRoles().add(role.getId());
+                    messageBuilder.appendFormat("Added **" + role.getName() + "** to the banned roles list.\n");
                 }
 
-                settings.getBannedRoles().add(role.getId());
-                messageBuilder.appendFormat("Added **" + role.getName() + "** to the banned roles list.");
             });
             messageChannel.sendMessage(messageBuilder.build()).queue();
             event.getCommandListener().getSettingsHashMap().put(event.getGuildID(), settings);
