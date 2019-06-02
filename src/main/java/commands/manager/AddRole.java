@@ -3,18 +3,12 @@ package commands.manager;
 import commands.util.Command;
 import commands.util.CommandEvent;
 import net.dv8tion.jda.api.entities.*;
-import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
-import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import util.RoleHelper;
 import util.Settings;
 import util.UserHelper;
 
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
-
-import static util.UserHelper.isVerified;
-import static util.UserHelper.nameMatch;
 
 public class AddRole extends Command {
 

@@ -2,6 +2,7 @@ import commands.admin.permissions.BanRole;
 import commands.admin.permissions.*;
 import commands.general.*;
 import commands.admin.ServerInfoCommand;
+import commands.inhouse.InhouseCommand;
 import commands.manager.AddRole;
 import commands.manager.PurgeAll;
 import commands.util.CommandListener;
@@ -34,6 +35,8 @@ public class NoleBot {
         commandListener.addCommand(new Help());
         commandListener.addCommand(new Info());
         commandListener.addCommand(new Ping());
+
+        commandListener.addCommand(new InhouseCommand());
 
         commandListener.addCommand(new ServerInfoCommand());
         commandListener.addCommand(new UserInfoCommand());
