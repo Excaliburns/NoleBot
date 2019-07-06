@@ -95,23 +95,43 @@ public class Settings {
         this.guildID = guildID;
     }
 
-    public HashMap<String, Integer> getCommandHelper() { return commandHelper; }
+    public HashMap<String, Integer> getCommandHelper() {
+        return commandHelper;
+    }
 
-    public void setCommandHelper(HashMap<String, Integer> commandHelper) { this.commandHelper = commandHelper; }
+    public void setCommandHelper(HashMap<String, Integer> commandHelper) {
+        this.commandHelper = commandHelper;
+    }
 
-    public List<String> getBannedRoles() { return bannedRoles; }
+    public List<String> getBannedRoles() {
+        return bannedRoles;
+    }
 
-    public void setBannedRoles(List<String> bannedRoles) { this.bannedRoles = bannedRoles; }
+    public void setBannedRoles(List<String> bannedRoles) {
+        this.bannedRoles = bannedRoles;
+    }
 
-    public String getIntroMessage() { return introMessage; }
+    public String getIntroMessage() {
+        return introMessage;
+    }
 
-    public void setIntroMessage(String introMessage) { this.introMessage = introMessage; }
+    public void setIntroMessage(String introMessage) {
+        this.introMessage = introMessage;
+    }
 
-    public String getNameChar() { return nameChar; }
+    public String getNameChar() {
+        return nameChar;
+    }
 
-    public void setNameChar(String nameChar) { this.nameChar = nameChar; }
+    public void setNameChar(String nameChar) {
+        this.nameChar = nameChar;
+    }
 
-    public List<String> getVerifiedRoles() { return verifiedRoles; }
+    public List<String> getVerifiedRoles() {
+        return verifiedRoles;
+    }
 
-    public void setVerifiedRoles(List<String> verifiedRoles) { this.verifiedRoles = verifiedRoles; }
+    public void setVerifiedRoles(List<String> verifiedRoles) {
+        this.verifiedRoles = verifiedRoles;
+    }
 }

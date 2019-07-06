@@ -28,10 +28,8 @@ public class Help extends Command {
 
         message = message[1] == null ? new String[0] : message[1].split("\\s+");
 
-        if (message.length == 0)
-            sendGenericHelp(event);
-        else
-            sendCommandHelp(event, message[0]);
+        if (message.length == 0) sendGenericHelp(event);
+        else sendCommandHelp(event, message[0]);
     }
 
     private void sendGenericHelp(CommandEvent event) {
@@ -42,13 +40,12 @@ public class Help extends Command {
         messageBuilder.append("Commands:", MessageBuilder.Formatting.UNDERLINE, MessageBuilder.Formatting.BOLD);
 
         for (Command command : commandList) {
-            if(command.getRequiredPermission() > userPerm)
-                continue;
+            if (command.getRequiredPermission() > userPerm) continue;
             messageBuilder.append("\n");
             messageBuilder.appendFormat(event.getSettings().getPrefix() + command.getName() + " - " + command.getDescription());
         }
 
-        messageBuilder.appendFormat("\n\nUse " +event.getSettings().getPrefix() + "help [command] to get more information on a specific command. For example, " + event.getSettings().getPrefix() +"help help");
+        messageBuilder.appendFormat("\n\nUse " + event.getSettings().getPrefix() + "help [command] to get more information on a specific command. For example, " + event.getSettings().getPrefix() + "help help");
         event.getChannel().sendMessage(messageBuilder.build()).queue();
     }
 
@@ -68,13 +65,11 @@ public class Help extends Command {
                 stringBuilder.append(event.getPrefix());
                 stringBuilder.append(e);
                 stringBuilder.append("\n");
-;            });
+            });
             embedBuilder.addField("Usages <required> [optional]:", stringBuilder.toString(), false);
 
             event.getChannel().sendMessage(embedBuilder.build()).queue();
-        }
-        else
-        {
+        } else {
             event.getChannel().sendMessage("Command: **" + command + "** not found.").queue();
         }
     }

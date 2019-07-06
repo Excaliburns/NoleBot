@@ -2,7 +2,6 @@ package commands.admin.permissions;
 
 import commands.util.Command;
 import commands.util.CommandEvent;
-import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import util.JSONLoader;
 import util.Settings;
@@ -20,8 +19,7 @@ public class CommandPerm extends Command {
     }
 
     @Override
-    public void onCommandReceived(CommandEvent event)
-    {
+    public void onCommandReceived(CommandEvent event) {
         String[] args = event.getMessage();
         MessageChannel messageChannel = event.getEvent().getChannel();
         String commandName;
@@ -30,19 +28,17 @@ public class CommandPerm extends Command {
         if (args[1] != null) {
             String[] message = args[1].split("\\s");
 
-            if(message.length < 2){
+            if (message.length < 2) {
                 messageChannel.sendMessage("Not enough arguments.").queue();
                 return;
-            }
-            else if (message.length > 2) {
+            } else if (message.length > 2) {
                 messageChannel.sendMessage("Too many arguments! Use !help commandperm for instructions.").queue();
                 return;
             }
 
-            try{
+            try {
                 permission = Integer.parseInt(message[1]);
-            }catch(NumberFormatException e)
-            {
+            } catch (NumberFormatException e) {
                 messageChannel.sendMessage("You did not input a valid permission level. Use !help commandperm for instructions.").queue();
                 return;
             }
@@ -57,19 +53,15 @@ public class CommandPerm extends Command {
                 HashMap<String, Integer> commandHelper = guildSettings.getCommandHelper();
                 int userPerm = UserHelper.getHighestUserPermission(event.getEvent().getMember().getRoles(), guildSettings.getRoleHelper());
 
-                if(userPerm < command.getRequiredPermission())
-                {
+                if (userPerm < command.getRequiredPermission()) {
                     messageChannel.sendMessage("You cannot set the permission level of a command that is higher than your own permission level. \nYour highest permission: **" + userPerm + "**\nRequired: **" + command.getRequiredPermission() + "**.").queue();
                     return;
-                }
-                else if(userPerm < permission)
-                {
-                    messageChannel.sendMessage("You cannot set the permission level of a command higher than your own. \nYour highest permission level: **" + userPerm + "**\nRequired: **" + permission +"**.").queue();
+                } else if (userPerm < permission) {
+                    messageChannel.sendMessage("You cannot set the permission level of a command higher than your own. \nYour highest permission level: **" + userPerm + "**\nRequired: **" + permission + "**.").queue();
                     return;
                 }
 
-                if(commandHelper == null)
-                {
+                if (commandHelper == null) {
                     messageChannel.sendMessage("Did not find custom command permissions. Creating now.").queue();
                     commandHelper = new HashMap<>();
                     guildSettings.setCommandHelper(commandHelper);

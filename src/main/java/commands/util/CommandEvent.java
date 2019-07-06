@@ -1,6 +1,5 @@
 package commands.util;
 
-import commands.inhouse.InhouseStruct;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
@@ -58,7 +57,11 @@ public class CommandEvent {
         return settings;
     }
 
-    public String getPrefix() { return prefix; }
+    public String getPrefix() {
+        return prefix;
+    }
 
-    public Guild getGuild() { return guild; }
+    public Guild getGuild() {
+        return guild;
+    }
 }

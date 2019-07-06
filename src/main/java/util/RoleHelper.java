@@ -16,8 +16,7 @@ public class RoleHelper {
         this.permID = permID;
     }
 
-    public RoleHelper(Role role, int permID)
-    {
+    public RoleHelper(Role role, int permID) {
         this.roleID = role.getId();
         this.roleName = role.getName();
         this.permID = permID;
@@ -47,5 +46,7 @@ public class RoleHelper {
         this.permID = permID;
     }
 
-    public RoleHelper getRoleHelper(){ return this; }
+    public RoleHelper getRoleHelper() {
+        return this;
+    }
 }
