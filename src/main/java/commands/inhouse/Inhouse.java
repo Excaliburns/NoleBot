@@ -9,14 +9,12 @@ public class Inhouse {
     private int playerCount = 0;
     private List<String> userList = new ArrayList<>();
 
-    public Inhouse ()
-    {
+    public Inhouse() {
         this.inhouseName = null;
         this.userList = null;
     }
 
-    public Inhouse(String inhouseName, int requiredPlayers)
-    {
+    public Inhouse(String inhouseName, int requiredPlayers) {
         this.inhouseName = inhouseName;
         this.requiredPlayers = requiredPlayers;
     }
@@ -52,4 +50,6 @@ public class Inhouse {
     public void setUserList(List<String> userList) {
         this.userList = userList;
     }
+
+    public void addPlayer(String userID) { userList.add(userID); playerCount++; }
 }

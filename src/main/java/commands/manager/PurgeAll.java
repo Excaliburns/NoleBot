@@ -2,16 +2,14 @@ package commands.manager;
 
 import commands.util.Command;
 import commands.util.CommandEvent;
-import net.dv8tion.jda.api.MessageBuilder;
-import net.dv8tion.jda.api.Permission;
-import net.dv8tion.jda.api.entities.*;
-import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
-import net.dv8tion.jda.api.hooks.ListenerAdapter;
+import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.entities.Message;
+import net.dv8tion.jda.api.entities.MessageChannel;
+import net.dv8tion.jda.api.entities.Role;
 import util.RoleHelper;
 import util.Settings;
 import util.UserHelper;
 
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
@@ -51,7 +49,7 @@ public class PurgeAll extends Command {
                 if (optionalRoleHelper.isPresent()) {
                     if (userPerm > optionalRoleHelper.get().getPermID()) {
                         List<Member> memberList = event.getGuild().getMembersWithRoles(r);
-                        for(Member m: memberList) {
+                        for (Member m : memberList) {
                             event.getGuild().getController().removeSingleRoleFromMember(m, r).queue();
                             messageChannel.sendMessage("Removed user: **" + m.getEffectiveName() + "** from role: **" + r.getName() + "**.").queue();
                         }

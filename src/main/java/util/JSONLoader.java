@@ -8,10 +8,9 @@ import java.io.*;
 
 public class JSONLoader {
     public static boolean doesSettingExist(String guildID) {
-        File guildFile = new File("data/" + guildID + "/"  + "main.json");
+        File guildFile = new File("data/" + guildID + "/" + "main.json");
 
-        if (guildFile.exists())
-            System.out.println("Found " + guildID + " json");
+        if (guildFile.exists()) System.out.println("Found " + guildID + " json");
 
         return (guildFile.exists());
     }
@@ -29,10 +28,7 @@ public class JSONLoader {
             Settings settings = new Settings(guildID);
 
             try (BufferedWriter writer = new BufferedWriter(new FileWriter(foundGuildParams))) {
-                Gson gson = new GsonBuilder()
-                        .serializeNulls()
-                        .setPrettyPrinting()
-                        .create();
+                Gson gson = new GsonBuilder().serializeNulls().setPrettyPrinting().create();
                 writer.write(gson.toJson(settings, settings.getClass()));
 
                 writer.flush();
@@ -59,13 +55,10 @@ public class JSONLoader {
     }
 
     public static void saveGuildSettings(Settings settings) {
-        File guildSettings = new File("data/" + settings.getGuildID()  + "/" + "main.json");
+        File guildSettings = new File("data/" + settings.getGuildID() + "/" + "main.json");
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(guildSettings))) {
-            Gson gson = new GsonBuilder()
-                    .serializeNulls()
-                    .setPrettyPrinting()
-                    .create();
+            Gson gson = new GsonBuilder().serializeNulls().setPrettyPrinting().create();
             writer.write(gson.toJson(settings, settings.getClass()));
 
             writer.flush();
@@ -82,33 +75,38 @@ public class JSONLoader {
 
             Gson gson = new Gson();
             return gson.fromJson(reader, InhouseStruct.class);
-        }
-        catch (IOException e)
-        {
-            try
-            {
-                System.out.println("Did not find inhouse json for guild " + settings.getGuildID() +"; creating now." );
+        } catch (IOException e) {
+            try {
+                System.out.println("Did not find inhouse json for guild " + settings.getGuildID() + "; creating now.");
                 JSONFile.getParentFile().mkdirs();
                 JSONFile.createNewFile();
 
                 InhouseStruct inhouseStruct = new InhouseStruct();
 
                 BufferedWriter writer = new BufferedWriter(new FileWriter(JSONFile));
-                Gson gson = new GsonBuilder()
-                        .serializeNulls()
-                        .setPrettyPrinting()
-                        .create();
+                Gson gson = new GsonBuilder().serializeNulls().setPrettyPrinting().create();
                 writer.write(gson.toJson(inhouseStruct, InhouseStruct.class));
                 writer.flush();
 
                 return inhouseStruct;
-            }
-            catch (IOException x)
-            {
+            } catch (IOException x) {
                 System.out.println("Something is terribly wrong. Could not create inhouse file for guild " + settings.getGuildID() + "\n :" + x);
                 return null;
             }
 
+        }
+    }
+
+    public static void saveInhouseData(InhouseStruct inhouseStruct, String GuildID) {
+        File JSONFile = new File("data/" + GuildID + "/" + "inhouse.json");
+
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(JSONFile))) {
+            Gson gson = new GsonBuilder().serializeNulls().setPrettyPrinting().create();
+            writer.write(gson.toJson(inhouseStruct, inhouseStruct.getClass()));
+
+            writer.flush();
+        } catch (IOException e) {
+            System.out.println("Exception saving guild settings: " + e);
         }
     }
 }

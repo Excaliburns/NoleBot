@@ -33,8 +33,7 @@ public class AddPerm extends Command {
         int userPermission = UserHelper.getHighestUserPermission(event.getEvent().getMember().getRoles(), roleHelperList);
         int permission;
 
-        if(args[1] == null)
-        {
+        if (args[1] == null) {
             event.getChannel().sendMessage("Incorrect syntax! Please use " + settings.getPrefix() + "help addperm").queue();
             return;
         }
@@ -52,37 +51,33 @@ public class AddPerm extends Command {
         }
 
         if (userPermission >= permission || userPermission == roleHelperList.get(0).getPermID()) {
-            if (!roleList.isEmpty())
-                roleList.forEach(e ->
-                {
+            if (!roleList.isEmpty()) roleList.forEach(e -> {
 
-                    RoleHelper roleHelper = new RoleHelper(e, permission);
-                    Optional<RoleHelper> optionalRoleHelper = roleHelperList.stream().filter(c -> c.getRoleID().equals(roleHelper.getRoleID())).findAny();
-                    if (optionalRoleHelper.isPresent()) {
-                        if (userPermission >= optionalRoleHelper.get().getPermID()) {
-                            for (int i = 0; i < roleHelperList.size(); i++) {
-                                if (optionalRoleHelper.get().getRoleID().equals(roleHelperList.get(i).getRoleID())) {
+                RoleHelper roleHelper = new RoleHelper(e, permission);
+                Optional<RoleHelper> optionalRoleHelper = roleHelperList.stream().filter(c -> c.getRoleID().equals(roleHelper.getRoleID())).findAny();
+                if (optionalRoleHelper.isPresent()) {
+                    if (userPermission >= optionalRoleHelper.get().getPermID()) {
+                        for (int i = 0; i < roleHelperList.size(); i++) {
+                            if (optionalRoleHelper.get().getRoleID().equals(roleHelperList.get(i).getRoleID())) {
 
-                                    roleHelperList.set(i, roleHelper);
-                                    permissionUtils.saveData(roleHelperList, settings, event);
+                                roleHelperList.set(i, roleHelper);
+                                permissionUtils.saveData(roleHelperList, settings, event);
 
-                                    event.getChannel().sendMessage("Role: **" + e.getName() + "** with permission level: **" + optionalRoleHelper.get().getPermID() + " **" + " has been updated to permission level: **" + roleHelper.getPermID() + "**").queue();
-                                    return;
-                                }
+                                event.getChannel().sendMessage("Role: **" + e.getName() + "** with permission level: **" + optionalRoleHelper.get().getPermID() + " **" + " has been updated to permission level: **" + roleHelper.getPermID() + "**").queue();
+                                return;
                             }
                         }
-                        else
-                        {
-                            event.getChannel().sendMessage("You cannot set the permission level of a role that has a higher permission level than you! \nYour highest permission level: **" + userPermission + "**\nRequired Permission: **" + optionalRoleHelper.get().getPermID() + "**").queue();
-                            return;
-                        }
+                    } else {
+                        event.getChannel().sendMessage("You cannot set the permission level of a role that has a higher permission level than you! \nYour highest permission level: **" + userPermission + "**\nRequired Permission: **" + optionalRoleHelper.get().getPermID() + "**").queue();
+                        return;
                     }
+                }
 
-                    roleHelperList.add(roleHelper);
-                    permissionUtils.saveData(roleHelperList, settings, event);
+                roleHelperList.add(roleHelper);
+                permissionUtils.saveData(roleHelperList, settings, event);
 
-                    event.getChannel().sendMessage("Saved Role: **" + e.getName() + "** with permission level: **" + roleHelper.getPermID() + "**").queue();
-                });
+                event.getChannel().sendMessage("Saved Role: **" + e.getName() + "** with permission level: **" + roleHelper.getPermID() + "**").queue();
+            });
             else
                 event.getChannel().sendMessage("You did not mention a role. Use !help addperm for more information.").queue();
         } else {

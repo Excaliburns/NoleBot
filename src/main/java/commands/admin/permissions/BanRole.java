@@ -15,9 +15,7 @@ public class BanRole extends Command {
     public BanRole() {
         name = "banrole";
         description = "Bans a role from being assigned through addrole.";
-        helpDescription = "This command allows admins to ban a role from being assigned by !addrole. Useful for if you need to restrict specific roles from being assigned, outside of the default permission values." +
-                "\nIf the role is already present in the banned role list, this command removes it." +
-                "\nUse with the argument list to see the banned roles.";
+        helpDescription = "This command allows admins to ban a role from being assigned by !addrole. Useful for if you need to restrict specific roles from being assigned, outside of the default permission values." + "\nIf the role is already present in the banned role list, this command removes it." + "\nUse with the argument list to see the banned roles.";
         usages.add("banrole <@Role> [@Role, as many as you want]");
         requiredPermission = 1000;
     }
@@ -58,9 +56,7 @@ public class BanRole extends Command {
                 if (settings.getBannedRoles().indexOf(role.getId()) != -1) {
                     settings.getBannedRoles().remove(role.getId());
                     messageBuilder.appendFormat("Removed **" + role.getName() + "** from the banned roles list.\n");
-                }
-                else
-                {
+                } else {
                     settings.getBannedRoles().add(role.getId());
                     messageBuilder.appendFormat("Added **" + role.getName() + "** to the banned roles list.\n");
                 }
