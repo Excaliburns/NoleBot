@@ -27,12 +27,8 @@ public class JSONLoader {
 
             Settings settings = new Settings(guildID);
 
-            try (BufferedWriter writer = new BufferedWriter(new FileWriter(foundGuildParams))) {
-                Gson gson = new GsonBuilder().serializeNulls().setPrettyPrinting().create();
-                writer.write(gson.toJson(settings, settings.getClass()));
 
-                writer.flush();
-            }
+            genericSave(foundGuildParams, settings);
 
         } catch (IOException e) {
             System.out.println("Exception in creation of: " + guildID + " json " + e);
@@ -47,7 +43,9 @@ public class JSONLoader {
             BufferedReader reader = new BufferedReader(new FileReader(foundGuildParams));
 
             Gson gson = new Gson();
+
             return gson.fromJson(reader, Settings.class);
+
         } catch (FileNotFoundException e) {
             System.out.println("File Not Found Exception: " + e);
             return null;
@@ -57,14 +55,8 @@ public class JSONLoader {
     public static void saveGuildSettings(Settings settings) {
         File guildSettings = new File("data/" + settings.getGuildID() + "/" + "main.json");
 
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(guildSettings))) {
-            Gson gson = new GsonBuilder().serializeNulls().setPrettyPrinting().create();
-            writer.write(gson.toJson(settings, settings.getClass()));
 
-            writer.flush();
-        } catch (IOException e) {
-            System.out.println("Exception saving guild settings: " + e);
-        }
+        genericSave(guildSettings, settings);
     }
 
     public static InhouseStruct inhouseLoader(Settings settings) {
@@ -83,10 +75,7 @@ public class JSONLoader {
 
                 InhouseStruct inhouseStruct = new InhouseStruct();
 
-                BufferedWriter writer = new BufferedWriter(new FileWriter(JSONFile));
-                Gson gson = new GsonBuilder().serializeNulls().setPrettyPrinting().create();
-                writer.write(gson.toJson(inhouseStruct, InhouseStruct.class));
-                writer.flush();
+                genericSave(JSONFile, inhouseStruct);
 
                 return inhouseStruct;
             } catch (IOException x) {
@@ -100,9 +89,13 @@ public class JSONLoader {
     public static void saveInhouseData(InhouseStruct inhouseStruct, String GuildID) {
         File JSONFile = new File("data/" + GuildID + "/" + "inhouse.json");
 
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(JSONFile))) {
+        genericSave(JSONFile, inhouseStruct);
+    }
+
+    private static void genericSave(File fileName, Object gsonClass) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName))) {
             Gson gson = new GsonBuilder().serializeNulls().setPrettyPrinting().create();
-            writer.write(gson.toJson(inhouseStruct, inhouseStruct.getClass()));
+            writer.write(gson.toJson(gsonClass, gsonClass.getClass()));
 
             writer.flush();
         } catch (IOException e) {

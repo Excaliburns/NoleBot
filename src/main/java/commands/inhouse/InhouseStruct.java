@@ -1,6 +1,5 @@
 package commands.inhouse;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class InhouseStruct {
