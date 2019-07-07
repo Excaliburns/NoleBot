@@ -12,7 +12,7 @@ class LeaveGroupCommand {
 
         if(args.length == 1)
         {
-            messageChannel.sendMessage("You did not specify a group to leave. Use !lfg joined to see a list of inhouses you have joined.").queue();
+            messageChannel.sendMessage("You did not specify a group to leave. Use !lfg joined to see a list of groups you have joined.").queue();
             return;
         }
 

@@ -29,6 +29,9 @@ class JoinGroupCommand {
             inhouseStruct.getInhouses().get(inhouseStruct.getInhouses().indexOf(foundInhouse)).addPlayer(event.getEvent().getAuthor().getId());
             JSONLoader.saveInhouseData(inhouseStruct, event.getGuildID());
             messageChannel.sendMessage("**" + event.getEvent().getAuthor().getName() + "**" + ", you have joined group: " + "**" + foundInhouse.getInhouseName() + "**.").queue();
+
+            if(foundInhouse.getRequiredPlayers() == foundInhouse.getPlayerCount())
+                new ExecuteGroup(event, foundInhouse, inhouseStruct);
         }
     }
 }

@@ -3,13 +3,22 @@ package commands.inhouse;
 import java.util.List;
 
 public class InhouseStruct {
-    List<Inhouse> inhouses;
+    private String CategoryID = "";
+    private List<Inhouse> inhouses;
 
-    public List<Inhouse> getInhouses() {
+    List<Inhouse> getInhouses() {
         return inhouses;
     }
 
-    public void setInhouses(List<Inhouse> inhouses) {
+    void setInhouses(List<Inhouse> inhouses) {
         this.inhouses = inhouses;
+    }
+
+    String getCategoryID() {
+        return CategoryID;
+    }
+
+    void setCategoryID(String categoryID) {
+        CategoryID = categoryID;
     }
 }

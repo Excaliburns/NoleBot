@@ -43,6 +43,8 @@ public class InhouseCommand extends Command {
                 new JoinGroupCommand(event, args, inhouseStruct);
             else if (args[0].trim().equals("leave"))
                 new LeaveGroupCommand(event, args, inhouseStruct);
+            else if (args[0].trim().equals("delete"))
+                new DeleteGroupCommand(event, args, inhouseStruct);
         }
     }
 }
