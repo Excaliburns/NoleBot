@@ -24,7 +24,7 @@ class ListGroupCommand {
                 embedBuilder.addField("Name: ", l.getInhouseName(), true);
                 embedBuilder.addField("No. of Players Needed:", Integer.toString(l.getRequiredPlayers()), true);
                 embedBuilder.addField("No. of Players in Queue:", Integer.toString(l.getPlayerCount()), true);
-                embedBuilder.addField("Creator: ", event.getGuild().getMemberById(l.getUserList().get(0)).getNickname(), true);
+                embedBuilder.addField("Creator: ", event.getGuild().getMemberById(l.getUserList().get(0)).getEffectiveName(), true);
                 embedBuilder.addField("Players in Queue: ", listofUsers.toString(), false);
                 messageChannel.sendMessage(embedBuilder.build()).queue();
             }
