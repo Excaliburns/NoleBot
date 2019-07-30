@@ -12,7 +12,9 @@ NoleBot is a Discord bot written for the Esports at Florida State Discord, writt
 ## Functionality
 
 * Level based permission system
-  * Allows for sub-leveled role assignment with verification further than what discord allows.
+  * Allows for hierarchical role assignment with verification further than what discord allows.
+* LFG Command
+  * Automatic Voice + Chat Channel creation along with notification of a queue being filled with players.
 * *that's it for now..*
   * Planned features include student verification, game integration specific to FSU, and other student-driven features.
 
