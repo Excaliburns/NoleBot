@@ -11,13 +11,13 @@ public class InhouseCommand extends Command {
         description = "Looking for Group command to find and create groups within your guild!";
         helpDescription = "This command is used to create groups for players in your guild. Deletion of groups must be carried out by the owner of the group, or a user than has 2x the permission level as this command.";
         requiredPermission = 100;
-        usages.add("list");
-        usages.add("joined");
-        usages.add("join <name>");
-        usages.add("create <name> <# of players>");
-        usages.add("create <name> <# of players> [Duration in hours]");
-        usages.add("leave <name>");
-        usages.add("delete <name>");
+        usages.add("lfg list");
+        usages.add("lfg joined");
+        usages.add("lfg join <name>");
+        usages.add("lfg create <name> <# of players>");
+        usages.add("lfg create <name> <# of players> [Duration in hours]");
+        usages.add("lfg leave <name>");
+        usages.add("lfg delete <name>");
     }
 
     @Override

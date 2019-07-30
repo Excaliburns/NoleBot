@@ -68,9 +68,10 @@ public class VerifyRole extends Command {
                     messageBuilder.appendFormat("Added **" + role.getName() + "** to the verified roles list.\n");
                 }
             });
+
             messageChannel.sendMessage(messageBuilder.build()).queue();
             event.getCommandListener().getSettingsHashMap().put(event.getGuildID(), settings);
-
+            JSONLoader.saveGuildSettings(settings);
         }
     }
 }
