@@ -40,7 +40,7 @@ class ListGroupCommand {
                 messageChannel.sendMessage(embedBuilder.build()).queue();
             }
         } else {
-            messageChannel.sendMessage("There are no inhouses currently being formed. Use !help inhouse to learn how to start one!").queue();
+            messageChannel.sendMessage("There are no groups currently being formed. Use !help lfg to learn how to start one!").queue();
         }
     }
 }
