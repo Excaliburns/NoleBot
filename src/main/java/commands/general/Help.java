@@ -5,7 +5,6 @@ import commands.util.CommandEvent;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.MessageBuilder;
 import util.BotEmbed;
-import util.UserHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +33,7 @@ public class Help extends Command {
 
     private void sendGenericHelp(CommandEvent event) {
         List<Command> commandList = new ArrayList<>(event.getCommandListener().getCommands());
-        int userPerm = UserHelper.getHighestUserPermission(event.getEvent().getMember().getRoles(), event.getSettings().getRoleHelper());
+        int userPerm = event.getUserPermLevel();
 
         MessageBuilder messageBuilder = new MessageBuilder();
         messageBuilder.append("Commands:", MessageBuilder.Formatting.UNDERLINE, MessageBuilder.Formatting.BOLD);

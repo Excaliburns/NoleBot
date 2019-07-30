@@ -23,7 +23,7 @@ class DeleteGroupCommand {
          {
              messageChannel.sendMessage("There is no group with that name.").queue();
          }
-         else if(foundInhouse.getUserList().get(0).equals(author.getId()))
+         else if(foundInhouse.getUserList().get(0).equals(author.getId()) || event.getUserPermLevel() >=  (new InhouseCommand().getRequiredPermission() * 2))
          {
              inhouseStruct.getInhouses().remove(foundInhouse);
              JSONLoader.saveInhouseData(inhouseStruct, event.getGuildID());

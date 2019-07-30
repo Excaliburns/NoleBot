@@ -24,9 +24,26 @@ class GroupCreateCommand {
             return;
         }
 
+        int duration = 3;
+        if (args.length == 4)
+        {
+            try {
+                duration = Integer.parseInt(args[3]);
+                if(duration <= 0){
+                    messageChannel.sendMessage("You cannot create a group with a duration of 0 or less. Please try again.").queue();
+                }
+            } catch (NumberFormatException e) {
+                messageChannel.sendMessage("Please use a number to specify the duration of your room. Please use !help lfg for usage.").queue();
+                return;
+            }
+        }
+
         int requiredPlayers;
         try {
             requiredPlayers = Integer.parseInt(args[2]);
+            if(requiredPlayers <= 1){
+                messageChannel.sendMessage("You cannot create a group with one or less people. Please try again.").queue();
+            }
         } catch (NumberFormatException e) {
             messageChannel.sendMessage("You need to use a number for your required players. Please use !help lfg for usage.").queue();
             return;
@@ -51,10 +68,13 @@ class GroupCreateCommand {
         Inhouse inhouse = new Inhouse(name, requiredPlayers);
         inhouse.addPlayer(event.getEvent().getAuthor().getId());
 
+        inhouse.setDuration(duration);
         currentInhouses.add(inhouse);
 
         inhouseStruct.setInhouses(currentInhouses);
 
         JSONLoader.saveInhouseData(inhouseStruct, event.getSettings().getGuildID());
+
+        messageChannel.sendMessage("Created Group: **" + inhouse.getInhouseName() + "**. Your group will be messaged when the queue is full.").queue();
     }
 }

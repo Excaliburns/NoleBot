@@ -6,7 +6,6 @@ import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.Role;
 import util.RoleHelper;
 import util.Settings;
-import util.UserHelper;
 
 import java.util.List;
 import java.util.Optional;
@@ -30,7 +29,7 @@ public class AddPerm extends Command {
         List<Role> roleList = message.getMentionedRoles();
         Settings settings = event.getSettings();
         List<RoleHelper> roleHelperList = settings.getRoleHelper();
-        int userPermission = UserHelper.getHighestUserPermission(event.getEvent().getMember().getRoles(), roleHelperList);
+        int userPermission = event.getUserPermLevel();
         int permission;
 
         if (args[1] == null) {

@@ -7,6 +7,7 @@ public class Inhouse {
     private String inhouseName;
     private int requiredPlayers;
     private int playerCount = 0;
+    private int duration = 3;
     private List<String> userList = new ArrayList<>();
 
     public Inhouse() {
@@ -14,12 +15,12 @@ public class Inhouse {
         this.userList = null;
     }
 
-    public Inhouse(String inhouseName, int requiredPlayers) {
+    Inhouse(String inhouseName, int requiredPlayers) {
         this.inhouseName = inhouseName;
         this.requiredPlayers = requiredPlayers;
     }
 
-    public String getInhouseName() {
+    String getInhouseName() {
         return inhouseName;
     }
 
@@ -27,7 +28,7 @@ public class Inhouse {
         this.inhouseName = inhouseName;
     }
 
-    public int getRequiredPlayers() {
+    int getRequiredPlayers() {
         return requiredPlayers;
     }
 
@@ -35,15 +36,15 @@ public class Inhouse {
         this.requiredPlayers = requiredPlayers;
     }
 
-    public int getPlayerCount() {
+    int getPlayerCount() {
         return playerCount;
     }
 
-    public void setPlayerCount(int playerCount) {
+    void setPlayerCount(int playerCount) {
         this.playerCount = playerCount;
     }
 
-    public List<String> getUserList() {
+    List<String> getUserList() {
         return userList;
     }
 
@@ -51,5 +52,13 @@ public class Inhouse {
         this.userList = userList;
     }
 
-    public void addPlayer(String userID) { userList.add(userID); playerCount++; }
+    void addPlayer(String userID) { userList.add(userID); playerCount++; }
+
+    int getDuration() {
+        return duration;
+    }
+
+    void setDuration(int duration) {
+        this.duration = duration;
+    }
 }

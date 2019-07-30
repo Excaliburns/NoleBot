@@ -1,5 +1,6 @@
 package commands.inhouse;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class InhouseStruct {
@@ -7,6 +8,8 @@ public class InhouseStruct {
     private List<Inhouse> inhouses;
 
     List<Inhouse> getInhouses() {
+        if(inhouses == null)
+            return new ArrayList<>();
         return inhouses;
     }
 
