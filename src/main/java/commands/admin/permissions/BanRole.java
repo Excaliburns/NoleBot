@@ -44,9 +44,14 @@ public class BanRole extends Command {
 
                 for (String b : bannedRoles) {
                     Role role = event.getGuild().getRoleById(b);
+                    if(role == null) {
+                        bannedRoles.remove(b);
+                        settings.setBannedRoles(bannedRoles);
+                        JSONLoader.saveGuildSettings(settings);
+                        continue;
+                    }
                     messageBuilder.appendFormat("\n" + role.getName());
                 }
-
                 messageChannel.sendMessage(messageBuilder.build()).queue();
             }
         } else {

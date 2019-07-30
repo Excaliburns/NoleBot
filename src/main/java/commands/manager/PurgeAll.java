@@ -8,7 +8,6 @@ import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.Role;
 import util.RoleHelper;
 import util.Settings;
-import util.UserHelper;
 
 import java.util.List;
 import java.util.Optional;
@@ -32,7 +31,7 @@ public class PurgeAll extends Command {
         List<RoleHelper> roleHelper = settings.getRoleHelper();
         List<String> verifiedRoles = settings.getVerifiedRoles();
         List<String> bannedRoles = settings.getBannedRoles();
-        int userPerm = UserHelper.getHighestUserPermission(message.getMember().getRoles(), roleHelper);
+        int userPerm = event.getUserPermLevel();
 
         if (args[1] == null) {
             messageChannel.sendMessage("Incorrect arguments! Please use !help purgeall.").queue();
@@ -42,7 +41,7 @@ public class PurgeAll extends Command {
             for (Role r : roleList) {
                 String roleID = r.getId();
                 if (verifiedRoles.indexOf(roleID) != -1 || bannedRoles.indexOf(roleID) != -1)
-                    messageChannel.sendMessage("You cannot assign role: **" + r.getName() + "** to a user.").queue();
+                    continue;
 
                 Optional<RoleHelper> optionalRoleHelper = roleHelper.stream().filter(c -> c.getRoleID().equals(roleID)).findAny();
 
@@ -54,7 +53,7 @@ public class PurgeAll extends Command {
                             messageChannel.sendMessage("Removed user: **" + m.getEffectiveName() + "** from role: **" + r.getName() + "**.").queue();
                         }
                     } else {
-                        messageChannel.sendMessage("You cannot assign **" + r.getName() + "**, as it has a higher permission level than you.").queue();
+                        messageChannel.sendMessage("Did not remove **" + r.getName() + "**, as it has a higher permission level than you.").queue();
                     }
                 } else {
                     messageChannel.sendMessage("Role: **" + r.getName() + "** is not in the permission list!").queue();

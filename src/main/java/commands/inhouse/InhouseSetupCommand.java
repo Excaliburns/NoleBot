@@ -15,11 +15,6 @@ public class InhouseSetupCommand extends Command {
     }
     @Override
     public void onCommandReceived(CommandEvent event) {
-        String[] message = event.getMessage();
-        String UserID = message[1];
-
-        event.getChannel().sendMessage(event.getGuild().getMemberById(UserID).getEffectiveName()).queue();
-        /*
         InhouseStruct inhouseStruct = JSONLoader.inhouseLoader(event.getSettings());
         Category category = event.getEvent().getTextChannel().getParent();
 
@@ -28,7 +23,6 @@ public class InhouseSetupCommand extends Command {
 
         event.getChannel().sendMessage("Saved LFG Category " + category.getName() + " with ID " + category.getId()).queue();
 
-        JSONLoader.saveInhouseData(inhouseStruct, event.getGuildID());'
-        */
+        JSONLoader.saveInhouseData(inhouseStruct, event.getGuildID());
     }
 }

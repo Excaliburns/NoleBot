@@ -5,7 +5,6 @@ import commands.util.CommandEvent;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import util.JSONLoader;
 import util.Settings;
-import util.UserHelper;
 
 import java.util.HashMap;
 
@@ -51,7 +50,7 @@ public class CommandPerm extends Command {
                 Command command = event.getCommandListener().getCommands().get(i);
                 Settings guildSettings = event.getCommandListener().getSettingsHashMap().get(event.getGuildID());
                 HashMap<String, Integer> commandHelper = guildSettings.getCommandHelper();
-                int userPerm = UserHelper.getHighestUserPermission(event.getEvent().getMember().getRoles(), guildSettings.getRoleHelper());
+                int userPerm = event.getUserPermLevel();
 
                 if (userPerm < command.getRequiredPermission()) {
                     messageChannel.sendMessage("You cannot set the permission level of a command that is higher than your own permission level. \nYour highest permission: **" + userPerm + "**\nRequired: **" + command.getRequiredPermission() + "**.").queue();

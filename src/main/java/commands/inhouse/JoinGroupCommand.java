@@ -30,8 +30,12 @@ class JoinGroupCommand {
             JSONLoader.saveInhouseData(inhouseStruct, event.getGuildID());
             messageChannel.sendMessage("**" + event.getEvent().getAuthor().getName() + "**" + ", you have joined group: " + "**" + foundInhouse.getInhouseName() + "**.").queue();
 
-            if(foundInhouse.getRequiredPlayers() == foundInhouse.getPlayerCount())
+            if(foundInhouse.getRequiredPlayers() == foundInhouse.getPlayerCount()) {
+                messageChannel.sendMessage("Creating voice and text channel for group: **" + foundInhouse.getInhouseName() + "**.").queue();
                 new ExecuteGroup(event, foundInhouse, inhouseStruct);
+                inhouseStruct.getInhouses().remove(foundInhouse);
+                JSONLoader.saveInhouseData(inhouseStruct, event.getGuildID());
+            }
         }
     }
 }

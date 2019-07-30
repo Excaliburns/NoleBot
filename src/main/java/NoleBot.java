@@ -2,6 +2,7 @@ import commands.admin.ServerInfoCommand;
 import commands.admin.permissions.*;
 import commands.general.*;
 import commands.inhouse.InhouseCommand;
+import commands.inhouse.InhouseSetupCommand;
 import commands.manager.AddRole;
 import commands.manager.PurgeAll;
 import commands.util.CommandListener;
@@ -34,6 +35,7 @@ public class NoleBot {
         commandListener.addCommand(new Ping());
 
         commandListener.addCommand(new InhouseCommand());
+        commandListener.addCommand(new InhouseSetupCommand());
 
         commandListener.addCommand(new ServerInfoCommand());
         commandListener.addCommand(new UserInfoCommand());

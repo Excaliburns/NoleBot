@@ -7,7 +7,6 @@ import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.Role;
 import util.RoleHelper;
 import util.Settings;
-import util.UserHelper;
 
 import java.util.List;
 import java.util.Optional;
@@ -16,8 +15,8 @@ public class AddRole extends Command {
 
     public AddRole() {
         name = "addrole";
-        description = "Adds a role that is lower than your own permission level to a user - if the Guild has allowed it to be. Also used to remove roles the same way.";
-        helpDescription = "This command allows you to assign roles to others that are lower than your own permission level. If the user already has that role, it will be removed. These roles must be added to the permissions list by your guild admins.";
+        description = "Adds a role that is lower than your own permission level to a user - if the Guild has allowed it to be.";
+        helpDescription = "This command allows you to assign roles to others that are lower than your own permission level. These roles must be added to the permissions list by your guild admins.";
         requiredPermission = 500;
         usages.add("addrole <@User> <@Role>");
         usages.add("addrole <@Role> [@User, as many as you want] [@Role, as many as you want]");
@@ -30,7 +29,7 @@ public class AddRole extends Command {
         List<Role> sentRoles = event.getEvent().getMessage().getMentionedRoles();
         List<Member> sentMembers = event.getEvent().getMessage().getMentionedMembers();
         Settings settings = event.getSettings();
-        int userPerm = UserHelper.getHighestUserPermission(event.getEvent().getMember().getRoles(), settings.getRoleHelper());
+        int userPerm = event.getUserPermLevel();
 
         boolean doesGuildBanRoles = !(settings.getBannedRoles().isEmpty());
         boolean doesGuildHaveVerifiedRoles = !(settings.getVerifiedRoles().isEmpty());
@@ -67,22 +66,20 @@ public class AddRole extends Command {
                                 Role role = event.getGuild().getRoleById(s);
                                 if (!m.getRoles().contains(role)) {
                                     messageChannel.sendMessage("User: **" + m.getEffectiveName() + "** does not have role: **" + role.getName() + "**, which is required to have in order for them to be assigned roles. Please contact an administrator.").queue();
-                                    return;
+                                    sentMembers.remove(m);
                                 }
                             }
                         }
 
                         if (m.getEffectiveName().contains(settings.getNameChar())) {
                             if (m.getRoles().contains(r)) {
-                                messageChannel.sendMessage("User: **" + m.getEffectiveName() + "** already had role: **" + r.getName() + "**, and as such, it was removed.").queue();
-                                event.getGuild().getController().removeSingleRoleFromMember(m, r).queue();
+                                messageChannel.sendMessage("User: **" + m.getEffectiveName() + "** already has role: **" + r.getName() + "**.").queue();
                             } else {
                                 messageChannel.sendMessage("User **" + m.getEffectiveName() + "** was assigned role: **" + r.getName() + "**.").queue();
                                 event.getEvent().getGuild().getController().addSingleRoleToMember(m, r).queue();
                             }
                         } else {
                             messageChannel.sendMessage("Your guild has designated that users' names must be formatted in this way: \n\n\"Firstname " + settings.getNameChar() + " Gamertag\"" + "\n\n Please tell: **" + m.getEffectiveName() + "** to format their name as such.").queue();
-                            return;
                         }
                     }
                 }

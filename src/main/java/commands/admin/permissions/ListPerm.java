@@ -18,7 +18,7 @@ public class ListPerm extends Command {
         usages.add("listperm");
         usages.add("listperm [@Role]");
         usages.add("listperm commands");
-        requiredPermission = 1000;
+        requiredPermission = 500;
     }
 
     @Override

@@ -44,8 +44,15 @@ public class VerifyRole extends Command {
 
                 for (String v : verifiedRoles) {
                     Role role = event.getGuild().getRoleById(v);
+                    if(role == null) {
+                        verifiedRoles.remove(v);
+                        settings.setVerifiedRoles(verifiedRoles);
+                        JSONLoader.saveGuildSettings(settings);
+                        continue;
+                    }
                     messageBuilder.appendFormat("\n" + role.getName());
                 }
+
 
                 messageChannel.sendMessage(messageBuilder.build()).queue();
             }
@@ -63,7 +70,7 @@ public class VerifyRole extends Command {
             });
             messageChannel.sendMessage(messageBuilder.build()).queue();
             event.getCommandListener().getSettingsHashMap().put(event.getGuildID(), settings);
-            JSONLoader.saveGuildSettings(settings);
+
         }
     }
 }
