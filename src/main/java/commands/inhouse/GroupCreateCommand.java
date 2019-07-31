@@ -31,6 +31,9 @@ class GroupCreateCommand {
                 duration = Integer.parseInt(args[3]);
                 if(duration <= 0){
                     messageChannel.sendMessage("You cannot create a group with a duration of 0 or less. Please try again.").queue();
+                } else if(duration >= 12)
+                {
+                    messageChannel.sendMessage("There is a maximum length of 12 hours. Please try again.").queue();
                 }
             } catch (NumberFormatException e) {
                 messageChannel.sendMessage("Please use a number to specify the duration of your room. Please use !help lfg for usage.").queue();
