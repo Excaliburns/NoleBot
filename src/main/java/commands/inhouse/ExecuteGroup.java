@@ -4,6 +4,7 @@ import commands.util.CommandEvent;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.requests.restaction.PermissionOverrideAction;
+import util.JSONLoader;
 
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
@@ -50,10 +51,16 @@ class ExecuteGroup {
                 textPermissionOverride.setAllow(Permission.VIEW_CHANNEL, Permission.MESSAGE_READ, Permission.MESSAGE_WRITE).queue();
             }
 
-            textChannel.sendMessage("This channel and its corresponding voice channel will be deleted in: **" + inhouse.getDuration() + "** hour(s).").queue();
+            struct.getInhouses().remove(inhouse);
+            JSONLoader.saveInhouseData(struct, event.getGuildID());
 
-            voiceChannel.delete().queueAfter(inhouse.getDuration(), TimeUnit.HOURS);
-            textChannel.delete().queueAfter(inhouse.getDuration(), TimeUnit.HOURS);
+            int duration = inhouse.getDuration();
+            textChannel.sendMessage("This channel and its corresponding voice channel will be deleted in: **" + duration + "** hour(s).").queue();
+
+            textChannel.sendMessage("This channel will be deleted in: **" + duration/2 + "** hours.").queueAfter(duration/2, TimeUnit.HOURS);
+
+            voiceChannel.delete().queueAfter(duration, TimeUnit.SECONDS);
+            textChannel.delete().queueAfter(duration, TimeUnit.SECONDS);
         }
     }
 }
