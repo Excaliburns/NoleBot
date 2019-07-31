@@ -59,8 +59,8 @@ class ExecuteGroup {
 
             textChannel.sendMessage("This channel will be deleted in: **" + duration/2 + "** hours.").queueAfter(duration/2, TimeUnit.HOURS);
 
-            voiceChannel.delete().queueAfter(duration, TimeUnit.SECONDS);
-            textChannel.delete().queueAfter(duration, TimeUnit.SECONDS);
+            voiceChannel.delete().queueAfter(duration, TimeUnit.HOURS);
+            textChannel.delete().queueAfter(duration, TimeUnit.HOURS);
         }
     }
 }
