@@ -17,8 +17,9 @@ public class CommandEvent {
     private final MessageChannel channel;
     private final String guildID;
     private final Settings settings;
+    private final int userPermLevel;
 
-    public CommandEvent(MessageReceivedEvent event, String[] message, CommandListener commandListener) {
+    public CommandEvent(MessageReceivedEvent event, String[] message, CommandListener commandListener, int userPermLevel) {
         this.event = event;
         this.message = message;
         this.commandListener = commandListener;
@@ -27,6 +28,7 @@ public class CommandEvent {
         this.settings = commandListener.getSettingsHashMap().get(guildID);
         this.prefix = getSettings().getPrefix();
         this.guild = event.getGuild();
+        this.userPermLevel = userPermLevel;
     }
 
     public MessageReceivedEvent getEvent() {
@@ -57,7 +59,15 @@ public class CommandEvent {
         return settings;
     }
 
-    public String getPrefix() { return prefix; }
+    public String getPrefix() {
+        return prefix;
+    }
 
-    public Guild getGuild() { return guild; }
+    public Guild getGuild() {
+        return guild;
+    }
+
+    public int getUserPermLevel() {
+        return userPermLevel;
+    }
 }

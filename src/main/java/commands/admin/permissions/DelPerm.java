@@ -5,7 +5,6 @@ import commands.util.CommandEvent;
 import net.dv8tion.jda.api.entities.Role;
 import util.RoleHelper;
 import util.Settings;
-import util.UserHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +29,7 @@ public class DelPerm extends Command {
         List<Role> rolesMentioned = event.getEvent().getMessage().getMentionedRoles();
         Settings settings = event.getSettings();
         List<RoleHelper> roleHelperList = settings.getRoleHelper();
-        int highestPerm = UserHelper.getHighestUserPermission(event.getEvent().getMember().getRoles(), roleHelperList);
+        int highestPerm = event.getUserPermLevel();
 
         if (args[1] != null && args[1].trim().equals("all")) {
             if (highestPerm >= roleHelperList.get(0).getPermID()) {

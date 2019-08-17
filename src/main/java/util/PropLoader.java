@@ -1,6 +1,9 @@
 package util;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
 import java.util.Properties;
 
 public class PropLoader {
@@ -26,6 +29,8 @@ public class PropLoader {
 
                 properties.store(fStream, null);
                 System.out.println("Created and stored blank token value. Please open /data/config/config.properties and set the bot's token.");
+
+                fStream.close();
             }
             FileInputStream botConfig = new FileInputStream(propFile);
 

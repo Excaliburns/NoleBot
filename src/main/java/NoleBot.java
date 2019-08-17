@@ -1,7 +1,9 @@
-import commands.admin.permissions.BanRole;
-import commands.admin.permissions.*;
-import commands.general.*;
 import commands.admin.ServerInfoCommand;
+import commands.admin.permissions.*;
+import commands.games.rps;
+import commands.general.*;
+import commands.inhouse.InhouseCommand;
+import commands.inhouse.InhouseSetupCommand;
 import commands.manager.AddRole;
 import commands.manager.PurgeAll;
 import commands.util.CommandListener;
@@ -27,13 +29,16 @@ public class NoleBot {
     }
 
     private static void initBot() throws LoginException {
-        JDA jda = new JDABuilder(new PropLoader().getProp("token"))
-                .addEventListeners(commandListener, specialListener)
-                .build();
+        JDA jda = new JDABuilder(new PropLoader().getProp("token")).addEventListeners(commandListener, specialListener).build();
 
         commandListener.addCommand(new Help());
         commandListener.addCommand(new Info());
         commandListener.addCommand(new Ping());
+
+        commandListener.addCommand(new rps());
+
+        commandListener.addCommand(new InhouseCommand());
+        commandListener.addCommand(new InhouseSetupCommand());
 
         commandListener.addCommand(new ServerInfoCommand());
         commandListener.addCommand(new UserInfoCommand());

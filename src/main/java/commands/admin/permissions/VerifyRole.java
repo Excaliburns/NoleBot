@@ -15,9 +15,7 @@ public class VerifyRole extends Command {
     public VerifyRole() {
         name = "verifyrole";
         description = "Sets the verified roles for your server.";
-        helpDescription = "Sets the verified roles for your server. These roles are used in Addrole, where users need to be \"Verified\" before they can be assigned a role." +
-                "\nIf the role is already present in the verified role list, this command removes it." +
-                "\nUse with the argument list to see the banned roles.";
+        helpDescription = "Sets the verified roles for your server. These roles are used in Addrole, where users need to be \"Verified\" before they can be assigned a role." + "\nIf the role is already present in the verified role list, this command removes it." + "\nUse with the argument list to see the banned roles.";
         usages.add("verifyrole <@Role> [@Role, as many as you want]");
         requiredPermission = 1000;
     }
@@ -30,9 +28,9 @@ public class VerifyRole extends Command {
         MessageChannel messageChannel = event.getChannel();
         List<Role> roleList = message.getMentionedRoles();
 
-        if (args[1] == null || !args[1].trim().equals("list")) {
-            messageChannel.sendMessage("Incorrect arguments! Please use !help verifiedroles.").queue();
-        } else if (roleList.isEmpty() && args[1] == null) {
+        if (args[1] == null) {
+            messageChannel.sendMessage("Incorrect arguments! Please use " + event.getSettings().getPrefix() + "help verifyrole.").queue();
+        } else if (roleList.isEmpty() && !args[1].trim().equals("list")) {
             messageChannel.sendMessage("You did not mention any roles!").queue();
         } else if (args[1].trim().equals("list")) {
             Settings settings = event.getSettings();
@@ -46,8 +44,15 @@ public class VerifyRole extends Command {
 
                 for (String v : verifiedRoles) {
                     Role role = event.getGuild().getRoleById(v);
+                    if(role == null) {
+                        verifiedRoles.remove(v);
+                        settings.setVerifiedRoles(verifiedRoles);
+                        JSONLoader.saveGuildSettings(settings);
+                        continue;
+                    }
                     messageBuilder.appendFormat("\n" + role.getName());
                 }
+
 
                 messageChannel.sendMessage(messageBuilder.build()).queue();
             }
@@ -55,13 +60,16 @@ public class VerifyRole extends Command {
             Settings settings = event.getSettings();
             MessageBuilder messageBuilder = new MessageBuilder();
             roleList.forEach(role -> {
-                if (settings.getVerifiedRoles().indexOf(role.getId()) == -1) {
+                if (settings.getVerifiedRoles().indexOf(role.getId()) != -1) {
                     settings.getVerifiedRoles().remove(role.getId());
-                    messageBuilder.appendFormat("Removed **" + role.getName() + "** from the verified roles list.");
+                    messageBuilder.appendFormat("Removed **" + role.getName() + "** from the verified roles list.\n");
+                } else {
+                    settings.getVerifiedRoles().add(role.getId());
+                    messageBuilder.appendFormat("Added **" + role.getName() + "** to the verified roles list.\n");
                 }
-                settings.getVerifiedRoles().add(role.getId());
-                messageBuilder.appendFormat("Added **" + role.getName() + "** to the verified roles list.");
             });
+
+            messageChannel.sendMessage(messageBuilder.build()).queue();
             event.getCommandListener().getSettingsHashMap().put(event.getGuildID(), settings);
             JSONLoader.saveGuildSettings(settings);
         }

@@ -9,7 +9,6 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import util.JSONLoader;
 import util.RoleHelper;
 import util.Settings;
-import util.UserHelper;
 
 import java.util.*;
 
@@ -66,8 +65,7 @@ public class CommandListener extends ListenerAdapter {
 
     @Override
     public void onMessageReceived(MessageReceivedEvent event) {
-        if (event.getAuthor().isBot())
-            return;
+        if (event.getAuthor().isBot()) return;
 
         String[] commandEventMessage;
 
@@ -102,23 +100,20 @@ public class CommandListener extends ListenerAdapter {
                  */
                 HashMap<String, Integer> commandHelper = settings.getCommandHelper();
 
-                if(commandHelper != null)
-                {
-                    if(commandHelper.containsKey(command.getName()))
+                if (commandHelper != null) {
+                    if (commandHelper.containsKey(command.getName()))
                         command.setRequiredPermission(commandHelper.get(command.getName()));
                 }
                 List<RoleHelper> guildRoles = settings.getRoleHelper();
                 List<Role> userRoles = event.getMember().getRoles();
+                int userPermLevel = getHighestUserPermission(userRoles, guildRoles);
 
-                        if (UserHelper.getHighestUserPermission(userRoles, guildRoles) >= command.getRequiredPermission())
-                        {
-                            CommandEvent commandEvent = new CommandEvent(event, commandEventMessage, this);
-                            System.out.println("\nCommand: \"" + commandTitle + "\" executed on guild: " + event.getGuild().getName() + ", with args: " + commandEventMessage[1]);
-                            System.out.println("MessageID: " + event.getMessageId());
-                            command.execute(commandEvent);
-                        }
-                        else
-                            messageError(event, "Not a high enough permission level");
+                if (userPermLevel >= command.getRequiredPermission()) {
+                    CommandEvent commandEvent = new CommandEvent(event, commandEventMessage, this, userPermLevel);
+                    System.out.println("\nCommand: \"" + commandTitle + "\" executed on guild: " + event.getGuild().getName() + ", with args: " + commandEventMessage[1]);
+                    System.out.println("MessageID: " + event.getMessageId());
+                    command.execute(commandEvent);
+                } else messageError(event, "Not a high enough permission level");
             }
         }
     }
@@ -133,8 +128,7 @@ public class CommandListener extends ListenerAdapter {
         jda.getGuilds().forEach(guild -> {
 
             //If any of those guilds don't have a corresponding JSON, create it.
-            if (!JSONLoader.doesSettingExist(guild.getId()))
-                JSONLoader.createGuildJSON(guild.getId());
+            if (!JSONLoader.doesSettingExist(guild.getId())) JSONLoader.createGuildJSON(guild.getId());
 
             //Load the JSON settings from the loaded guilds. If the guild's JSON had just been created, then this simply loads the defaults.
             Settings settings = JSONLoader.getGuildSettings(guild.getId());
@@ -169,5 +163,22 @@ public class CommandListener extends ListenerAdapter {
     //Method for sending error messages.
     private void messageError(MessageReceivedEvent event, String reason) {
         event.getChannel().sendMessage("Command failed for reason: " + reason).queue();
+    }
+
+    public int getHighestUserPermission(List<Role> userRoles, List<RoleHelper> guildRoles) {
+        HashMap<String, RoleHelper> roleHelperList = new HashMap<>();
+        ArrayList<RoleHelper> presentRoles = new ArrayList<>();
+
+        guildRoles.forEach(roleHelper -> roleHelperList.put(roleHelper.getRoleID(), roleHelper));
+
+        for (Role role : userRoles) {
+            String roleID = role.getId();
+
+            if (roleHelperList.containsKey(roleID)) presentRoles.add(roleHelperList.get(roleID));
+        }
+        presentRoles.sort(Comparator.comparing(RoleHelper::getPermID).reversed());
+
+        if (presentRoles.isEmpty()) return -1;
+        else return presentRoles.get(0).getPermID();
     }
 }

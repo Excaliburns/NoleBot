@@ -6,7 +6,6 @@ import net.dv8tion.jda.api.entities.MessageChannel;
 import util.JSONLoader;
 import util.Settings;
 
-import javax.annotation.Nullable;
 import java.util.HashMap;
 
 public class Prefix extends Command {

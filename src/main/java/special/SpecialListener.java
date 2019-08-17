@@ -20,7 +20,7 @@ public class SpecialListener extends ListenerAdapter {
         int n = rand.nextInt(4);
 
         if (!msg.getAuthor().isBot())
-            if ( (messageContent.contains("hi") || messageContent.contains("hello") || messageContent.contains("hey") || messageContent.contains("howdy") ) && (messageContent.contains("nolebot") || messageContent.contains("<@" + event.getJDA().getSelfUser().getId() + ">"))) {
+            if ((messageContent.contains("hi") || messageContent.contains("hello") || messageContent.contains("hey") || messageContent.contains("howdy")) && (messageContent.contains("nolebot") || messageContent.contains("<@" + event.getJDA().getSelfUser().getId() + ">"))) {
                 switch (n) {
                     case 0:
                         messageChannel.sendMessage("Greetings!").queue();

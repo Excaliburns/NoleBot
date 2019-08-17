@@ -2,19 +2,14 @@ package commands.manager;
 
 import commands.util.Command;
 import commands.util.CommandEvent;
-import net.dv8tion.jda.api.entities.*;
-import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
-import net.dv8tion.jda.api.hooks.ListenerAdapter;
+import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.entities.MessageChannel;
+import net.dv8tion.jda.api.entities.Role;
 import util.RoleHelper;
 import util.Settings;
-import util.UserHelper;
 
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
-
-import static util.UserHelper.isVerified;
-import static util.UserHelper.nameMatch;
 
 public class AddRole extends Command {
 
@@ -34,7 +29,7 @@ public class AddRole extends Command {
         List<Role> sentRoles = event.getEvent().getMessage().getMentionedRoles();
         List<Member> sentMembers = event.getEvent().getMessage().getMentionedMembers();
         Settings settings = event.getSettings();
-        int userPerm = UserHelper.getHighestUserPermission(event.getEvent().getMember().getRoles(), settings.getRoleHelper());
+        int userPerm = event.getUserPermLevel();
 
         boolean doesGuildBanRoles = !(settings.getBannedRoles().isEmpty());
         boolean doesGuildHaveVerifiedRoles = !(settings.getVerifiedRoles().isEmpty());
@@ -47,22 +42,20 @@ public class AddRole extends Command {
             messageChannel.sendMessage("You did not enter any arguments! Please use !help addrole for more information").queue();
         } else {
             List<String> bannedRoles = null;
-            if (doesGuildBanRoles)
-                bannedRoles = settings.getBannedRoles();
+            if (doesGuildBanRoles) bannedRoles = settings.getBannedRoles();
 
             for (Role r : sentRoles) {
                 Optional<RoleHelper> roleHelpers = settings.getRoleHelper().stream().filter(h -> r.getId().matches(h.getRoleID())).findFirst();
-                if (doesGuildBanRoles)
-                    if (bannedRoles.indexOf(r.getId()) != -1) {
-                        messageChannel.sendMessage("You cannot assign role **" + r.getName() + "**, as designated by the Guild admins. Please contact them if you think this is incorrect.").queue();
-                        continue;
-                    }
+                if (doesGuildBanRoles) if (bannedRoles.indexOf(r.getId()) != -1) {
+                    messageChannel.sendMessage("You cannot assign role **" + r.getName() + "**, as designated by the Guild admins. Please contact them if you think this is incorrect.").queue();
+                    continue;
+                }
                 if (!roleHelpers.isPresent()) {
                     messageChannel.sendMessage("Your Guild has not set role: **" + r.getName() + "** as a role that can be assigned. Please contact an administrator if you think this is incorrect.").queue();
                 } else {
                     RoleHelper roleHelper = roleHelpers.get();
                     if (userPerm < roleHelper.getPermID()) {
-                        messageChannel.sendMessage(  "You cannot assign role: **" + r.getName() + "** as it has a higher permission level than yours. Please use !listperm.").queue();
+                        messageChannel.sendMessage("You cannot assign role: **" + r.getName() + "** as it has a higher permission level than yours. Please use !listperm.").queue();
                         continue;
                     }
                     for (Member m : sentMembers) {
@@ -73,7 +66,7 @@ public class AddRole extends Command {
                                 Role role = event.getGuild().getRoleById(s);
                                 if (!m.getRoles().contains(role)) {
                                     messageChannel.sendMessage("User: **" + m.getEffectiveName() + "** does not have role: **" + role.getName() + "**, which is required to have in order for them to be assigned roles. Please contact an administrator.").queue();
-                                    return;
+                                    sentMembers.remove(m);
                                 }
                             }
                         }
@@ -81,14 +74,12 @@ public class AddRole extends Command {
                         if (m.getEffectiveName().contains(settings.getNameChar())) {
                             if (m.getRoles().contains(r)) {
                                 messageChannel.sendMessage("User: **" + m.getEffectiveName() + "** already has role: **" + r.getName() + "**.").queue();
-                                return;
                             } else {
                                 messageChannel.sendMessage("User **" + m.getEffectiveName() + "** was assigned role: **" + r.getName() + "**.").queue();
                                 event.getEvent().getGuild().getController().addSingleRoleToMember(m, r).queue();
                             }
                         } else {
-                            messageChannel.sendMessage("Your guild has designated that users' names must be formatted in this way: \n\n\"Firstname " + settings.getNameChar() + " Gamertag\"" + "\n\n Please tell: **" + m.getEffectiveName() +"** to format their name as such.").queue();
-                            return;
+                            messageChannel.sendMessage("Your guild has designated that users' names must be formatted in this way: \n\n\"Firstname " + settings.getNameChar() + " Gamertag\"" + "\n\n Please tell: **" + m.getEffectiveName() + "** to format their name as such.").queue();
                         }
                     }
                 }
