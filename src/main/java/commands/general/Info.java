@@ -4,14 +4,12 @@ import commands.util.Command;
 import commands.util.CommandEvent;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDA;
-import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.User;
 import util.BotEmbed;
 
 public class Info extends Command {
 
-    public Info()
-    {
+    public Info() {
         name = "info";
         description = "Gives you some information about the bot.";
         helpDescription = "Tells you something about me! Stuff like my creator, my github, and my purpose.";
@@ -23,6 +21,7 @@ public class Info extends Command {
     //TODO:: make this better
     @Override
     public void onCommandReceived(CommandEvent event) {
+        System.out.println("Retard");
         EmbedBuilder embedBuilder = BotEmbed.getBotEmbed(event);
         JDA selfUser = event.getEvent().getJDA();
 

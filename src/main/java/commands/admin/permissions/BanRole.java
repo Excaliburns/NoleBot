@@ -15,9 +15,7 @@ public class BanRole extends Command {
     public BanRole() {
         name = "banrole";
         description = "Bans a role from being assigned through addrole.";
-        helpDescription = "This command allows admins to ban a role from being assigned by !addrole. Useful for if you need to restrict specific roles from being assigned, outside of the default permission values." +
-                "\nIf the role is already present in the banned role list, this command removes it." +
-                "\nUse with the argument list to see the banned roles.";
+        helpDescription = "This command allows admins to ban a role from being assigned by !addrole. Useful for if you need to restrict specific roles from being assigned, outside of the default permission values." + "\nIf the role is already present in the banned role list, this command removes it." + "\nUse with the argument list to see the banned roles.";
         usages.add("banrole <@Role> [@Role, as many as you want]");
         requiredPermission = 1000;
     }
@@ -30,9 +28,9 @@ public class BanRole extends Command {
         MessageChannel messageChannel = event.getEvent().getChannel();
         List<Role> roleList = message.getMentionedRoles();
 
-        if (args[1] == null || !args[1].trim().equals("list")) {
-            messageChannel.sendMessage("Incorrect arguments! Please use !help banrole.").queue();
-        } else if (roleList.isEmpty() && args[1] == null) {
+        if (args[1] == null) {
+            messageChannel.sendMessage("Incorrect syntax! Please use " + event.getSettings().getPrefix() + "help banrole.").queue();
+        } else if (roleList.isEmpty() && !args[1].trim().equals("list")) {
             messageChannel.sendMessage("You did not mention any roles!").queue();
         } else if (args[1].trim().equals("list")) {
             Settings settings = event.getSettings();
@@ -46,22 +44,28 @@ public class BanRole extends Command {
 
                 for (String b : bannedRoles) {
                     Role role = event.getGuild().getRoleById(b);
+                    if(role == null) {
+                        bannedRoles.remove(b);
+                        settings.setBannedRoles(bannedRoles);
+                        JSONLoader.saveGuildSettings(settings);
+                        continue;
+                    }
                     messageBuilder.appendFormat("\n" + role.getName());
                 }
-
                 messageChannel.sendMessage(messageBuilder.build()).queue();
             }
         } else {
             Settings settings = event.getSettings();
             MessageBuilder messageBuilder = new MessageBuilder();
             roleList.forEach(role -> {
-                if (settings.getBannedRoles().indexOf(role.getId()) == -1) {
+                if (settings.getBannedRoles().indexOf(role.getId()) != -1) {
                     settings.getBannedRoles().remove(role.getId());
-                    messageBuilder.appendFormat("Removed **" + role.getName() + "** from the banned roles list.");
+                    messageBuilder.appendFormat("Removed **" + role.getName() + "** from the banned roles list.\n");
+                } else {
+                    settings.getBannedRoles().add(role.getId());
+                    messageBuilder.appendFormat("Added **" + role.getName() + "** to the banned roles list.\n");
                 }
 
-                settings.getBannedRoles().add(role.getId());
-                messageBuilder.appendFormat("Added **" + role.getName() + "** to the banned roles list.");
             });
             messageChannel.sendMessage(messageBuilder.build()).queue();
             event.getCommandListener().getSettingsHashMap().put(event.getGuildID(), settings);

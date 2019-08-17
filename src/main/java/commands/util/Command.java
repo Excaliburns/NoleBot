@@ -47,7 +47,10 @@ public abstract class Command {
     public String getHelpDescription() {
         return helpDescription;
     }
-    public ArrayList<String> getUsages() { return usages; }
+
+    public ArrayList<String> getUsages() {
+        return usages;
+    }
 
     public void setDescription(String description) {
         this.description = description;
