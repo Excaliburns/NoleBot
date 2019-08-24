@@ -1,5 +1,7 @@
 import commands.admin.ServerInfoCommand;
+import commands.admin.VerifyMe;
 import commands.admin.permissions.*;
+import commands.games.rps;
 import commands.general.*;
 import commands.inhouse.InhouseCommand;
 import commands.inhouse.InhouseSetupCommand;
@@ -9,6 +11,7 @@ import commands.util.CommandListener;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
+import special.FSUVerify;
 import special.SpecialListener;
 import util.PropLoader;
 
@@ -22,17 +25,21 @@ We implement our own CommandListener because by default, JDA forces each command
 public class NoleBot {
     private static final CommandListener commandListener = new CommandListener();
     private static final ListenerAdapter specialListener = new SpecialListener();
+    private static final ListenerAdapter FSUVerify = new FSUVerify();
 
-    public static void main(String[] args) throws LoginException {
+    public static void main(String[] args) throws Exception {
         initBot();
     }
 
     private static void initBot() throws LoginException {
-        JDA jda = new JDABuilder(new PropLoader().getProp("token")).addEventListeners(commandListener, specialListener).build();
+        JDA jda = new JDABuilder(new PropLoader().getProp("token")).addEventListeners(commandListener, FSUVerify ,specialListener).build();
 
         commandListener.addCommand(new Help());
         commandListener.addCommand(new Info());
         commandListener.addCommand(new Ping());
+        commandListener.addCommand(new VerifyMe());
+
+        commandListener.addCommand(new rps());
 
         commandListener.addCommand(new InhouseCommand());
         commandListener.addCommand(new InhouseSetupCommand());

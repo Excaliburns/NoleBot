@@ -5,6 +5,7 @@ import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.events.ReadyEvent;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import util.JSONLoader;
 import util.RoleHelper;
@@ -64,7 +65,7 @@ public class CommandListener extends ListenerAdapter {
     }
 
     @Override
-    public void onMessageReceived(MessageReceivedEvent event) {
+    public void onGuildMessageReceived(GuildMessageReceivedEvent event) {
         if (event.getAuthor().isBot()) return;
 
         String[] commandEventMessage;
@@ -161,7 +162,7 @@ public class CommandListener extends ListenerAdapter {
     }
 
     //Method for sending error messages.
-    private void messageError(MessageReceivedEvent event, String reason) {
+    private void messageError(GuildMessageReceivedEvent event, String reason) {
         event.getChannel().sendMessage("Command failed for reason: " + reason).queue();
     }
 

@@ -14,7 +14,7 @@ class JoinGroupCommand {
             return;
         }
 
-        Inhouse foundInhouse = inhouseStruct.getInhouses().stream().filter( inhouse -> args[1].equals(inhouse.getInhouseName())).findAny().orElse(null);
+        Inhouse foundInhouse = inhouseStruct.getInhouses().stream().filter( inhouse -> args[1].toLowerCase().equals(inhouse.getInhouseName().toLowerCase())).findAny().orElse(null);
 
         if(foundInhouse == null)
         {

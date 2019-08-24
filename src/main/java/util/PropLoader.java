@@ -7,9 +7,8 @@ import java.io.OutputStream;
 import java.util.Properties;
 
 public class PropLoader {
-    public String getProp(String prop) {
-        System.out.println("Initializing config.properties.");
-        String botToken;
+    public static String getProp(String prop) {
+        String propValue;
         try {
             Properties properties = new Properties();
             File propFile = new File("data/config/config.properties");
@@ -26,25 +25,26 @@ public class PropLoader {
 
                 //Create properties normally used for Bot operation
                 properties.setProperty("token", "");
+                properties.setProperty("google_app_name", "NoleBot Verification Service");
+                properties.setProperty("google_spreadsheet_id", "");
 
                 properties.store(fStream, null);
-                System.out.println("Created and stored blank token value. Please open /data/config/config.properties and set the bot's token.");
+                System.out.println("Created and stored blank values. Please open /data/config/config.properties and set the bot's values.");
 
                 fStream.close();
             }
             FileInputStream botConfig = new FileInputStream(propFile);
 
-            System.out.println("Found config.properties.");
             properties.load(botConfig);
             botConfig.close();
 
-            botToken = properties.getProperty(prop);
+            propValue = properties.getProperty(prop);
 
         } catch (Exception e) {
             System.out.println("Exception: " + e);
-            botToken = null;
+            propValue = null;
         }
 
-        return botToken;
+        return propValue;
     }
 }
