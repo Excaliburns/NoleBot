@@ -26,6 +26,7 @@ public class Help extends Command {
         String[] message = event.getMessage();
 
         message = message[1] == null ? new String[0] : message[1].split("\\s+");
+        message[0] = message[0].replaceAll("[<e>]", "");
 
         if (message.length == 0) sendGenericHelp(event);
         else sendCommandHelp(event, message[0]);
