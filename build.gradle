@@ -4,8 +4,6 @@ plugins {
 
 version '2.1'
 
-sourceCompatibility = 1.8
-
 jar {
     manifest {
         attributes(
@@ -26,8 +24,14 @@ repositories {
 
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
+    implementation 'com.google.api-client:google-api-client:1.23.0'
+    implementation 'com.google.oauth-client:google-oauth-client-jetty:1.23.0'
+    implementation 'com.google.apis:google-api-services-sheets:v4-rev516-1.23.0'
     implementation 'com.google.code.gson:gson:2.8.5'
-    implementation("net.dv8tion:JDA:4.ALPHA.0_58")
+    implementation 'net.dv8tion:JDA:4.ALPHA.0_58'
     compile 'net.dv8tion:JDA:4.ALPHA.0_58'
     compile 'com.google.code.gson:gson:2.8.5'
+    compile 'com.google.api-client:google-api-client:1.23.0'
+    compile 'com.google.oauth-client:google-oauth-client-jetty:1.23.0'
+    compile 'com.google.apis:google-api-services-sheets:v4-rev516-1.23.0'
 }
