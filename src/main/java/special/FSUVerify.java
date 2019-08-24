@@ -5,11 +5,11 @@ import com.google.api.client.extensions.java6.auth.oauth2.AuthorizationCodeInsta
 import com.google.api.client.extensions.jetty.auth.oauth2.LocalServerReceiver;
 import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow;
 import com.google.api.client.googleapis.auth.oauth2.GoogleClientSecrets;
+import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
-import com.google.api.client.util.store.FileDataStoreFactory;
 import com.google.api.services.sheets.v4.Sheets;
 import com.google.api.services.sheets.v4.SheetsScopes;
 import com.google.api.services.sheets.v4.model.UpdateValuesResponse;
@@ -50,32 +50,15 @@ public class FSUVerify extends ListenerAdapter {
     }
 
     private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
-    private static final String TOKENS_DIRECTORY_PATH = "data/tokens";
     private static final List<String> SCOPES = Collections.singletonList(SheetsScopes.SPREADSHEETS);
     private static final File CREDENTIALS_FILE_PATH = new File("data/config/credentials.json");
-
-    private static Credential getCredentials(final NetHttpTransport HTTP_TRANSPORT) throws IOException
-    {
-        if(!CREDENTIALS_FILE_PATH.exists())
-            throw new FileNotFoundException("Could not find Credentials.json");
-
-        FileInputStream in = new FileInputStream(CREDENTIALS_FILE_PATH);
-
-        GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(in));
-
-        GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(
-                HTTP_TRANSPORT, JSON_FACTORY, clientSecrets, SCOPES)
-                .setDataStoreFactory(new FileDataStoreFactory(new java.io.File(TOKENS_DIRECTORY_PATH)))
-                .setAccessType("offline")
-                .build();
-        LocalServerReceiver receiver = new LocalServerReceiver.Builder().setPort(8888).build();
-
-        return new AuthorizationCodeInstalledApp(flow, receiver).authorize("NoleBot");
-    }
 
 
     private void verifyUser(String message, PrivateMessageReceivedEvent event) throws IOException, GeneralSecurityException
     {
+        GoogleCredential credential = GoogleCredential.fromStream(new FileInputStream(CREDENTIALS_FILE_PATH))
+                .createScoped(SCOPES);
+
         String[] trimmedMessage = message.trim().split("//s");
         String password = trimmedMessage[0];
         final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
@@ -83,7 +66,7 @@ public class FSUVerify extends ListenerAdapter {
         final String APPLICATION_NAME = PropLoader.getProp("google_app_name");
         final String RANGE = "encodes!B1:C";
 
-        Sheets service = new Sheets.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentials(HTTP_TRANSPORT))
+        Sheets service = new Sheets.Builder(HTTP_TRANSPORT, JSON_FACTORY, credential)
                 .setApplicationName(APPLICATION_NAME)
                 .build();
 
