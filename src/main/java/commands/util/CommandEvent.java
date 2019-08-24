@@ -3,13 +3,14 @@ package commands.util;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import util.Settings;
 
 /*
 Build this event to pass to the command. You can implement getters and setters here for almost anything since you have access to the MessageReceivedEvent.
  */
 public class CommandEvent {
-    private final MessageReceivedEvent event;
+    private final GuildMessageReceivedEvent event;
     private String[] message;
     private final CommandListener commandListener;
     private final String prefix;
@@ -19,7 +20,7 @@ public class CommandEvent {
     private final Settings settings;
     private final int userPermLevel;
 
-    public CommandEvent(MessageReceivedEvent event, String[] message, CommandListener commandListener, int userPermLevel) {
+    public CommandEvent(GuildMessageReceivedEvent event, String[] message, CommandListener commandListener, int userPermLevel) {
         this.event = event;
         this.message = message;
         this.commandListener = commandListener;
@@ -31,7 +32,7 @@ public class CommandEvent {
         this.userPermLevel = userPermLevel;
     }
 
-    public MessageReceivedEvent getEvent() {
+    public GuildMessageReceivedEvent getEvent() {
         return event;
     }
 

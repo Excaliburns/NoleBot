@@ -31,7 +31,7 @@ public class InhouseCommand extends Command {
 
         else {
 
-        String message = eventMessage[1];
+        String message = eventMessage[1].toLowerCase();
             String[] args = message.split("\\s");
 
             if (args[0].trim().equals("create"))

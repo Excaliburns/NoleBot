@@ -18,6 +18,7 @@ public class Settings {
     private List<String> bannedRoles = new ArrayList<>();
     private String introMessage = "";
     private String nameChar = "|";
+    private String verifyPass = "";
     private boolean init;
 
     private Settings() {

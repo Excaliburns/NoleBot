@@ -16,7 +16,7 @@ public class InhouseSetupCommand extends Command {
     @Override
     public void onCommandReceived(CommandEvent event) {
         InhouseStruct inhouseStruct = JSONLoader.inhouseLoader(event.getSettings());
-        Category category = event.getEvent().getTextChannel().getParent();
+        Category category = event.getEvent().getMessage().getTextChannel().getParent();
 
 
         inhouseStruct.setCategoryID(category.getId());
