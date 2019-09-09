@@ -66,7 +66,7 @@ public class DelRole extends Command {
                     for (Member m : sentMembers) {
                             if (m.getRoles().contains(r)) {
                                 messageChannel.sendMessage("Removed Role: **" + r.getName() + " from User: **" + m.getEffectiveName() + "**").queue();
-                                event.getGuild().getController().removeSingleRoleFromMember(m, r).queue();
+                                event.getGuild().removeRoleFromMember(m, r).queue();
                             } else {
                                 messageChannel.sendMessage("User **" + m.getEffectiveName() + "** did not have role: **" + r.getName() + "**.").queue();
                             }

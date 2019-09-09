@@ -97,7 +97,7 @@ public class FSUVerify extends ListenerAdapter {
                     {
                         Role role = member.getGuild().getRoleById("347620911379382272");
 
-                        member.getGuild().getController().addSingleRoleToMember(member, role).queue();
+                        member.getGuild().addRoleToMember(member, role).queue();
                         System.out.println("Adding " + role.getName() + " to member: " + member.getEffectiveName());
                         rows.add("Verified");
                         response.setValues(values);
