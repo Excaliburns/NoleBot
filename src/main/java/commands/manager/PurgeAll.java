@@ -49,7 +49,7 @@ public class PurgeAll extends Command {
                     if (userPerm > optionalRoleHelper.get().getPermID()) {
                         List<Member> memberList = event.getGuild().getMembersWithRoles(r);
                         for (Member m : memberList) {
-                            event.getGuild().getController().removeSingleRoleFromMember(m, r).queue();
+                            event.getGuild().removeRoleFromMember(m, r).queue();
                             messageChannel.sendMessage("Removed user: **" + m.getEffectiveName() + "** from role: **" + r.getName() + "**.").queue();
                         }
                     } else {

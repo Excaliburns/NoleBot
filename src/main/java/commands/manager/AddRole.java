@@ -76,7 +76,7 @@ public class AddRole extends Command {
                                 messageChannel.sendMessage("User: **" + m.getEffectiveName() + "** already has role: **" + r.getName() + "**.").queue();
                             } else {
                                 messageChannel.sendMessage("User **" + m.getEffectiveName() + "** was assigned role: **" + r.getName() + "**.").queue();
-                                event.getEvent().getGuild().getController().addSingleRoleToMember(m, r).queue();
+                                event.getEvent().getGuild().addRoleToMember(m, r).queue();
                             }
                         } else {
                             messageChannel.sendMessage("Your guild has designated that users' names must be formatted in this way: \n\n\"Firstname " + settings.getNameChar() + " Gamertag\"" + "\n\n Please tell: **" + m.getEffectiveName() + "** to format their name as such.").queue();
