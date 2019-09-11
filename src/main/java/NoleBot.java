@@ -6,6 +6,7 @@ import commands.general.*;
 import commands.inhouse.InhouseCommand;
 import commands.inhouse.InhouseSetupCommand;
 import commands.manager.AddRole;
+import commands.manager.DelRole;
 import commands.manager.PurgeAll;
 import commands.util.CommandListener;
 import net.dv8tion.jda.api.JDA;
@@ -48,6 +49,7 @@ public class NoleBot {
         commandListener.addCommand(new UserInfoCommand());
 
         commandListener.addCommand(new AddRole());
+        commandListener.addCommand(new DelRole());
         commandListener.addCommand(new PurgeAll());
 
         commandListener.addCommand(new AddPerm());
