@@ -59,6 +59,7 @@ public class AddRole extends Command {
                         continue;
                     }
                     for (Member m : sentMembers) {
+                        assignLoop:
                         if (doesGuildHaveVerifiedRoles) {
                             List<String> verifiedRoles = settings.getVerifiedRoles();
 
@@ -66,7 +67,7 @@ public class AddRole extends Command {
                                 Role role = event.getGuild().getRoleById(s);
                                 if (!m.getRoles().contains(role)) {
                                     messageChannel.sendMessage("User: **" + m.getEffectiveName() + "** does not have role: **" + role.getName() + "**, which is required to have in order for them to be assigned roles. Please contact an administrator.").queue();
-                                    break;
+                                    break assignLoop;
                                 }
                             }
                         }
