@@ -59,17 +59,11 @@ public class AddRole extends Command {
                         continue;
                     }
                     for (Member m : sentMembers) {
-                        assignLoop:
+
                         if (doesGuildHaveVerifiedRoles) {
                             List<String> verifiedRoles = settings.getVerifiedRoles();
-
-                            for (String s : verifiedRoles) {
-                                Role role = event.getGuild().getRoleById(s);
-                                if (!m.getRoles().contains(role)) {
-                                    messageChannel.sendMessage("User: **" + m.getEffectiveName() + "** does not have role: **" + role.getName() + "**, which is required to have in order for them to be assigned roles. Please contact an administrator.").queue();
-                                    break assignLoop;
-                                }
-                            }
+                            if(!hasVerifiedRole(m, verifiedRoles, event))
+                                break;
                         }
 
                         if (m.getEffectiveName().contains(settings.getNameChar())) {
@@ -86,5 +80,17 @@ public class AddRole extends Command {
                 }
             }
         }
+    }
+
+    private boolean hasVerifiedRole(Member member, List<String> verifiedRoles, CommandEvent event)
+    {
+        for (String s : verifiedRoles) {
+            Role role = event.getGuild().getRoleById(s);
+            if (!member.getRoles().contains(role)) {
+                event.getChannel().sendMessage("User: **" + member.getEffectiveName() + "** does not have role: **" + role.getName() + "**, which is required to have in order for them to be assigned roles. Please contact an administrator.").queue();
+                return false;
+            }
+        }
+        return true;
     }
 }
