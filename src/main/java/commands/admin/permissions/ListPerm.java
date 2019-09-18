@@ -45,6 +45,12 @@ public class ListPerm extends Command {
                 messageBuilder.append(" has permission level: ");
                 messageBuilder.append(Integer.toString(role.getPermID()), MessageBuilder.Formatting.BOLD);
                 messageBuilder.append("\n");
+
+                if(messageBuilder.length() > 1500)
+                {
+                    event.getChannel().sendMessage(messageBuilder.build()).queue();
+                    messageBuilder.clear();
+                }
             }
 
             event.getChannel().sendMessage(messageBuilder.build()).queue();
@@ -57,11 +63,18 @@ public class ListPerm extends Command {
                 messageBuilder.append(" requires permission level: ");
                 messageBuilder.append(Integer.toString(c.getRequiredPermission()), MessageBuilder.Formatting.BOLD);
                 messageBuilder.append("\n");
+
+                if(messageBuilder.length() > 1500)
+                {
+                    event.getChannel().sendMessage(messageBuilder.build()).queue();
+                    messageBuilder.clear();
+                }
+
             }
 
             event.getChannel().sendMessage(messageBuilder.build()).queue();
         } else {
-            event.getChannel().sendMessage("Incorrect syntax! Use !help listperm for more help.").queue();
+            event.getChannel().sendMessage("Incorrect syntax! Use " + event.getSettings().getPrefix() + "help listperm for more help.").queue();
         }
     }
 }

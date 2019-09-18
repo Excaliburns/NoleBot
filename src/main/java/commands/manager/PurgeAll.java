@@ -23,6 +23,7 @@ public class PurgeAll extends Command {
 
     @Override
     public void onCommandReceived(CommandEvent event) {
+        String prefix = event.getPrefix();
         String[] args = event.getMessage();
         Message message = event.getEvent().getMessage();
         MessageChannel messageChannel = event.getChannel();
@@ -34,7 +35,7 @@ public class PurgeAll extends Command {
         int userPerm = event.getUserPermLevel();
 
         if (args[1] == null) {
-            messageChannel.sendMessage("Incorrect arguments! Please use !help purgeall.").queue();
+            messageChannel.sendMessage("Incorrect arguments! Please use " + prefix + "help purgeall.").queue();
         } else if (roleList.isEmpty()) {
             messageChannel.sendMessage("You did not mention any roles!").queue();
         } else {

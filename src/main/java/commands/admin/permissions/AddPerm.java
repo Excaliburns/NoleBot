@@ -78,7 +78,7 @@ public class AddPerm extends Command {
                 event.getChannel().sendMessage("Saved Role: **" + e.getName() + "** with permission level: **" + roleHelper.getPermID() + "**").queue();
             });
             else
-                event.getChannel().sendMessage("You did not mention a role. Use !help addperm for more information.").queue();
+                event.getChannel().sendMessage("You did not mention a role. Use + " + settings.getPrefix() + "help addperm for more information.").queue();
         } else {
             event.getChannel().sendMessage("You cannot assign the permission level of a role higher than your own! \nYour highest permission level: **" + userPermission + "**\nRequired Permission: **" + permission + "**").queue();
         }

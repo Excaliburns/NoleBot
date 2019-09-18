@@ -26,24 +26,12 @@ public class RoleHelper {
         return roleID;
     }
 
-    public void setRoleID(String roleID) {
-        this.roleID = roleID;
-    }
-
     public int getPermID() {
         return permID;
     }
 
     public String getRoleName() {
         return roleName;
-    }
-
-    public void setRoleName(String roleName) {
-        this.roleName = roleName;
-    }
-
-    public void setPermID(int permID) {
-        this.permID = permID;
     }
 
     public RoleHelper getRoleHelper() {

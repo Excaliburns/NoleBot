@@ -18,15 +18,7 @@ public class Settings {
     private List<String> bannedRoles = new ArrayList<>();
     private String introMessage = "";
     private String nameChar = "|";
-    private String verifyPass = "";
     private boolean init;
-
-    private Settings() {
-        this.guildID = null;
-        this.roleHelper = null;
-        this.commandHelper = null;
-        this.init = false;
-    }
 
     Settings(String guildID) {
         this.guildID = guildID;
@@ -92,9 +84,6 @@ public class Settings {
         return guildID;
     }
 
-    public void setGuildID(String guildID) {
-        this.guildID = guildID;
-    }
 
     public HashMap<String, Integer> getCommandHelper() {
         return commandHelper;
@@ -112,20 +101,8 @@ public class Settings {
         this.bannedRoles = bannedRoles;
     }
 
-    public String getIntroMessage() {
-        return introMessage;
-    }
-
-    public void setIntroMessage(String introMessage) {
-        this.introMessage = introMessage;
-    }
-
     public String getNameChar() {
         return nameChar;
-    }
-
-    public void setNameChar(String nameChar) {
-        this.nameChar = nameChar;
     }
 
     public List<String> getVerifiedRoles() {

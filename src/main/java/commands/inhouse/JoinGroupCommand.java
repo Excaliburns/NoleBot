@@ -5,36 +5,37 @@ import net.dv8tion.jda.api.entities.MessageChannel;
 import util.JSONLoader;
 
 class JoinGroupCommand {
-    JoinGroupCommand(CommandEvent event, String[] args, InhouseStruct inhouseStruct)
+    JoinGroupCommand(CommandEvent event, String[] args, GroupStruct groupStruct)
     {
+        String prefix = event.getPrefix();
         MessageChannel messageChannel = event.getChannel();
 
         if (args[0] == null) {
-            messageChannel.sendMessage("You did not specify a group to join. Use !lfg or !lfg list to see all available groups.").queue();
+            messageChannel.sendMessage("You did not specify a group to join. Use " + prefix + "lfg or " + prefix + "lfg list to see all available groups.").queue();
             return;
         }
 
-        Inhouse foundInhouse = inhouseStruct.getInhouses().stream().filter( inhouse -> args[1].toLowerCase().equals(inhouse.getInhouseName().toLowerCase())).findAny().orElse(null);
+        Group foundGroup = groupStruct.getGroups().stream().filter(inhouse -> args[1].toLowerCase().equals(inhouse.getInhouseName().toLowerCase())).findAny().orElse(null);
 
-        if(foundInhouse == null)
+        if(foundGroup == null)
         {
-            messageChannel.sendMessage("There is no group with that name. Use !lfg or !lfg list to list all available groups.").queue();
+            messageChannel.sendMessage("There is no group with that name. Use " + prefix + "lfg or " + prefix + "lfg list to list all available groups.").queue();
         }
-        else if(foundInhouse.getUserList().contains(event.getEvent().getAuthor().getId()))
+        else if(foundGroup.getUserList().contains(event.getEvent().getAuthor().getId()))
         {
             messageChannel.sendMessage("You cannot join a group you have already joined.").queue();
         }
         else
         {
-            inhouseStruct.getInhouses().get(inhouseStruct.getInhouses().indexOf(foundInhouse)).addPlayer(event.getEvent().getAuthor().getId());
-            JSONLoader.saveInhouseData(inhouseStruct, event.getGuildID());
-            messageChannel.sendMessage("**" + event.getEvent().getAuthor().getName() + "**" + ", you have joined group: " + "**" + foundInhouse.getInhouseName() + "**.").queue();
+            groupStruct.getGroups().get(groupStruct.getGroups().indexOf(foundGroup)).addPlayer(event.getEvent().getAuthor().getId());
+            JSONLoader.saveInhouseData(groupStruct, event.getGuildID());
+            messageChannel.sendMessage("**" + event.getEvent().getAuthor().getName() + "**" + ", you have joined group: " + "**" + foundGroup.getInhouseName() + "**.").queue();
 
-            if(foundInhouse.getRequiredPlayers() == foundInhouse.getPlayerCount()) {
-                messageChannel.sendMessage("Creating voice and text channel for group: **" + foundInhouse.getInhouseName() + "**.").queue();
-                new ExecuteGroup(event, foundInhouse, inhouseStruct);
-                inhouseStruct.getInhouses().remove(foundInhouse);
-                JSONLoader.saveInhouseData(inhouseStruct, event.getGuildID());
+            if(foundGroup.getRequiredPlayers() == foundGroup.getPlayerCount()) {
+                messageChannel.sendMessage("Creating voice and text channel for group: **" + foundGroup.getInhouseName() + "**.").queue();
+                new ExecuteGroup(event, foundGroup, groupStruct);
+                groupStruct.getGroups().remove(foundGroup);
+                JSONLoader.saveInhouseData(groupStruct, event.getGuildID());
             }
         }
     }

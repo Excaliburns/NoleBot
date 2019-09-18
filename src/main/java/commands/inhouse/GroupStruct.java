@@ -3,18 +3,18 @@ package commands.inhouse;
 import java.util.ArrayList;
 import java.util.List;
 
-public class InhouseStruct {
+public class GroupStruct {
     private String CategoryID = "";
-    private List<Inhouse> inhouses;
+    private List<Group> groups;
 
-    List<Inhouse> getInhouses() {
-        if(inhouses == null)
+    List<Group> getGroups() {
+        if(groups == null)
             return new ArrayList<>();
-        return inhouses;
+        return groups;
     }
 
-    void setInhouses(List<Inhouse> inhouses) {
-        this.inhouses = inhouses;
+    void setGroups(List<Group> groups) {
+        this.groups = groups;
     }
 
     String getCategoryID() {

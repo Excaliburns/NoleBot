@@ -3,8 +3,8 @@ import commands.admin.VerifyMe;
 import commands.admin.permissions.*;
 import commands.games.rps;
 import commands.general.*;
-import commands.inhouse.InhouseCommand;
-import commands.inhouse.InhouseSetupCommand;
+import commands.inhouse.GroupCommand;
+import commands.inhouse.GroupSetupCommand;
 import commands.manager.AddRole;
 import commands.manager.DelRole;
 import commands.manager.PurgeAll;
@@ -33,7 +33,7 @@ public class NoleBot {
     }
 
     private static void initBot() throws LoginException {
-        JDA jda = new JDABuilder(new PropLoader().getProp("token")).addEventListeners(commandListener, FSUVerify ,specialListener).build();
+        JDA jda = new JDABuilder(PropLoader.getProp("token")).addEventListeners(commandListener, FSUVerify ,specialListener).build();
 
         commandListener.addCommand(new Help());
         commandListener.addCommand(new Info());
@@ -42,8 +42,8 @@ public class NoleBot {
 
         commandListener.addCommand(new rps());
 
-        commandListener.addCommand(new InhouseCommand());
-        commandListener.addCommand(new InhouseSetupCommand());
+        commandListener.addCommand(new GroupCommand());
+        commandListener.addCommand(new GroupSetupCommand());
 
         commandListener.addCommand(new ServerInfoCommand());
         commandListener.addCommand(new UserInfoCommand());
