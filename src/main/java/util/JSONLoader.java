@@ -2,7 +2,7 @@ package util;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import commands.inhouse.InhouseStruct;
+import commands.inhouse.GroupStruct;
 
 import java.io.*;
 
@@ -59,25 +59,26 @@ public class JSONLoader {
         genericSave(guildSettings, settings);
     }
 
-    public static InhouseStruct inhouseLoader(Settings settings) {
+    public static GroupStruct inhouseLoader(Settings settings) {
         File JSONFile = new File("data/" + settings.getGuildID() + "/" + "inhouse.json");
 
         try {
             BufferedReader reader = new BufferedReader(new FileReader(JSONFile));
 
             Gson gson = new Gson();
-            return gson.fromJson(reader, InhouseStruct.class);
+            return gson.fromJson(reader, GroupStruct.class);
         } catch (IOException e) {
             try {
                 System.out.println("Did not find inhouse json for guild " + settings.getGuildID() + "; creating now.");
-                JSONFile.getParentFile().mkdirs();
-                JSONFile.createNewFile();
 
-                InhouseStruct inhouseStruct = new InhouseStruct();
+                if( !(JSONFile.getParentFile().mkdirs() & JSONFile.createNewFile()) )
+                    System.out.println("Something is wrong. Could not make directory or create new file " + settings.getGuildID() + " inhouse json.");
 
-                genericSave(JSONFile, inhouseStruct);
+                GroupStruct groupStruct = new GroupStruct();
 
-                return inhouseStruct;
+                genericSave(JSONFile, groupStruct);
+
+                return groupStruct;
             } catch (IOException x) {
                 System.out.println("Something is terribly wrong. Could not create inhouse file for guild " + settings.getGuildID() + "\n :" + x);
                 return null;
@@ -86,10 +87,10 @@ public class JSONLoader {
         }
     }
 
-    public static void saveInhouseData(InhouseStruct inhouseStruct, String GuildID) {
+    public static void saveInhouseData(GroupStruct groupStruct, String GuildID) {
         File JSONFile = new File("data/" + GuildID + "/" + "inhouse.json");
 
-        genericSave(JSONFile, inhouseStruct);
+        genericSave(JSONFile, groupStruct);
     }
 
     private static void genericSave(File fileName, Object gsonClass) {

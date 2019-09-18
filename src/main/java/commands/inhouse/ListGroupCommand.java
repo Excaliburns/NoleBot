@@ -6,37 +6,51 @@ import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.User;
 
+import java.util.ArrayList;
 import java.util.List;
 
 class ListGroupCommand {
-    ListGroupCommand(CommandEvent event, InhouseStruct inhouseStruct)
+    ListGroupCommand(CommandEvent event, GroupStruct groupStruct)
     {
-        List<Inhouse> currentInhouses = inhouseStruct.getInhouses();
+        List<Group> currentGroups = groupStruct.getGroups();
         MessageChannel messageChannel = event.getChannel();
 
-        if (!currentInhouses.isEmpty()) {
+        if (!currentGroups.isEmpty()) {
             messageChannel.sendMessage("Here are the groups currently being formed: ").queue();
-            for (Inhouse l : currentInhouses) {
-                StringBuilder listofUsers = new StringBuilder();
+            for (Group l : currentGroups) {
+                StringBuilder listOfUsers = new StringBuilder();
+                List<String> nullUsers = new ArrayList<>();
+
                 for (String u : l.getUserList()) {
-                    try
-                    {
                         Member x = event.getGuild().getMemberById(u);
-                        listofUsers.append(x.getEffectiveName());
-                        listofUsers.append("\n");
-                    }
-                    catch(NullPointerException e)
-                    {
-                        listofUsers.append("USER NOT FOUND, DELETING FOR NEXT CALL.");
-                        l.getUserList().remove(u);
-                    }
+
+                        if(x == null)
+                        {
+                            nullUsers.add(u);
+                            continue;
+                        }
+
+                        listOfUsers.append(x.getEffectiveName());
+                        listOfUsers.append("\n");
                 }
+
+                l.getUserList().removeAll(nullUsers);
+
+                Member creator = event.getGuild().getMemberById(l.getUserList().get(0));
+                String creatorName;
+
+                if(creator == null)
+                    creatorName = "Could not find creator.";
+                else
+                    creatorName = creator.getNickname();
+
                 EmbedBuilder embedBuilder = new EmbedBuilder();
                 embedBuilder.addField("Name: ", l.getInhouseName(), true);
                 embedBuilder.addField("No. of Players Needed:", Integer.toString(l.getRequiredPlayers()), true);
                 embedBuilder.addField("No. of Players in Queue:", Integer.toString(l.getPlayerCount()), true);
-                embedBuilder.addField("Creator: ", event.getGuild().getMemberById(l.getUserList().get(0)).getEffectiveName(), true);
-                embedBuilder.addField("Players in Queue: ", listofUsers.toString(), false);
+                embedBuilder.addField("Creator: ", creatorName, true);
+                embedBuilder.addField("Players in Queue: ", listOfUsers.toString(), false);
+
                 messageChannel.sendMessage(embedBuilder.build()).queue();
             }
         } else {

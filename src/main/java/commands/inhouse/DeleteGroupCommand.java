@@ -7,7 +7,7 @@ import util.JSONLoader;
 
 
 class DeleteGroupCommand {
-     DeleteGroupCommand(CommandEvent event, String[] args, InhouseStruct inhouseStruct) {
+     DeleteGroupCommand(CommandEvent event, String[] args, GroupStruct groupStruct) {
          MessageChannel messageChannel = event.getChannel();
 
          if(args.length == 1)
@@ -16,18 +16,18 @@ class DeleteGroupCommand {
              return;
          }
 
-         Inhouse foundInhouse = inhouseStruct.getInhouses().stream().filter(inhouse -> (args[1].equals(inhouse.getInhouseName()))).findAny().orElse(null);
+         Group foundGroup = groupStruct.getGroups().stream().filter(inhouse -> (args[1].equals(inhouse.getInhouseName()))).findAny().orElse(null);
          User author = event.getEvent().getAuthor();
 
-         if(foundInhouse == null)
+         if(foundGroup == null)
          {
              messageChannel.sendMessage("There is no group with that name.").queue();
          }
-         else if(foundInhouse.getUserList().get(0).equals(author.getId()) || event.getUserPermLevel() >=  (new InhouseCommand().getRequiredPermission() * 2))
+         else if(foundGroup.getUserList().get(0).equals(author.getId()) || event.getUserPermLevel() >=  (new GroupCommand().getRequiredPermission() * 2))
          {
-             inhouseStruct.getInhouses().remove(foundInhouse);
-             JSONLoader.saveInhouseData(inhouseStruct, event.getGuildID());
-             messageChannel.sendMessage("Your group, **" + foundInhouse.getInhouseName() + "** has been disbanded.").queue();
+             groupStruct.getGroups().remove(foundGroup);
+             JSONLoader.saveInhouseData(groupStruct, event.getGuildID());
+             messageChannel.sendMessage("Your group, **" + foundGroup.getInhouseName() + "** has been disbanded.").queue();
          }
          else
          {

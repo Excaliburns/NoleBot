@@ -42,7 +42,7 @@ public class DelPerm extends Command {
                 }
                 roleHelperList.removeAll(roleHelperArrayList);
                 permissionUtils.saveData(roleHelperList, settings, event);
-                event.getChannel().sendMessage("Your roles have been cleaned. Please use !listperms for a list of all current permissions.").queue();
+                event.getChannel().sendMessage("Your roles have been cleaned. Please use " + settings.getPrefix() + "listperms for a list of all current permissions.").queue();
             } else {
                 event.getChannel().sendMessage("You must have the highest permission level on the server to delete all other permissions.\nYour permission level: **" + highestPerm + "**\nRequired permission level: **" + roleHelperList.get(0).getPermID() + "**.").queue();
             }
@@ -63,7 +63,7 @@ public class DelPerm extends Command {
                     }
                 });
             } else {
-                event.getChannel().sendMessage("You did not mention a role. Use !help delperm for more information.").queue();
+                event.getChannel().sendMessage("You did not mention a role. Use " + settings.getPrefix() + "help delperm for more information.").queue();
             }
         }
     }

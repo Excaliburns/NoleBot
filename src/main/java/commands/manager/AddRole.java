@@ -24,6 +24,7 @@ public class AddRole extends Command {
 
     @Override
     public void onCommandReceived(CommandEvent event) {
+        String prefix = event.getPrefix();
         String[] args = event.getMessage();
         MessageChannel messageChannel = event.getChannel();
         List<Role> sentRoles = event.getEvent().getMessage().getMentionedRoles();
@@ -39,7 +40,7 @@ public class AddRole extends Command {
         } else if (sentMembers.isEmpty()) {
             messageChannel.sendMessage("You did not mention any members.").queue();
         } else if (args[1] == null) {
-            messageChannel.sendMessage("You did not enter any arguments! Please use !help addrole for more information").queue();
+            messageChannel.sendMessage("You did not enter any arguments! Please use " + prefix + "help addrole for more information").queue();
         } else {
             List<String> bannedRoles = null;
             if (doesGuildBanRoles) bannedRoles = settings.getBannedRoles();
@@ -55,7 +56,7 @@ public class AddRole extends Command {
                 } else {
                     RoleHelper roleHelper = roleHelpers.get();
                     if (userPerm < roleHelper.getPermID()) {
-                        messageChannel.sendMessage("You cannot assign role: **" + r.getName() + "** as it has a higher permission level than yours. Please use !listperm.").queue();
+                        messageChannel.sendMessage("You cannot assign role: **" + r.getName() + "** as it has a higher permission level than yours. Please use " + prefix + "listperm.").queue();
                         continue;
                     }
                     for (Member m : sentMembers) {
@@ -86,6 +87,12 @@ public class AddRole extends Command {
     {
         for (String s : verifiedRoles) {
             Role role = event.getGuild().getRoleById(s);
+
+            if(role == null) {
+                event.getChannel().sendMessage("Could not find verified role. Assigning role.").queue();
+                return true;
+            }
+
             if (!member.getRoles().contains(role)) {
                 event.getChannel().sendMessage("User: **" + member.getEffectiveName() + "** does not have role: **" + role.getName() + "**, which is required to have in order for them to be assigned roles. Please contact an administrator.").queue();
                 return false;

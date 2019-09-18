@@ -12,13 +12,14 @@ public class CommandPerm extends Command {
     public CommandPerm() {
         name = "commandperm";
         description = "Sets the required permission level to use a command";
-        helpDescription = "Sets the permission level for a command. This value is saved between restarts. You must type the name of the command exactly, without your prefix. Use !help for a list of commands. It is recommended that this command's permission level stays equal to your server's highest. Use !listperm for these values.";
+        helpDescription = "Sets the permission level for a command. This value is saved between restarts. You must type the name of the command exactly, without your prefix. Use !help for a list of commands. It is recommended that this command's permission level stays equal to your server's highest. Use listperm for these values.";
         usages.add("commandperm <Command Name> <permission level>");
         requiredPermission = 1000;
     }
 
     @Override
     public void onCommandReceived(CommandEvent event) {
+        Settings settings = event.getSettings();
         String[] args = event.getMessage();
         MessageChannel messageChannel = event.getEvent().getChannel();
         String commandName;
@@ -31,14 +32,14 @@ public class CommandPerm extends Command {
                 messageChannel.sendMessage("Not enough arguments.").queue();
                 return;
             } else if (message.length > 2) {
-                messageChannel.sendMessage("Too many arguments! Use !help commandperm for instructions.").queue();
+                messageChannel.sendMessage("Too many arguments! Use "+ settings.getPrefix() +"help commandperm for instructions.").queue();
                 return;
             }
 
             try {
                 permission = Integer.parseInt(message[1]);
             } catch (NumberFormatException e) {
-                messageChannel.sendMessage("You did not input a valid permission level. Use !help commandperm for instructions.").queue();
+                messageChannel.sendMessage("You did not input a valid permission level. Use " + settings.getPrefix() + "help commandperm for instructions.").queue();
                 return;
             }
 

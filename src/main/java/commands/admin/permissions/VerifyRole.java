@@ -15,7 +15,7 @@ public class VerifyRole extends Command {
     public VerifyRole() {
         name = "verifyrole";
         description = "Sets the verified roles for your server.";
-        helpDescription = "Sets the verified roles for your server. These roles are used in Addrole, where users need to be \"Verified\" before they can be assigned a role." + "\nIf the role is already present in the verified role list, this command removes it." + "\nUse with the argument list to see the banned roles.";
+        helpDescription = "Sets the verified roles for your server. These roles are used in addrole, where users need to be \"Verified\" before they can be assigned a role." + "\nIf the role is already present in the verified role list, this command removes it." + "\nUse with the argument list to see the banned roles.";
         usages.add("verifyrole <@Role> [@Role, as many as you want]");
         requiredPermission = 1000;
     }

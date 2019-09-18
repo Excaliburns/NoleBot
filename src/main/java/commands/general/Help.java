@@ -15,7 +15,7 @@ public class Help extends Command {
     public Help() {
         name = "help";
         description = "Sends the help message. Also used to ask for help on other commands.";
-        helpDescription = "Why would you use this? It sends you this message. \nUse !help to display all commands and a short description, use !help [command] to display more information about other commands.";
+        helpDescription = "Why would you use this? It sends you this message. \nUse !help to display all commands and a short description, use help [command] to display more information about other commands.";
         usages.add("help");
         usages.add("help [command]");
         requiredPermission = 0;

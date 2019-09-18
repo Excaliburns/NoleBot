@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
 class ExecuteGroup {
-    ExecuteGroup(CommandEvent event, Inhouse inhouse, InhouseStruct struct)
+    ExecuteGroup(CommandEvent event, Group group, GroupStruct struct)
     {
         boolean categoryNotSet = struct.getCategoryID().isEmpty();
 
@@ -19,7 +19,7 @@ class ExecuteGroup {
 
         ArrayList<Member> groupMembers = new ArrayList<>();
 
-        for(String s : inhouse.getUserList())
+        for(String s : group.getUserList())
         {
             try{ groupMembers.add(event.getGuild().getMemberById(s)); }
             catch(NullPointerException e) { event.getChannel().sendMessage("Could not find Member **" + s + "**").queue();}
@@ -28,16 +28,22 @@ class ExecuteGroup {
         if(categoryNotSet)
         {
             for(Member member : groupMembers)
-                member.getUser().openPrivateChannel().queue( (privateChannel -> privateChannel.sendMessage("Your group has been filled! Please contact **" + event.getGuild().getMemberById(inhouse.getUserList().get(0)).getNickname() + "** to play!" ).queue()));
+                member.getUser().openPrivateChannel().queue( (privateChannel -> privateChannel.sendMessage("Your group has been filled! Please contact **" + event.getGuild().getMemberById(group.getUserList().get(0)).getNickname() + "** to play!" ).queue()));
         }
         else {
             Category creationCategory = event.getGuild().getCategoryById(struct.getCategoryID());
 
-            creationCategory.createTextChannel(inhouse.getInhouseName()).complete();
-            creationCategory.createVoiceChannel(inhouse.getInhouseName()).complete();
+            if(creationCategory == null)
+            {
+                event.getChannel().sendMessage("Formation of channel failed, creation category is null. Report this to your Guild admins.").queue();
+                return;
+            }
 
-            TextChannel textChannel = event.getGuild().getTextChannelsByName(inhouse.getInhouseName(), false).get(0);
-            VoiceChannel voiceChannel = event.getGuild().getVoiceChannelsByName(inhouse.getInhouseName(), false).get(0);
+            creationCategory.createTextChannel(group.getInhouseName()).complete();
+            creationCategory.createVoiceChannel(group.getInhouseName()).complete();
+
+            TextChannel textChannel = event.getGuild().getTextChannelsByName(group.getInhouseName(), false).get(0);
+            VoiceChannel voiceChannel = event.getGuild().getVoiceChannelsByName(group.getInhouseName(), false).get(0);
 
             for (Member member : groupMembers) {
                 member.getUser().openPrivateChannel().queue((privateChannel -> privateChannel.sendMessage("Your group has been created! Please find your group voice and chat channel in **" + event.getGuild().getName() + "** under the **" + creationCategory.getName() + "** Category.").queue()));
@@ -51,10 +57,10 @@ class ExecuteGroup {
                 textPermissionOverride.setAllow(Permission.VIEW_CHANNEL, Permission.MESSAGE_READ, Permission.MESSAGE_WRITE).queue();
             }
 
-            struct.getInhouses().remove(inhouse);
+            struct.getGroups().remove(group);
             JSONLoader.saveInhouseData(struct, event.getGuildID());
 
-            int duration = inhouse.getDuration();
+            int duration = group.getDuration();
             textChannel.sendMessage("This channel and its corresponding voice channel will be deleted in: **" + duration + "** hour(s).").queue();
 
             textChannel.sendMessage("This channel will be deleted in: **" + duration/2 + "** hours.").queueAfter(duration/2, TimeUnit.HOURS);

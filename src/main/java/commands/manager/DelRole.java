@@ -23,6 +23,7 @@ public class DelRole extends Command {
 
     @Override
     public void onCommandReceived(CommandEvent event) {
+        String prefix = event.getPrefix();
         String[] args = event.getMessage();
         MessageChannel messageChannel = event.getChannel();
         List<Role> sentRoles = event.getEvent().getMessage().getMentionedRoles();
@@ -38,7 +39,7 @@ public class DelRole extends Command {
         } else if (sentMembers.isEmpty()) {
             messageChannel.sendMessage("You did not mention any members.").queue();
         } else if (args[1] == null) {
-            messageChannel.sendMessage("You did not enter any arguments! Please use !help addrole for more information").queue();
+            messageChannel.sendMessage("You did not enter any arguments! Please use " + prefix + "help addrole for more information").queue();
         } else {
             List<String> bannedRoles = null;
             List<String> verifiedRoles = null;

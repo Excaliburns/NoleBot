@@ -37,7 +37,7 @@ public class UserInfoCommand extends Command {
         } else if (args[1] == null) {
             channel.sendMessage(buildMessage(user, event, userPermLevel).build()).queue();
         } else {
-            channel.sendMessage("Incorrect command arguments. Use  !help userinfo for help!").queue();
+            channel.sendMessage("Incorrect command arguments. Use "+ event.getSettings().getPrefix() +"help userinfo for help!").queue();
         }
     }
 

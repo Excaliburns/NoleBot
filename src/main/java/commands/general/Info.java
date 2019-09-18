@@ -17,8 +17,6 @@ public class Info extends Command {
         usages.add("info");
     }
 
-    //Big janky, was tired.
-    //TODO:: make this better
     @Override
     public void onCommandReceived(CommandEvent event) {
         System.out.println("Retard");
