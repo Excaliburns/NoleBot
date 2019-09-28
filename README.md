@@ -15,8 +15,10 @@ NoleBot is a Discord bot written for the Esports at Florida State Discord, writt
   * Allows for hierarchical role assignment with verification further than what discord allows.
 * LFG Command
   * Automatic Voice + Chat Channel creation along with notification of a queue being filled with players.
+* Student Verification
+  * Student verification - Allows for role assignment based on Google Sheets cells.
 * *that's it for now..*
-  * Planned features include student verification, game integration specific to FSU, and other student-driven features.
+  * Coming soon: game integration specific to FSU, and other student-driven features.
 
 If you would like custom functionality added: Please contact tut#0001 on Discord, or open an issue on GitHub.
 
@@ -60,8 +62,6 @@ After inputting your token, you must then run the bot from the command line.
 Open the same directory as the bot is in and run the command `java -jar [botjar].jar`
 
 Congrats! Your bot is now running. See the Wiki for more information about what to do now.
-## Wiki
-Information and configuration settings for NoleBot can be found on the wiki [here](https://github.com/Excaliburns/NoleBot/wiki).
 
 ## Dependencies
 NoleBot requires at least **Java 8** to run.
