@@ -1,8 +1,6 @@
 [fsu-invite]: https://discord.gg/xgJH9uk
 [lgtm]: https://lgtm.com/projects/g/Excaliburns/NoleBot/context:java
 
-![GitHub release](https://img.shields.io/github/release/excaliburns/nolebot.svg)
-![GitHub All Releases](https://img.shields.io/github/downloads/excaliburns/nolebot/total.svg)
 [ ![Discord](https://discordapp.com/api/guilds/138481681630887936/widget.png) ][fsu-invite]
 
 # NoleBot
