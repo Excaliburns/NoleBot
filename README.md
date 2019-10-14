@@ -3,7 +3,6 @@
 
 ![GitHub release](https://img.shields.io/github/release/excaliburns/nolebot.svg)
 ![GitHub All Releases](https://img.shields.io/github/downloads/excaliburns/nolebot/total.svg)
-[ ![Language grade: Java](https://img.shields.io/lgtm/grade/java/g/Excaliburns/NoleBot.svg?logo=lgtm&logoWidth=18) ][lgtm]
 [ ![Discord](https://discordapp.com/api/guilds/138481681630887936/widget.png) ][fsu-invite]
 
 # NoleBot
