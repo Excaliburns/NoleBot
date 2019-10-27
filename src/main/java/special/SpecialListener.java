@@ -4,7 +4,12 @@ import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
+import twitter4j.Status;
+import twitter4j.Twitter;
+import twitter4j.TwitterException;
+import util.TwitterLoader;
 
+import java.util.List;
 import java.util.Random;
 
 public class SpecialListener extends ListenerAdapter {
@@ -20,7 +25,7 @@ public class SpecialListener extends ListenerAdapter {
         int n = rand.nextInt(4);
 
         if (!msg.getAuthor().isBot())
-            if ((messageContent.contains("nolebot") & (messageContent.contains("hi") || messageContent.contains("hello") || messageContent.contains("hey") || messageContent.contains("howdy"))  || messageContent.contains("<@" + event.getJDA().getSelfUser().getId() + ">"))) {
+            if ((messageContent.contains("nolebot") && (messageContent.contains("hi") || messageContent.contains("hello") || messageContent.contains("hey") || messageContent.contains("howdy")) || messageContent.contains("<@" + event.getJDA().getSelfUser().getId() + ">"))) {
                 switch (n) {
                     case 0:
                         messageChannel.sendMessage("Greetings!").queue();
@@ -36,5 +41,19 @@ public class SpecialListener extends ListenerAdapter {
                         break;
                 }
             }
+
+        if (msg.getChannel().getId().equals("581894109594386477")) {
+            List<Message.Attachment> attachmentList = msg.getAttachments();
+            String tweet = msg.getContentRaw();
+
+            try {
+                Twitter twitter = TwitterLoader.getTwitter();
+
+                Status status = twitter.updateStatus(tweet);
+            } catch (TwitterException e) {
+                System.out.println("Exception in getting data from twitter: " + e);
+            }
+
+        }
     }
 }
