@@ -14,9 +14,16 @@ import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import special.FSUVerify;
 import special.SpecialListener;
+import twitter4j.*;
+import twitter4j.conf.ConfigurationBuilder;
 import util.PropLoader;
 
 import javax.security.auth.login.LoginException;
+import java.io.File;
+import java.io.FileInputStream;
+import java.util.List;
+import java.util.Properties;
+import java.util.stream.Collectors;
 
 /*
 NoleBot main class. Here the bot is initialized by creating a new JDA instance and adding our own CommandListener.
@@ -33,6 +40,8 @@ public class NoleBot {
     }
 
     private static void initBot() throws LoginException {
+
+
         JDA jda = new JDABuilder(PropLoader.getProp("token")).addEventListeners(commandListener, FSUVerify ,specialListener).build();
 
         commandListener.addCommand(new Help());

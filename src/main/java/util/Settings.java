@@ -18,6 +18,7 @@ public class Settings {
     private List<String> bannedRoles = new ArrayList<>();
     private String introMessage = "";
     private String nameChar = "|";
+    private String autoTweetChannel = "";
     private boolean init;
 
     Settings(String guildID) {
@@ -111,5 +112,13 @@ public class Settings {
 
     public void setVerifiedRoles(List<String> verifiedRoles) {
         this.verifiedRoles = verifiedRoles;
+    }
+
+    public String getAutoTweetChannel() {
+        return autoTweetChannel;
+    }
+
+    public void setAutoTweetChannel(String autoTweetChannel) {
+        this.autoTweetChannel = autoTweetChannel;
     }
 }
