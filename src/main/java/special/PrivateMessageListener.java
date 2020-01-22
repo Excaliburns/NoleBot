@@ -25,7 +25,7 @@ import java.security.GeneralSecurityException;
 import java.util.Collections;
 import java.util.List;
 
-public class FSUVerify extends ListenerAdapter {
+public class PrivateMessageListener extends ListenerAdapter {
 
     @Override
     public void onPrivateMessageReceived(PrivateMessageReceivedEvent event) {
@@ -45,6 +45,10 @@ public class FSUVerify extends ListenerAdapter {
                 System.out.println("There was a GeneralSecurityException for user: " + event.getAuthor().getName() + " with Message:\n" + event.getMessage().getContentRaw());
                 e.printStackTrace();
             }
+        }
+        if(event.getMessage().getContentRaw().toLowerCase().startsWith("fixed"))
+        {
+
         }
 
     }
