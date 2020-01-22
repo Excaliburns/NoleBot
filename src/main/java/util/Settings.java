@@ -19,6 +19,9 @@ public class Settings {
     private String introMessage = "";
     private String nameChar = "|";
     private String autoTweetChannel = "";
+    private String lastTweetPoster = "";
+    private String lastTweetMessagePostedTime = "";
+    private List<String> lastTimesTweeted = new ArrayList<>();
     private boolean init;
 
     Settings(String guildID) {
@@ -120,5 +123,29 @@ public class Settings {
 
     public void setAutoTweetChannel(String autoTweetChannel) {
         this.autoTweetChannel = autoTweetChannel;
+    }
+
+    public String getLastTweetPoster() {
+        return lastTweetPoster;
+    }
+
+    public void setLastTweetPoster(String lastTweetPoster) {
+        this.lastTweetPoster = lastTweetPoster;
+    }
+
+    public List<String> getLastTimesTweeted() {
+        return lastTimesTweeted;
+    }
+
+    public void setLastTimesTweeted(List<String> lastTimesTweeted) {
+        this.lastTimesTweeted = lastTimesTweeted;
+    }
+
+    public String getLastTweetMessagePostedTime() {
+        return lastTweetMessagePostedTime;
+    }
+
+    public void setLastTweetMessagePostedTime(String lastTweetMessagePostedTime) {
+        this.lastTweetMessagePostedTime = lastTweetMessagePostedTime;
     }
 }

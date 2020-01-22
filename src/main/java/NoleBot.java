@@ -12,18 +12,11 @@ import commands.util.CommandListener;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
-import special.FSUVerify;
+import special.PrivateMessageListener;
 import special.SpecialListener;
-import twitter4j.*;
-import twitter4j.conf.ConfigurationBuilder;
 import util.PropLoader;
 
 import javax.security.auth.login.LoginException;
-import java.io.File;
-import java.io.FileInputStream;
-import java.util.List;
-import java.util.Properties;
-import java.util.stream.Collectors;
 
 /*
 NoleBot main class. Here the bot is initialized by creating a new JDA instance and adding our own CommandListener.
@@ -33,7 +26,7 @@ We implement our own CommandListener because by default, JDA forces each command
 public class NoleBot {
     private static final CommandListener commandListener = new CommandListener();
     private static final ListenerAdapter specialListener = new SpecialListener();
-    private static final ListenerAdapter FSUVerify = new FSUVerify();
+    private static final ListenerAdapter FSUVerify = new PrivateMessageListener();
 
     public static void main(String[] args) throws Exception {
         initBot();
@@ -50,6 +43,7 @@ public class NoleBot {
         commandListener.addCommand(new VerifyMe());
 
         commandListener.addCommand(new rps());
+        commandListener.addCommand(new Counter());
 
         commandListener.addCommand(new GroupCommand());
         commandListener.addCommand(new GroupSetupCommand());
