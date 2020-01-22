@@ -93,11 +93,16 @@ public class AddRole extends Command {
                 return true;
             }
 
+            if (member.getRoles().contains(role)) {
+                return true;
+            }
+
             if (!member.getRoles().contains(role)) {
                 event.getChannel().sendMessage("User: **" + member.getEffectiveName() + "** does not have role: **" + role.getName() + "**, which is required to have in order for them to be assigned roles. Please contact an administrator.").queue();
                 return false;
             }
         }
+
         return true;
     }
 }
