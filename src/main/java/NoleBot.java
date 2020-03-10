@@ -9,6 +9,7 @@ import commands.manager.AddRole;
 import commands.manager.DelRole;
 import commands.manager.PurgeAll;
 import commands.util.CommandListener;
+import commands.video.Compile;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
@@ -59,5 +60,8 @@ public class NoleBot {
         commandListener.addCommand(new Prefix());
         commandListener.addCommand(new BanRole());
         commandListener.addCommand(new VerifyRole());
+
+        commandListener.addCommand(new Compile());
+
     }
 }
