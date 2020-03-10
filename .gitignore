@@ -6,3 +6,4 @@ out/
 /.gradle/4.8/fileHashes/fileHashes.lock
 /.gradle/4.8/fileChanges/last-build.bin
 /.gradle/vcsWorkingDirs/gc.properties
+/bin/
