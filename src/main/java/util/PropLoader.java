@@ -4,13 +4,20 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
-import java.util.Properties;
+import java.util.*;
 
 public class PropLoader {
     public static String getProp(String prop) {
         String propValue;
         try {
             Properties properties = new Properties();
+            Properties sortedProps = new Properties() {
+                @Override
+                public synchronized Enumeration<Object> keys() {
+                    return Collections.enumeration(new TreeSet<>(super.keySet()));
+                }
+            };
+
             File propFile = new File("data/config/config.properties");
 
             if (!propFile.exists()) {
@@ -28,7 +35,14 @@ public class PropLoader {
                 properties.setProperty("google_app_name", "NoleBot Verification Service");
                 properties.setProperty("google_spreadsheet_id", "");
 
-                properties.store(fStream, null);
+                properties.setProperty("db_addr", "127.0.0.1");
+                properties.setProperty("db_name", "nolebot");
+                properties.setProperty("db_user", "nolebot");
+                properties.setProperty("db_pass", "");
+
+                sortedProps.putAll(properties);
+
+                sortedProps.store(fStream, null);
                 System.out.println("Created and stored blank values. Please open /data/config/config.properties and set the bot's values.");
 
                 fStream.close();
