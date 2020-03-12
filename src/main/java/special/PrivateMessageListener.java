@@ -46,11 +46,6 @@ public class PrivateMessageListener extends ListenerAdapter {
                 e.printStackTrace();
             }
         }
-        if(event.getMessage().getContentRaw().toLowerCase().startsWith("fixed"))
-        {
-
-        }
-
     }
 
     private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();

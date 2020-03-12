@@ -5,6 +5,8 @@ import com.google.gson.GsonBuilder;
 import commands.inhouse.GroupStruct;
 
 import java.io.*;
+import java.util.HashMap;
+import java.util.Map;
 
 public class JSONLoader {
     public static boolean doesSettingExist(String guildID) {
@@ -52,9 +54,15 @@ public class JSONLoader {
         }
     }
 
+    public static void saveGuildSettings(HashMap<String, Settings> settingsHashMap) {
+        for(Map.Entry<String, Settings> entry : settingsHashMap.entrySet()) {
+            File guildSettings = new File("data/" + entry.getKey() + "/" + "main.json");
+            genericSave(guildSettings, entry.getValue());
+        }
+    }
+
     public static void saveGuildSettings(Settings settings) {
         File guildSettings = new File("data/" + settings.getGuildID() + "/" + "main.json");
-
 
         genericSave(guildSettings, settings);
     }

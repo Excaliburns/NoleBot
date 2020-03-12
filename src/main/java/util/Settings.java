@@ -17,6 +17,7 @@ public class Settings {
     private List<String> verifiedRoles = new ArrayList<>();
     private List<String> bannedRoles = new ArrayList<>();
     private String introMessage = "";
+    private String attendancePassword = "";
     private String nameChar = "|";
     private String autoTweetChannel = "";
     private String lastTweetPoster = "";
@@ -147,5 +148,13 @@ public class Settings {
 
     public void setLastTweetMessagePostedTime(String lastTweetMessagePostedTime) {
         this.lastTweetMessagePostedTime = lastTweetMessagePostedTime;
+    }
+
+    public String getAttendancePassword() {
+        return attendancePassword;
+    }
+
+    public void setAttendancePassword(String attendancePassword) {
+        this.attendancePassword = attendancePassword;
     }
 }
