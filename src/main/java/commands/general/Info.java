@@ -19,7 +19,6 @@ public class Info extends Command {
 
     @Override
     public void onCommandReceived(CommandEvent event) {
-        System.out.println("Retard");
         EmbedBuilder embedBuilder = BotEmbed.getBotEmbed(event);
         JDA selfUser = event.getEvent().getJDA();
 

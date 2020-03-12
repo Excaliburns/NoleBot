@@ -1,5 +1,8 @@
+import commands.admin.RoleMembers;
 import commands.admin.ServerInfoCommand;
 import commands.admin.VerifyMe;
+import commands.admin.attendance.Attendance;
+import commands.admin.attendance.AttendancePass;
 import commands.admin.permissions.*;
 import commands.games.rps;
 import commands.general.*;
@@ -54,6 +57,7 @@ public class NoleBot {
         commandListener.addCommand(new AddRole());
         commandListener.addCommand(new DelRole());
         commandListener.addCommand(new PurgeAll());
+        commandListener.addCommand(new RoleMembers());
 
         commandListener.addCommand(new AddPerm());
         commandListener.addCommand(new DelPerm());
@@ -62,5 +66,7 @@ public class NoleBot {
         commandListener.addCommand(new Prefix());
         commandListener.addCommand(new BanRole());
         commandListener.addCommand(new VerifyRole());
+        commandListener.addCommand(new Attendance());
+        commandListener.addCommand(new AttendancePass()) ;
     }
 }
