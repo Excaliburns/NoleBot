@@ -18,7 +18,7 @@ public class PropLoader {
                 }
             };
 
-            File propFile = new File("data/config/config.properties");
+            File propFile = new File("/home/ec2-user/NoleBot/build/libs/data/config/config.properties");
 
             if (!propFile.exists()) {
                 System.out.println("Did not find config.properties. Making now.");
