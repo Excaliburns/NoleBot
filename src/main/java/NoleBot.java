@@ -17,9 +17,11 @@ import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import special.PrivateMessageListener;
 import special.SpecialListener;
+import util.DBUtils;
 import util.PropLoader;
 
 import javax.security.auth.login.LoginException;
+import java.sql.SQLException;
 
 /*
 NoleBot main class. Here the bot is initialized by creating a new JDA instance and adding our own CommandListener.
@@ -67,6 +69,18 @@ public class NoleBot {
         commandListener.addCommand(new BanRole());
         commandListener.addCommand(new VerifyRole());
         commandListener.addCommand(new Attendance());
-        commandListener.addCommand(new AttendancePass()) ;
+
+        commandListener.addCommand(new AttendancePass());
+        AttendancePass.initAttendanceMap();
+
+        try {
+            DBUtils.initConnection();
+        } catch (SQLException e) {
+            System.out.println("Could not initialize database connection! Attendance commands will not work. Check properties.");
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            System.out.println("No Mysql Driver Found!");
+            System.out.println("Exception: " + e.getMessage());
+        }
     }
 }

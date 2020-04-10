@@ -3,16 +3,14 @@ package commands.admin.attendance;
 import commands.util.Command;
 import commands.util.CommandEvent;
 import net.dv8tion.jda.api.entities.MessageChannel;
-import util.PropLoader;
+import util.DBUtils;
+import util.DateTimeUtils;
 import util.Settings;
 
 import java.sql.*;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class Attendance extends Command {
 
@@ -30,7 +28,8 @@ public class Attendance extends Command {
         String[] args = event.getMessage();
         MessageChannel messageChannel = event.getChannel();
         Settings settings = event.getSettings();
-        if (AttendancePass.attendanceMap != null) {
+
+        if (AttendancePass.getAttendanceMap(event.getGuildID()) != null) {
             if (args[1] == null) {
                 messageChannel.sendMessage("Please enter the password!").queue();
             } else if (!args[1].isEmpty()) {
@@ -47,44 +46,19 @@ public class Attendance extends Command {
                         } else {
                             name = event.getEvent().getMember().getUser().getName();
                         }
-
-
-                        AttendancePass.attendanceMap.put(name, inputName);
                         event.getEvent().getMessage().delete().queue();
 
-                        try {
-                            Class.forName("com.mysql.cj.jdbc.Driver");
+                        AttendancePass.insertAttendanceEntry(event.getGuildID(), name, inputName);
 
-                            String db_name = PropLoader.getProp("db_name");
-                            String db_addr = PropLoader.getProp("db_addr");
-                            String db_user = PropLoader.getProp("db_user");
-                            String db_pass = PropLoader.getProp("db_pass");
+                        String date = DateTimeUtils.getCurrentDateString();
+                        String id = event.getEvent().getMember().getId();
+                        String discordTag = event.getEvent().getMember().getUser().getAsTag();
 
-                            LocalDateTime nowTime = LocalDateTime.now();
-                            DateTimeFormatter format = DateTimeFormatter.ofPattern("YYYY/MM/dd hh:mm:ss");
-                            String time = nowTime.format(format);
-
-                            try {
-                                Connection connection = DriverManager.getConnection("jdbc:mysql://" + db_addr + ":3306/" + db_name, db_user, db_pass);
-                                Statement statement = connection.createStatement();
-                                String sqlStatement = "insert into Attendance " + "(dateTime, userID, nickname, discordID) values (" + "STR_TO_DATE('" + time + "', '%Y/%m/%d %H:%i:%s'), " + "'" + event.getEvent().getMember().getId() + "', " + "'" + inputName + "', " + "'" + event.getEvent().getMember().getUser().getAsTag() + "'" + ");";
-
-                                statement.execute(sqlStatement);
-
-                                System.out.println("Successfully Updated DB!\n" + sqlStatement);
-
-                            } catch (SQLException e) {
-                                System.out.println("Exception: " + e.getMessage());
-                            }
-
-                        } catch (ClassNotFoundException e) {
-                            System.out.println("No Mysql Driver Found!");
-                            System.out.println("Exception: " + e.getMessage());
+                        if ( insertAttendanceData(date, id, inputName, discordTag) == -1) {
+                            messageChannel.sendMessage("Was not able to update database for " + name + ". Check logs!").queue();
+                        } else {
+                            messageChannel.sendMessage("Took attendance for " + name + ".").queue();
                         }
-
-                        messageChannel.sendMessage("Took attendance for " + name + ".").queue();
-
-
                     } else {
                         messageChannel.sendMessage("Please enter your name after the password.").queue();
                     }
@@ -94,6 +68,23 @@ public class Attendance extends Command {
             }
         } else {
             messageChannel.sendMessage("Attendance is not currently being taken.").queue();
+        }
+    }
+
+    private int insertAttendanceData(String date, String userID, String nickName, String discordTag) {
+
+        try {
+            PreparedStatement statement = DBUtils.getPreparedAttendanceStatement();
+
+                statement.setTimestamp(1, Timestamp.valueOf(date));
+                statement.setString(2, userID);
+                statement.setString(3, nickName);
+                statement.setString(4, discordTag);
+
+                return statement.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return -1;
         }
     }
 }

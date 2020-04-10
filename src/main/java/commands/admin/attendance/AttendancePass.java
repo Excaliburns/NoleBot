@@ -2,15 +2,17 @@ package commands.admin.attendance;
 
 import commands.util.Command;
 import commands.util.CommandEvent;
+import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import util.JSONLoader;
 import util.Settings;
 
-import java.sql.Time;
+
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class AttendancePass extends Command {
-    public static HashMap<String, String> attendanceMap;
+    private static HashMap<String, ConcurrentHashMap<String, String>> attendanceMap;
 
     public AttendancePass() {
         name = "attendancepass";
@@ -34,28 +36,13 @@ public class AttendancePass extends Command {
             Timer timer = new Timer();
 
             if (password.toLowerCase().equals("start")) {
-                attendanceMap = new HashMap<>();
+                attendanceMap.put(event.getGuildID(), new ConcurrentHashMap<>());
 
-                TimerTask task = new TimerTask() {
-                    @Override
-                    public void run() {
-                        for(Map.Entry<String, String> settingsEntry : attendanceMap.entrySet()) {
-                            messageChannel.sendMessage(settingsEntry.getKey() + " - " + settingsEntry.getValue()).queue();
-                        }
-                        attendanceMap = new HashMap<>();
-                    }
-                };
-
-                timer.schedule(task,300000);
-
+                timer.schedule(task(event),300000);
             } else if(password.toLowerCase().equals("stop")) {
-
                 timer.cancel();
-                for(Map.Entry<String, String> settingsEntry : attendanceMap.entrySet()) {
-                    messageChannel.sendMessage(settingsEntry.getKey() + " - " + settingsEntry.getValue()).queue();
-                }
-                attendanceMap = new HashMap<>();
 
+                task(event).run();
             } else {
                 settings.setAttendancePassword(password);
                 HashMap<String, Settings> updatedSettingsHashMap = event.getCommandListener().getSettingsHashMap();
@@ -68,5 +55,44 @@ public class AttendancePass extends Command {
         } else {
             messageChannel.sendMessage("Command was not properly formatted").queue();
         }
+    }
+
+    public static void initAttendanceMap() {
+        attendanceMap = new HashMap<>();
+    }
+
+    public static ConcurrentHashMap<String, String> getAttendanceMap(String guildId) {
+        return attendanceMap.get(guildId);
+    }
+
+    public static void insertAttendanceEntry(String guildId, String name, String inputName) {
+        attendanceMap.get(guildId).put(name, inputName);
+    }
+
+    private TimerTask task(CommandEvent event) {
+        ConcurrentHashMap<String, String> guildAttendanceMap = getAttendanceMap(event.getGuildID());
+
+        return new TimerTask() {
+            @Override
+            public void run() {
+                event.getChannel().sendMessage("Attendance has been filled out by: ").queue();
+
+                MessageBuilder messageBuilder = new MessageBuilder();
+                for (Map.Entry<String, String> attendanceEntry : guildAttendanceMap.entrySet()) {
+                    messageBuilder.append(attendanceEntry.getKey());
+                    messageBuilder.append(" - ");
+                    messageBuilder.append(attendanceEntry.getKey());
+
+                    if (messageBuilder.length() > 1500) {
+                        event.getChannel().sendMessage(messageBuilder.build()).queue();
+                        messageBuilder.clear();
+                    }
+                }
+
+                event.getChannel().sendMessage(messageBuilder.build()).queue();
+
+                attendanceMap.remove(event.getGuildID());
+            }
+        };
     }
 }
