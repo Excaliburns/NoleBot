@@ -28,5 +28,6 @@ public class DBUtils {
 
     public static ResultSet executeQuery(String query) throws SQLException {
         return connection.createStatement().executeQuery(query);
+        //will be used later
     }
 }
