@@ -1,0 +1,2 @@
+scp -i "/home/ubuntu/FSU-Esports-Key.pem" /var/lib/jenkins/workspace/NoleBotCICD/build/libs/nole.bot-2.4.jar ec2-user@ec2-107-22-32-247.compute-1.amazonaws.com:/home/ec2-user/NoleBot/build/libs/
+ssh -i "/home/ubuntu/FSU-Esports-Key.pem" ec2-user@ec2-107-22-32-247.compute-1.amazonaws.com /home/ec2-user/redeploy.sh &
