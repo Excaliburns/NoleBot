@@ -62,3 +62,11 @@ Congrats! Your bot is now running. See the Wiki for more information about what 
 
 ## Dependencies
 NoleBot requires at least **Java 8** to run.
+
+
+## CI/CD Process
+
+* GitHub web hook pushes to Jenkins on EC2
+* Jenkins builds using gradle 
+* Moves the jar to prod ec2
+* Runs it remotely using nohup
