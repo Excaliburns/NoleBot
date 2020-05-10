@@ -2,6 +2,7 @@ package commands.manager;
 
 import commands.util.Command;
 import commands.util.CommandEvent;
+import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
@@ -40,8 +41,9 @@ public class PurgeAll extends Command {
             messageChannel.sendMessage("You did not mention any roles!").queue();
         } else {
             for (Role r : roleList) {
+                MessageBuilder builder = new MessageBuilder();
                 String roleID = r.getId();
-                if (verifiedRoles.indexOf(roleID) != -1 || bannedRoles.indexOf(roleID) != -1)
+                if (verifiedRoles.contains(roleID) || bannedRoles.contains(roleID))
                     continue;
 
                 Optional<RoleHelper> optionalRoleHelper = roleHelper.stream().filter(c -> c.getRoleID().equals(roleID)).findAny();
@@ -51,7 +53,18 @@ public class PurgeAll extends Command {
                         List<Member> memberList = event.getGuild().getMembersWithRoles(r);
                         for (Member m : memberList) {
                             event.getGuild().removeRoleFromMember(m, r).queue();
-                            messageChannel.sendMessage("Removed user: **" + m.getEffectiveName() + "** from role: **" + r.getName() + "**.").queue();
+                            if (builder.length() > 1500) {
+                                builder.append("Removed user: **")
+                                        .append(m.getEffectiveName())
+                                        .append("** from role: **")
+                                        .append(r.getName())
+                                        .append("**.");
+                            } else {
+                                messageChannel.sendMessage(builder.build()).queue();
+                                builder.clear();
+                            }
+
+                            messageChannel.sendMessage(builder.build()).queue();
                         }
                     } else {
                         messageChannel.sendMessage("Did not remove **" + r.getName() + "**, as it has a higher permission level than you.").queue();

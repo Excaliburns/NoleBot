@@ -2,6 +2,7 @@ package commands.manager;
 
 import commands.util.Command;
 import commands.util.CommandEvent;
+import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.Role;
@@ -46,8 +47,9 @@ public class AddRole extends Command {
             if (doesGuildBanRoles) bannedRoles = settings.getBannedRoles();
 
             for (Role r : sentRoles) {
+                MessageBuilder builder = new MessageBuilder();
                 Optional<RoleHelper> roleHelpers = settings.getRoleHelper().stream().filter(h -> r.getId().matches(h.getRoleID())).findFirst();
-                if (doesGuildBanRoles) if (bannedRoles.indexOf(r.getId()) != -1) {
+                if (doesGuildBanRoles) if (bannedRoles.contains(r.getId())) {
                     messageChannel.sendMessage("You cannot assign role **" + r.getName() + "**, as designated by the Guild admins. Please contact them if you think this is incorrect.").queue();
                     continue;
                 }
@@ -60,19 +62,28 @@ public class AddRole extends Command {
                         continue;
                     }
                     for (Member m : sentMembers) {
-
                         if (doesGuildHaveVerifiedRoles) {
                             List<String> verifiedRoles = settings.getVerifiedRoles();
                             if(!hasVerifiedRole(m, verifiedRoles, event))
-                                break;
+                                continue;
                         }
 
                         if (m.getEffectiveName().contains(settings.getNameChar())) {
                             if (m.getRoles().contains(r)) {
                                 messageChannel.sendMessage("User: **" + m.getEffectiveName() + "** already has role: **" + r.getName() + "**.").queue();
                             } else {
-                                messageChannel.sendMessage("User **" + m.getEffectiveName() + "** was assigned role: **" + r.getName() + "**.").queue();
                                 event.getEvent().getGuild().addRoleToMember(m, r).queue();
+
+                                if (builder.length() > 1500) {
+                                    builder.append("User **")
+                                            .append(m.getEffectiveName())
+                                            .append("** was assigned role: **")
+                                            .append(r.getName())
+                                            .append("**.");
+                                } else {
+                                    messageChannel.sendMessage(builder.build()).queue();
+                                    builder.clear();
+                                }
                             }
                         } else {
                             messageChannel.sendMessage("Your guild has designated that users' names must be formatted in this way: \n\n\"Firstname " + settings.getNameChar() + " Gamertag\"" + "\n\n Please tell: **" + m.getEffectiveName() + "** to format their name as such.").queue();
