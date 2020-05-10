@@ -75,22 +75,22 @@ public class AddRole extends Command {
                                 event.getEvent().getGuild().addRoleToMember(m, r).queue();
 
                                 if (builder.length() > 1500) {
-                                    builder.append("User **")
-                                            .append(m.getEffectiveName())
-                                            .append("** was assigned role: **")
-                                            .append(r.getName())
-                                            .append("**.");
-                                } else {
                                     messageChannel.sendMessage(builder.build()).queue();
                                     builder.clear();
                                 }
 
-                                messageChannel.sendMessage(builder.build()).queue();
+                                builder.append("User **")
+                                        .append(m.getEffectiveName())
+                                        .append("** was assigned role: **")
+                                        .append(r.getName())
+                                        .append("**.");
                             }
                         } else {
                             messageChannel.sendMessage("Your guild has designated that users' names must be formatted in this way: \n\n\"Firstname " + settings.getNameChar() + " Gamertag\"" + "\n\n Please tell: **" + m.getEffectiveName() + "** to format their name as such.").queue();
                         }
                     }
+
+                    messageChannel.sendMessage(builder.build()).queue();
                 }
             }
         }

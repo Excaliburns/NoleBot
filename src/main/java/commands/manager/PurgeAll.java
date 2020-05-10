@@ -53,15 +53,16 @@ public class PurgeAll extends Command {
                         List<Member> memberList = event.getGuild().getMembersWithRoles(r);
                         for (Member m : memberList) {
                             event.getGuild().removeRoleFromMember(m, r).queue();
+
                             if (builder.length() > 1500) {
+                                messageChannel.sendMessage(builder.build()).queue();
+                                builder.clear();
+                            } else {
                                 builder.append("Removed user: **")
                                         .append(m.getEffectiveName())
                                         .append("** from role: **")
                                         .append(r.getName())
                                         .append("**.");
-                            } else {
-                                messageChannel.sendMessage(builder.build()).queue();
-                                builder.clear();
                             }
                         }
 
