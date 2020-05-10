@@ -84,6 +84,8 @@ public class AddRole extends Command {
                                     messageChannel.sendMessage(builder.build()).queue();
                                     builder.clear();
                                 }
+
+                                messageChannel.sendMessage(builder.build()).queue();
                             }
                         } else {
                             messageChannel.sendMessage("Your guild has designated that users' names must be formatted in this way: \n\n\"Firstname " + settings.getNameChar() + " Gamertag\"" + "\n\n Please tell: **" + m.getEffectiveName() + "** to format their name as such.").queue();
