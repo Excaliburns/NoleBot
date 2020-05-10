@@ -63,9 +63,9 @@ public class PurgeAll extends Command {
                                 messageChannel.sendMessage(builder.build()).queue();
                                 builder.clear();
                             }
-
-                            messageChannel.sendMessage(builder.build()).queue();
                         }
+
+                        messageChannel.sendMessage(builder.build()).queue();
                     } else {
                         messageChannel.sendMessage("Did not remove **" + r.getName() + "**, as it has a higher permission level than you.").queue();
                     }
