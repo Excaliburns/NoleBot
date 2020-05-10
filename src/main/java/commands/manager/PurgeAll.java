@@ -51,6 +51,7 @@ public class PurgeAll extends Command {
                 if (optionalRoleHelper.isPresent()) {
                     if (userPerm > optionalRoleHelper.get().getPermID()) {
                         List<Member> memberList = event.getGuild().getMembersWithRoles(r);
+
                         for (Member m : memberList) {
                             event.getGuild().removeRoleFromMember(m, r).queue();
 
@@ -66,7 +67,11 @@ public class PurgeAll extends Command {
                             }
                         }
 
-                        messageChannel.sendMessage(builder.build()).queue();
+                        if (builder.isEmpty()) {
+                            messageChannel.sendMessage("There are no members in that role!").queue();
+                        } else {
+                            messageChannel.sendMessage(builder.build()).queue();
+                        }
                     } else {
                         messageChannel.sendMessage("Did not remove **" + r.getName() + "**, as it has a higher permission level than you.").queue();
                     }
