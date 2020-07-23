@@ -1,14 +1,21 @@
 package special;
 
+import com.sun.scenario.effect.Offset;
+import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.PrivateChannel;
+import net.dv8tion.jda.api.events.message.MessageDeleteEvent;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.requests.RestAction;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
+import util.CacheMessage;
 
+import javax.annotation.Nonnull;
+import java.time.OffsetDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Random;
 
@@ -16,13 +23,16 @@ public class SpecialListener extends ListenerAdapter {
 
     @Override
     public void onMessageReceived(MessageReceivedEvent event) {
-        if(event.getAuthor().isBot()) return;
-
         Message msg = event.getMessage();
         MessageChannel messageChannel = msg.getChannel();
         Random rand = new Random();
-
         String messageContent = msg.getContentRaw().toLowerCase();
+        OffsetDateTime offsetDateTimeMessage = msg.getTimeCreated();
+        DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss");
+
+        if(event.getAuthor().isBot()) return;
+
+        MessageCacheAccess.insertMessage(event.getMessageIdLong(), messageContent, event.getAuthor().getAsTag(), format.format(offsetDateTimeMessage.toLocalDateTime()));
 
         int n = rand.nextInt(4);
 
@@ -42,5 +52,20 @@ public class SpecialListener extends ListenerAdapter {
                         break;
                 }
             }
+    }
+
+
+    @Override
+    public void onMessageDelete(@Nonnull MessageDeleteEvent event) {
+        CacheMessage message = MessageCacheAccess.getDeletedMessage(event.getMessageIdLong());
+
+        MessageBuilder messageBuilder = new MessageBuilder();
+        messageBuilder.append("MESSAGE WAS DELETED:\n");
+        messageBuilder.append("**MESSAGE CONTENT:** " + message.getMessageContent() + "\n");
+        messageBuilder.append("**ORIGINAL MESSAGE SENDER:** " + message.getMessageSender() + "\n");
+        messageBuilder.append("**ORIGINAL MESSAGE SENT DATE:** " + message.getDateSent() + "\n");
+        messageBuilder.append("**MESSAGE DELETED IN:** #" + event.getChannel().getName());
+
+        event.getJDA().getTextChannelById(735679360589365349L).sendMessage(messageBuilder.build()).queue();
     }
 }

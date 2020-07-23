@@ -30,4 +30,14 @@ public class DBUtils {
         return connection.createStatement().executeQuery(query);
         //will be used later
     }
+
+    public static PreparedStatement getPreparedMessageLogStatement() throws SQLException {
+        String sql = "insert into MessageLogs " + "(MessageId, MessageContent, MessageSender, DateSent) values (?, ?, ?, ?)";
+        return getConnection().prepareStatement(sql);
+    }
+
+    public static PreparedStatement getMessageWithMessageId() throws SQLException {
+        String sql = "select * from MessageLogs where MessageId = ?";
+        return getConnection().prepareStatement(sql);
+    }
 }
