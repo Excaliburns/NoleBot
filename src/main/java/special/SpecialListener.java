@@ -1,22 +1,16 @@
 package special;
 
-import com.sun.scenario.effect.Offset;
 import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
-import net.dv8tion.jda.api.entities.PrivateChannel;
 import net.dv8tion.jda.api.events.message.MessageDeleteEvent;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
-import net.dv8tion.jda.api.requests.RestAction;
-import twitter4j.Twitter;
-import twitter4j.TwitterException;
 import util.CacheMessage;
 
 import javax.annotation.Nonnull;
 import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
 import java.util.Random;
 
 public class SpecialListener extends ListenerAdapter {
