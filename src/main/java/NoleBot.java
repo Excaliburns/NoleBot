@@ -39,8 +39,10 @@ public class NoleBot {
 
     private static void initBot() throws LoginException {
 
-
-        JDA jda = new JDABuilder(PropLoader.getProp("token")).addEventListeners(commandListener, FSUVerify ,specialListener).build();
+        JDA jda = JDABuilder
+                .createDefault(PropLoader.getProp("token"))
+                .addEventListeners(commandListener, FSUVerify ,specialListener)
+                .build();
 
         commandListener.addCommand(new Help());
         commandListener.addCommand(new Info());
