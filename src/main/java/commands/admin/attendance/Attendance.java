@@ -37,9 +37,19 @@ public class Attendance extends Command {
                 System.out.println(message.size());
                 if (message.get(0).equals(settings.getAttendancePassword())) {
                     System.out.println(message);
-                    if (message.size() == 2) {
+                    if (message.size() > 1) {
                         String name;
-                        String inputName = message.get(1);
+                        String inputName;
+
+                        if (message.size() == 2 && event.getEvent().getMember() != null) {
+                            inputName = event.getEvent().getMember().getEffectiveName();
+                        }
+                        else if (message.size() == 2 && event.getEvent().getMember() == null) {
+                            inputName = event.getEvent().getMember().getUser().getName();
+                        }
+                        else {
+                            inputName = message.get(1);
+                        }
 
                         if (event.getEvent().getMember() != null) {
                             name = event.getEvent().getMember().getEffectiveName();
