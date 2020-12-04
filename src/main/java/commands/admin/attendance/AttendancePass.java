@@ -82,6 +82,7 @@ public class AttendancePass extends Command {
                     messageBuilder.append(attendanceEntry.getKey());
                     messageBuilder.append(" - ");
                     messageBuilder.append(attendanceEntry.getKey());
+                    messageBuilder.append("\n");
 
                     if (messageBuilder.length() > 1500) {
                         event.getChannel().sendMessage(messageBuilder.build()).queue();
