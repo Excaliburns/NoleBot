@@ -15,6 +15,7 @@ import commands.util.CommandListener;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
+import net.dv8tion.jda.api.requests.GatewayIntent;
 import special.PrivateMessageListener;
 import special.SpecialListener;
 import util.DBUtils;
@@ -22,6 +23,7 @@ import util.PropLoader;
 
 import javax.security.auth.login.LoginException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 /*
 NoleBot main class. Here the bot is initialized by creating a new JDA instance and adding our own CommandListener.
@@ -40,7 +42,7 @@ public class NoleBot {
     private static void initBot() throws LoginException {
 
         JDA jda = JDABuilder
-                .createDefault(PropLoader.getProp("token"))
+                .create(PropLoader.getProp("token"), GatewayIntent.GUILD_MEMBERS, GatewayIntent.GUILD_MESSAGES, GatewayIntent.DIRECT_MESSAGES, GatewayIntent.DIRECT_MESSAGE_REACTIONS, GatewayIntent.GUILD_VOICE_STATES)
                 .addEventListeners(commandListener, FSUVerify ,specialListener)
                 .build();
 
