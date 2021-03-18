@@ -27,8 +27,6 @@ public class SpecialListener extends ListenerAdapter {
 
         if(event.getAuthor().isBot()) return;
 
-        MessageCacheAccess.insertMessage(event.getMessageIdLong(), messageContent, event.getAuthor().getAsTag(), format.format(offsetDateTimeMessage.toLocalDateTime()));
-
         int n = rand.nextInt(4);
 
             if ((messageContent.contains("nolebot") && (messageContent.contains("hi") || messageContent.contains("hello") || messageContent.contains("hey") || messageContent.contains("howdy")) || messageContent.contains("<@" + event.getJDA().getSelfUser().getId() + ">"))) {
@@ -47,35 +45,5 @@ public class SpecialListener extends ListenerAdapter {
                         break;
                 }
             }
-    }
-
-
-    @Override
-    public void onMessageDelete(@Nonnull MessageDeleteEvent event) {
-        CacheMessage message = MessageCacheAccess.getDeletedMessage(event.getMessageIdLong());
-
-        MessageBuilder messageBuilder = new MessageBuilder();
-        messageBuilder.append("MESSAGE WAS DELETED:\n");
-        messageBuilder.append("**MESSAGE CONTENT:** " + message.getMessageContent() + "\n");
-        messageBuilder.append("**ORIGINAL MESSAGE SENDER:** " + message.getMessageSender() + "\n");
-        messageBuilder.append("**ORIGINAL MESSAGE SENT DATE:** " + message.getDateSent() + "\n");
-        messageBuilder.append("**MESSAGE DELETED IN:** #" + event.getChannel().getName());
-
-        event.getJDA().getTextChannelById(735679360589365349L).sendMessage(messageBuilder.build()).queue();
-    }
-
-    @Override
-    public void onMessageUpdate(@Nonnull MessageUpdateEvent event) {
-        CacheMessage message = MessageCacheAccess.getDeletedMessage(event.getMessageIdLong());
-
-        MessageBuilder messageBuilder = new MessageBuilder();
-        messageBuilder.append("MESSAGE WAS EDITED:\n");
-        messageBuilder.append("**MESSAGE CONTENT:** " + message.getMessageContent() + "\n");
-        messageBuilder.append("**ORIGINAL MESSAGE SENDER:** " + message.getMessageSender() + "\n");
-        messageBuilder.append("**ORIGINAL MESSAGE SENT DATE:** " + message.getDateSent() + "\n");
-        messageBuilder.append("**EDITED TO:** " + event.getMessage().getContentRaw() + "\n");
-        messageBuilder.append("**MESSAGE EDITED IN:** #" + event.getChannel().getName());
-
-        event.getJDA().getTextChannelById(735679360589365349L).sendMessage(messageBuilder.build()).queue();
     }
 }
